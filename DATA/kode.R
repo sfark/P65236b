@@ -9,48 +9,68 @@ library(astsa)
 library(ggplot2)
 library(forecast)
 library(tseries)
-setwd("C:/Users/soeren/Desktop/P65236b/DATA")
+
 #data
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
 
-PRICES <- read.csv(PRICES_list[1], header = FALSE, sep = ";",
-                   dec = ",")[,c(1,10:15)]
-HYDRO <- read.csv(HYDRO_list[1], header = FALSE, sep = ";",
-                   dec = ",")
-CONSUMPTION <- read.csv(CONSUMPTION_list[1], header = FALSE, sep = ";",
-                   dec = ",")
+PRICES <- read.csv2(PRICES_list[1], header = TRUE)[,c(10:15)]
+HYDRO <- read.csv2(HYDRO_list[1], header = TRUE)[,c(2:3)]
+CONSUMPTION <- read.csv2(CONSUMPTION_list[1], header = TRUE)[,c(2:7)]
 
-for (i in 2:length(HYDRO_list)) {
-  PRICES <- rbind(PRICES,read.csv(PRICES_list[i], header = FALSE, sep = ";",
-                        dec = ",")[2:(dim(read.csv(PRICES_list[i], header = FALSE, sep = ";",
-                                                   dec = ","))[1]),c(1,10:15)])
-  HYDRO <- rbind(HYDRO,read.csv(HYDRO_list[i], header = FALSE, sep = ";",
-                                dec = ","))
-  CONSUMPTION <- rbind(CONSUMPTION,read.csv(CONSUMPTION_list[1], header = FALSE, sep = ";",
-                          dec = ",")[2:(dim(read.csv(CONSUMPTION_list[i], header = FALSE, sep = ";",
-                                                     dec = ","))[1]),])
+for (i in 2:6) {
+  PRICES <- rbind(PRICES,read.csv2(PRICES_list[i], header = TRUE)[,c(10:15)])
+  HYDRO <- rbind(HYDRO,read.csv2(HYDRO_list[i], header = TRUE)[,c(2:3)])
+  CONSUMPTION <- rbind(CONSUMPTION,read.csv2(CONSUMPTION_list[i], header = TRUE)[,c(2:7)])
 }
 
 
+x <- 1:2191
+plot(x,PRICES[,1], type="l")
 
-colnames(PRICES) <- as.character(unlist(PRICES[1,]))
-PRICES <-  PRICES[-1, ]
-
-samp2 <- PRICES[,-1]
-rownames(samp2) <- PRICES[,1]
-PRICES <- samp2
+log(PRICES)
+par(mfrow=c(1,1))
 
 
-HYDRO[1:3,1:3]
+###ACF for pris, hydro, og comsumption
+acf(log(PRICES[,1]),lag.max = 500)
+acf(log(HYDRO[,1]),lag.max=100)
+acf(log(CONSUMPTION[,1]),lag.max = 355)
 
-CONSUMPTION[1:3,]
+###ARFIMA model
+pris <- ts(PRICES[,1])
+library(arfima)
+y <- log(pris)-mean(log(pris))
+acf2(y,max.lag = 355)
+acf2pris.fd <- arfima(y)
+summary(pris.fd)
+d <- summary(pris.fd)$coef[[1]][1]; d
+se.d <- summary(pris.fd)$coef[[1]][1,2];se.d
+residual <- resid(pris.fd)
+plot.ts(residual[[1]])
+acf(residual[[1]])
 
+###Long memory spectra for Priser
+series <- log(PRICES[,1])
+d0 <- 0.1
+n.per <- nextn(length(series))
+m <- (n.per)/2 -1
+per <- Mod(fft(series-mean(series))[-1] )^2
+per <- per/n.per
+g <- 4*(sin(pi*((1:m)/n.per))^2)
+g
 
-ggplot(PRICES, aes(V1, V10))
+whit.like <- function(d){
+  g.d <- g^d
+  sig2 <- (sum(g.d*per[1:m])/m)
+  log.like <- m*log(sig2)-d*sum(log(g)) +m
+  return(log.like)
+}
 
-
-datapris[1:5,1:5]
-
-
+(est <- optim(d0,whit.like,gr=NULL,method = "L-BFGS-B",hessian=TRUE,
+                    lower=-100,upper=100,control = list(trace=1,REPORT=1)))
+cat("d.hat =", est$par, "se(dhat) = ",1/sqrt(est$hessian),"\n")  
+g.dhat = g^est$par
+sig2 = sum(g.dhat*per[1:m])/m
+cat("sig2hat =",sig2,"\n")  
