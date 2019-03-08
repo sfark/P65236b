@@ -25,7 +25,7 @@ for (i in 2:6) {
   CONSUMPTION <- rbind(CONSUMPTION,read.csv2(CONSUMPTION_list[i], header = TRUE)[,c(2:7)])
 }
 
-
+###GGplot af elpris
 dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
 ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price Oslo")
 
@@ -34,7 +34,6 @@ ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + geom_line(aes(x=da
 
 x <- 1:2191
 
-log(PRICES)
 par(mfrow=c(1,1))
 
 
@@ -48,7 +47,7 @@ pris <- ts(PRICES[,1])
 library(arfima)
 y <- log(pris)-mean(log(pris))
 acf2(y,max.lag = 355)
-acf2pris.fd <- arfima(y)
+pris.fd <- arfima(y)
 summary(pris.fd)
 d <- summary(pris.fd)$coef[[1]][1]; d
 se.d <- summary(pris.fd)$coef[[1]][1,2];se.d
@@ -80,3 +79,26 @@ g.dhat = g^est$par
 sig2 = sum(g.dhat*per[1:m])/m
 cat("sig2hat =",sig2,"\n")  
 
+###decompose
+pris_2 <- log(ts(PRICES, frequency = 355))
+decompo <- decompose(pris_2[,1])
+plot(decompo)
+
+###De-trending af times serie
+trModel <- lm(pris_2[,1]~c(1:length(pris_2[,1])))
+par(mfrow=c(1,2))
+plot(resid(trModel), type="l")
+plot(pris_2[,1])
+
+###stationær?
+adf.test(pris_2[,1])
+kpss.test(pris_2[,1])
+
+###de-seasonlize 
+library(forecast)
+ts.stl <- stl(pris_2[,1],"periodic")
+ts.sa <- seasadj(ts.stl)
+par(mfrow=c(3,1))
+plot(pris_2[,1], type="l")
+plot(ts.sa,type="l")
+seasonplot(ts.sa,12,col=rainbow(12))
