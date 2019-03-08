@@ -74,3 +74,4 @@ cat("d.hat =", est$par, "se(dhat) = ",1/sqrt(est$hessian),"\n")
 g.dhat = g^est$par
 sig2 = sum(g.dhat*per[1:m])/m
 cat("sig2hat =",sig2,"\n")  
+
