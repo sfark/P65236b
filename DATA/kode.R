@@ -26,8 +26,13 @@ for (i in 2:6) {
 }
 
 
+dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
+ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price Oslo")
+
+ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + geom_line(aes(x=dato, y=Bergen),col="red", alpha = 0.5)
+
+
 x <- 1:2191
-plot(x,PRICES[,1], type="l")
 
 log(PRICES)
 par(mfrow=c(1,1))
