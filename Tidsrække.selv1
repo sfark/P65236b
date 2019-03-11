@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r}
+library(astsa)
+plot(olie)
+
+oliepris <- window(log(olie),start=1986,end=c(2012,12))
+outofsampledata <- window(log(olie),start=2013)
+
+
+acf(oliepris,lag.max = 100)
+```
+Vi kan se at ACF'en ikke aftager ekspotientielt, hvilket betyder at den ikke er stationær. For at få den til at være stationær, så tager vi differencen på den.
+```{r}
+firstdiff <- diff(oliepris)
+plot(firstdiff)
+acf(firstdiff)
+```
+Vi kan se at den er ekspotentiel aftagende og derfor er den blevet stationær.  
+
+Vi fitter en AR(1) model til log-prisen på 2 forskellige måder: 
+
+
+$ x_t=\alpha+\phi x_{t-1} + w_t$
+
+og middelværdi-justeret model
+
+$x_t-\mu=\phi( x_{t-1}-\mu) + w_t $
+
+```{r}
+AR_1 <- ar.ols(oliepris,order.max = 1,demean = FALSE,intercept = T)
+AR_mean <-ar.ols(oliepris,order.max = 1,demean = TRUE,intercept = T) 
+AR_1
+AR_mean
+
+
+#Ved brug af lm funktionen. 
+n <- length(oliepris)
+AR_level <- as.numeric(oliepris[-1])
+AR_lags <- as.numeric(oliepris[-n])
+lm(AR_level~AR_lags)
+```
+1 model: phi=0.9945 hvilket betyder at den er stationær (for en AR(1) model).
+
+2 model: phi=0.9945, den er stationær
+
+```{r}
+detrendolie <- decompose(oliepris)$trend
+
+detrendoliepris <- oliepris-detrendolie
+
+tid = 1:length(oliepris)
+
+detrendoliepris = resid(lm(oliepris~tid))
+
+#load library
+library(gtools)
+#urn with 3 balls
+x <- c(0,1,2,3,4)
+#pick 2 balls from the urn with replacement
+#get all permutations
+per <- permutations(n=5,r=2,v=x,repeats.allowed=T)
+armanr <- c()
+#FOr den detrended log-olipris
+for (i in 1:25) {
+  ARMAmatrix <- arima(detrendoliepris,order=c(per[i,1],0,per[i,2]))
+  armanr <- c(armanr,AIC( ARMAmatrix ))
+}
+min(armanr)
+
+#index i listen med det mindste tal
+which.min(armanr)
+
+#vi finder coefficienterne for p og q
+per[which.min(armanr),]
+
+#det mindste AIC tal
+min(armanr)
+```
+Vi kan se at det bedste valg af p og q er p=3 og q=2. Det vil sige at vi vælger en ARMA(3,2)
+
+```{r}
+#Første-differnsen af log-olieprisen
+detredfirstdiff <- firstdiff
+
+x <- c(0,1,2,3,4)
+#pick 2 balls from the urn with replacement
+#get all permutations
+per <- permutations(n=5,r=2,v=x,repeats.allowed=T)
+armandiff <- c()
+#FOr den detrended log-olipris
+for (i in 1:25) {
+  ARMAdiffmatrix <- arima(detredfirstdiff,order=c(per[i,1],0,per[i,2]))
+  armandiff <- c(armandiff,AIC( ARMAdiffmatrix ))
+}
+armandiff
+
+min(armandiff)
+
+#index i listen med det mindste tal
+which.min(armandiff)
+
+#vi finder coefficienterne for p og q
+per[which.min(armandiff),]
+
+#det mindste AIC tal
+min(armandiff)
+```
+Vi får en P=4 og q=2
+
+```{r}
+#arma(3,2) på detrended log olie priser
+arma32 <- arima(detrendoliepris,order=c(3,0,2))
+#arma(4,2) på første odens difference af log olie priser
+arma42 <- arima(detrendoliepris,order=c(3,0,2))
+```
+
