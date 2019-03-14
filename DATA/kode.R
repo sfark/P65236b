@@ -8,7 +8,6 @@ library(rlist)
 library(astsa)
 library(ggplot2)
 library(forecast)
-library(tseries)
 
 #data
 PRICES_list <- list.files("PRICES", full.names = 1)
@@ -79,3 +78,26 @@ cat("d.hat =", est$par, "se(dhat) = ",1/sqrt(est$hessian),"\n")
 g.dhat = g^est$par
 sig2 = sum(g.dhat*per[1:m])/m
 cat("sig2hat =",sig2,"\n")  
+
+
+#data for NO1(OSLO)
+
+HYDRO_NO <- rep(HYDRO$NO,each=7) #dagli
+data_NO1 <- cbind(PRICES$Oslo,HYDRO_NO,CONSUMPTION$NO1)
+colnames(data_NO1) <- c("Price","Hydro reserve","Consumption")
+
+#dummy weekend
+dummy_week <-  rep(c(0,0,0,0,0,1,1),310)
+#dummy sommer vinter
+
+#dummy regn?
+
+
+
+acf(log(PRICES$Oslo))
+acf(diff(log(PRICES$Oslo)))
+
+auto.arima(diff(log(PRICES$Oslo)))
+
+decompose(as.ts(log(PRICES$Oslo)))
+pacf(log(PRICES$Oslo))
