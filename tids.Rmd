@@ -48,9 +48,9 @@ lm(AR_level~AR_lags)
 2 model: phi=0.9945, den er stationær
 
 ```{r}
-detrendolie <- decompose(oliepris)$trend
+#detrendolie <- decompose(oliepris)$trend
 
-detrendoliepris <- oliepris-detrendolie
+#detrendoliepris <- oliepris-detrendolie
 
 tid = 1:length(oliepris)
 
