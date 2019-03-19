@@ -13,10 +13,17 @@ library(forecast)
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
+WEATHER_list <- list.files("WEATHER", full.names = 1)
 
 PRICES <- read.csv2(PRICES_list[1], header = TRUE)[,c(10:15)]
 HYDRO <- read.csv2(HYDRO_list[1], header = TRUE)[,c(2:3)]
 CONSUMPTION <- read.csv2(CONSUMPTION_list[1], header = TRUE)[,c(2:7)]
+WEATHER <- read.csv2(WEATHER_list[1], header = TRUE,skip = 1)
+
+dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
+#fjerne data for 2019
+WEATHER <- WEATHER[1:2191,]
+WEATHER$Date <- dato
 
 for (i in 2:6) {
   PRICES <- rbind(PRICES,read.csv2(PRICES_list[i], header = TRUE)[,c(10:15)])
@@ -25,7 +32,7 @@ for (i in 2:6) {
 }
 
 
-dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
+
 ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price Oslo")
 
 ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + geom_line(aes(x=dato, y=Bergen),col="red", alpha = 0.5)
@@ -92,12 +99,38 @@ dummy_week <-  rep(c(0,0,0,0,0,1,1),310)
 
 #dummy regn?
 
-
+auto.arima(log(PRICES$Oslo),xreg=data_NO1[,c(2:3)])
 
 acf(log(PRICES$Oslo))
 acf(diff(log(PRICES$Oslo)))
 
 auto.arima(diff(log(PRICES$Oslo)))
+decom <- decompose(ts(log(PRICES$Oslo),frequency=365))
+autoplot(decom)
+ggplot(data = decom ,aes(x= dato, y= seasonal)) 
 
-decompose(as.ts(log(PRICES$Oslo)))
-pacf(log(PRICES$Oslo))
+
+
+#weather data
+
+head(WEATHER)
+vejr_data <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,WEATHER$Snow.depth)
+#ændre fra comma til punktum
+WEATHER$Precipitation <- as.numeric(sub(",", ".", sub(".", "", WEATHER$Precipitation, fixed=TRUE), fixed=TRUE))
+#sætter NA til 0
+vejr_data[,2][is.na(vejr_data[,2])] <- 0
+#variabler
+
+variable <- cbind(data_NO1[,2:3],vejr_data)
+colnames(variable) <- c("Hydro reserve","Consumption","Mean.temperature","Precipitation","Snow.depth")
+
+
+acf(WEATHER$Mean.temperature)
+acf(diff(WEATHER$Mean.temperature,356))
+
+decom_temperatur <- decompose(ts(WEATHER$Mean.temperature,frequency = 365))
+decom_temperatur$random
+
+
+
+
