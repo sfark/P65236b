@@ -412,8 +412,8 @@ helligdage[1]==dato[1]
 dato3 <- as.data.frame(dato)
 match(helligdage,dato3)
 
+dummyhelligdage <- numeric(length = length(dato3))
+dummyhelligdage[match(helligdage,dato3)] <- 1
 
-
-
-
+pris <- cbind(dato,PRICES,dummyhelligdage)
 
