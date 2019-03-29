@@ -1,3 +1,20 @@
+#Install
+# install.packages("tseries")
+# install.packages("lubridate")
+# install.packages("fracdiff")
+# install.packages("arfima")
+# install.packages("tidyr")
+# install.packages("forecast")
+# install.packages("ggplot2")
+# install.packages("astsa")
+# install.packages("rlist")
+# install.packages("stringr")
+# install.packages("data.table")
+# install.packages("tidyverse")
+# install.packages("readr")
+# install.packages("")
+# install.packages("")
+
 #packagesss
 library(lubridate)
 library(readr)
@@ -11,13 +28,14 @@ library(forecast)
 library(tidyr)
 library(arfima)
 library(fracdiff)
-library(lubridate)
 library(tseries)
 #data
 xtable(PRICES[1:10,])
 
+#SETWD
+#setwd("/Users/Rasmus/Desktop/Uni/6 Semester/Data Mining/P65236b/DATA")
+setwd("~/P65236b/DATA")
 
-setwd("/Users/Rasmus/Desktop/Uni/6 Semester/Data Mining/P65236b/DATA")
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
@@ -307,7 +325,7 @@ acf(HYDRO)}
 
 #opdelling til hverdage, weekender og helligdage.
 head(pris)
-### Vi får en vektor på med tal fra 1-7 hvor mandag=1 søndag=7
+### Vi f?r en vektor p? med tal fra 1-7 hvor mandag=1 s?ndag=7
 dagligpris <- as.data.frame(mutate(select(pris,dato,Oslo),weekday = wday(dato)))
 
 ##Vi laver 2 matricer en for hverdags priser og en for weekend priser
@@ -317,7 +335,7 @@ weekendpris <- filter(dagligpris,weekday==1|weekday==7)
 mean(weekendpris[,2])
 mean(hverdagspris[,2])
 
-#forskellen på hverdags pris årligt
+#forskellen p? hverdags pris ?rligt
 meanhverdag <- c(
   mean(hverdagspris[1:261,2]),
   mean(hverdagspris[262:522,2]),
@@ -336,7 +354,7 @@ MEANWEEKEND <- c(
 )
 Meandata <- as.data.frame(cbind( c(2013:2018),meanhverdag,MEANWEEKEND))
 
-##årlig plot gennemsnits pris weekend mod hverdag
+##?rlig plot gennemsnits pris weekend mod hverdag
 {
 ggplot(Meandata,aes(x=Meandata[,1],y=meanhverdag))+
   geom_line(size=1)+
@@ -344,13 +362,13 @@ ggplot(Meandata,aes(x=Meandata[,1],y=meanhverdag))+
   ylab("EL-Spot Price")+xlab("Year")+
   geom_point()+geom_point(aes(x=Meandata[,1],y=MEANWEEKEND),col="red")
 
-##månedlig gennemsnits pris weekend mod hverdag
+##m?nedlig gennemsnits pris weekend mod hverdag
 meanmonthhverdag <- c(summarize(group_by(hverdagspris,month=floor_date(dato,"month")),Oslo=mean(Oslo)))
 meanmonthweekend <-c(summarize(group_by(weekendpris,month=floor_date(dato,"month")),Oslo=mean(Oslo)))
 
 meanmonthdata <- as.data.frame(cbind(c(1:length(meanmonthhverdag$Oslo)),meanmonthhverdag$Oslo,meanmonthweekend$Oslo))
 
-###månedligt plot af gennemsnits pris, hverdag mod weekend
+###m?nedligt plot af gennemsnits pris, hverdag mod weekend
 ggplot(meanmonthdata,aes(x=meanmonthdata[,1],y=V2))+
   geom_line(size=1)+
   geom_line(aes(x=meanmonthdata[,1],y=V3),col="red",size=1)+
@@ -379,3 +397,19 @@ plot.ts(decdifflogpris$random)
 qqnorm(decdifflogpris$random)
 
 plot.ts(resid(model))
+
+helligedage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
+
+
+helligedage = strptime(helligedage, format = "%Y-%m-%d %H:%M", "GMT")
+helligedage[1] %in% dato[1:3]
+helligedage[1]==dato[1]
+  
+
+match(helligedage,dato)
+
+
+
+
+
+
