@@ -372,7 +372,7 @@ meanmonthdata <- as.data.frame(cbind(c(1:length(meanmonthhverdag$Oslo)),meanmont
 ggplot(meanmonthdata,aes(x=meanmonthdata[,1],y=V2))+
   geom_line(size=1)+
   geom_line(aes(x=meanmonthdata[,1],y=V3),col="red",size=1)+
-  ylab("EL-Spot Price")+xlab("MOnths")+
+  ylab("EL-Spot Price")+xlab("Months")+
   geom_point()+geom_point(aes(x=meanmonthdata[,1],y=V3),col="red")
 
 
@@ -452,7 +452,28 @@ model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
                cos((4*pi/365)*I(time(dagligpris[,1])))+
                sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligdage+dummyweekend)
 summary(model1)
-plot.ts(model1$residuals)
-acf(model1$residuals,lag.max = 100)
-pacf(model1$residuals,lag.max = 100)
 
+#vores nye tidsserie
+X_t <- ts(model1$residuals)
+
+#De de-trended og de-sæson residualer
+ggplot(X_t,aes(y=X_t,x=1:length(X_t)))+
+geom_line()+xlab("Time")+ylab("Residuals")
+
+#ACF'en for residualerne
+bacf <- acf(X_t, plot = FALSE,lag.max = 100)
+bacfdf <- with(bacf, data.frame(lag, acf))
+ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+xlim(0,100)
+
+autoplot(Acf(X_t,plot = F,lag.max = 100),main="")
+adf.test(model1$residuals)
+
+## estimering af D-parameteren
+d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
+diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
+plot.ts(diffY)
+acf(diffY)
