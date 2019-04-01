@@ -477,3 +477,4 @@ diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estim
 auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 plot.ts(diffY)
 acf(diffY)
+hist(diffY,breaks=100)
