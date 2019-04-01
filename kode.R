@@ -401,12 +401,38 @@ plot.ts(resid(model))
 {
 ### Hellllllllllllllllllllllllllllllllllllllllligdag
 helligdage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
+
 helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
+
+
+helligedage2019 <- c("2019-01-01 12:00:00 GMT",
+                     "2019-04-18 12:00:00 GMT",
+                     "2019-04-19 12:00:00 GMT",
+                     "2019-02-22 12:00:00 GMT",
+                     "2019-05-01 12:00:00 GMT",
+                     "2019-05-17 12:00:00 GMT",
+                     "2019-05-30 12:00:00 GMT",
+                     "2019-06-10 12:00:00 GMT",
+                     "2019-12-25 12:00:00 GMT",
+                     "2019-12-26 12:00:00 GMT")
+  
+helligedage2019 <-  strptime(helligedage2019, format = "%Y-%m-%d %H:%M:%S", "GMT")
+helligdage <-  strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
+
 dato3 <- strptime(dato, format = "%Y-%m-%d %H:%M:%S", "GMT")
-dato3 <- as.data.frame(dato)
+
 match(helligdage,dato3)
+
 dummyhelligdage <- numeric(length = length(dato3))
 dummyhelligdage[match(helligdage,dato3)] <- 1
+
+weekend <- strptime(weekendpris[,1],format = "%Y-%m-%d %H:%M:%S", "GMT")
+
+dummyweekend <- numeric(length = length(dato3))
+
+
+dummyweekend[match(weekend,dato3)] <- 1
+
 pris <- cbind(dato,PRICES,dummyhelligdage)
 }
 
@@ -417,3 +443,16 @@ Acf(temp[,2],lag.max = 100)
 pacf(temp[,2],lag.max = 100)
 acf(diff(temp[,2]))
 pacf(diff(temp[,2]))
+
+###sæson cleaning
+model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
+               I(time(dagligpris[,1])^2)+
+               cos((2*pi/365)*I(time(dagligpris[,1])))+
+               sin((2*pi/365)*I(time(dagligpris[,1])))+
+               cos((4*pi/365)*I(time(dagligpris[,1])))+
+               sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligdage+dummyweekend)
+summary(model1)
+plot.ts(model1$residuals)
+acf(model1$residuals,lag.max = 100)
+pacf(model1$residuals,lag.max = 100)
+
