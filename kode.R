@@ -355,7 +355,7 @@ MEANWEEKEND <- c(
 Meandata <- as.data.frame(cbind( c(2013:2018),meanhverdag,MEANWEEKEND))
 
 ##?rlig plot gennemsnits pris weekend mod hverdag
-{
+
 ggplot(Meandata,aes(x=Meandata[,1],y=meanhverdag))+
   geom_line(size=1)+
   geom_line(aes(x=Meandata[,1],y=MEANWEEKEND),col="red",size=1)+
@@ -374,7 +374,7 @@ ggplot(meanmonthdata,aes(x=meanmonthdata[,1],y=V2))+
   geom_line(aes(x=meanmonthdata[,1],y=V3),col="red",size=1)+
   ylab("EL-Spot Price")+xlab("MOnths")+
   geom_point()+geom_point(aes(x=meanmonthdata[,1],y=V3),col="red")
-}
+
 
 ###Decompose frac diff log pris med qq plot og residualer
 temp <- cbind(WEATHER[,2],WEATHER[,3])
@@ -398,22 +398,22 @@ qqnorm(decdifflogpris$random)
 
 plot.ts(resid(model))
 
-
+{
 ### Hellllllllllllllllllllllllllllllllllllllllligdag
 helligdage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
-
-
 helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
 dato3 <- strptime(dato, format = "%Y-%m-%d %H:%M:%S", "GMT")
-
-helligdage[1] %in% dato3[1:3]
-helligdage[1]==dato[1]
-  
 dato3 <- as.data.frame(dato)
 match(helligdage,dato3)
-
 dummyhelligdage <- numeric(length = length(dato3))
 dummyhelligdage[match(helligdage,dato3)] <- 1
-
 pris <- cbind(dato,PRICES,dummyhelligdage)
+}
 
+
+###ACF temperatur
+par(mf)
+Acf(temp[,2],lag.max = 100)
+pacf(temp[,2],lag.max = 100)
+acf(diff(temp[,2]))
+pacf(diff(temp[,2]))
