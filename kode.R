@@ -325,12 +325,14 @@ acf(HYDRO)}
 
 #opdelling til hverdage, weekender og helligdage.
 head(pris)
+
 ### Vi f?r en vektor p? med tal fra 1-7 hvor mandag=1 s?ndag=7
 dagligpris <- as.data.frame(mutate(select(pris,dato,Oslo),weekday = wday(dato)))
 
 ##Vi laver 2 matricer en for hverdags priser og en for weekend priser
 hverdagspris <- filter(dagligpris,weekday==2|weekday==3|weekday==4|weekday==5|weekday==6)
 weekendpris <- filter(dagligpris,weekday==1|weekday==7)
+
 #gennemsnits prisen for weekend og hverdag
 mean(weekendpris[,2])
 mean(hverdagspris[,2])
@@ -355,7 +357,6 @@ MEANWEEKEND <- c(
 Meandata <- as.data.frame(cbind( c(2013:2018),meanhverdag,MEANWEEKEND))
 
 ##?rlig plot gennemsnits pris weekend mod hverdag
-
 ggplot(Meandata,aes(x=Meandata[,1],y=meanhverdag))+
   geom_line(size=1)+
   geom_line(aes(x=Meandata[,1],y=MEANWEEKEND),col="red",size=1)+
@@ -370,13 +371,17 @@ meanmonthdata <- as.data.frame(cbind(c(1:length(meanmonthhverdag$Oslo)),meanmont
 
 ###m?nedligt plot af gennemsnits pris, hverdag mod weekend
 ggplot(meanmonthdata,aes(x=meanmonthdata[,1],y=V2))+
-  geom_line(size=1)+
-  geom_line(aes(x=meanmonthdata[,1],y=V3),col="red",size=1)+
+  geom_line(size=0.5)+
+  geom_line(aes(x=meanmonthdata[,1],y=V3),col="red",size=0.5)+
   ylab("EL-Spot Price")+xlab("Months")+
-  geom_point()+geom_point(aes(x=meanmonthdata[,1],y=V3),col="red")
-
+  geom_point(aes(x=meanmonthdata[,1],y=V2,color="black"),size=0.9)+
+  geom_point(aes(x=meanmonthdata[,1],y=V3,color="red"),size=0.9)+
+  theme(legend.position = "right") +
+  scale_color_manual(name="Day",labels=c("Weekday","Holyday"),values = c("black", "red"))
+ 
 
 ###Decompose frac diff log pris med qq plot og residualer
+{
 temp <- cbind(WEATHER[,2],WEATHER[,3])
 logpris <- cbind(pris[,1],log(pris[,2]))
 adf.test(logpris[,2])
@@ -397,7 +402,7 @@ plot.ts(decdifflogpris$random)
 qqnorm(decdifflogpris$random)
 
 plot.ts(resid(model))
-
+  }
 {
 ### Hellllllllllllllllllllllllllllllllllllllllligdag
 helligdage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
@@ -445,16 +450,28 @@ acf(diff(temp[,2]))
 pacf(diff(temp[,2]))
 
 ###sæson cleaning
+dummyhelligweekend <- dummyhelligdage+dummyweekend
+
+for (i in 1:length(dummyhelligweekend)) {
+  if (dummyhelligweekend[i]==2){
+    dummyhelligweekend[i]=1
+  }
+}
+
 model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
                I(time(dagligpris[,1])^2)+
                cos((2*pi/365)*I(time(dagligpris[,1])))+
                sin((2*pi/365)*I(time(dagligpris[,1])))+
                cos((4*pi/365)*I(time(dagligpris[,1])))+
-               sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligdage+dummyweekend)
+               sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
 summary(model1)
 
 #vores nye tidsserie
 X_t <- ts(model1$residuals)
+
+##Diff af x_t
+acf(X_t,lag.max = 70)
+autoplot(acf(diff(X_t)),main="")
 
 #De de-trended og de-sæson residualer
 ggplot(X_t,aes(y=X_t,x=1:length(X_t)))+
@@ -469,12 +486,27 @@ ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
   ylab("ACF")+xlim(0,100)
 
 autoplot(Acf(X_t,plot = F,lag.max = 100),main="")
+
+#ADF-Test
+adf.test(model1$residuals,k = 0)
 adf.test(model1$residuals)
+
+
 
 ## estimering af D-parameteren
 d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
 diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
 auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
-plot.ts(diffY)
-acf(diffY)
-hist(diffY,breaks=100)
+
+
+#ACF plots og alm plot
+diffY_ACF <- acf(diffY ,plot = FALSE)
+bacfdf <- with(diffY_ACF, data.frame(lag, acf))
+ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
+autoplot(diffY,ylab="Sample")
+
+
