@@ -471,7 +471,18 @@ X_t <- ts(model1$residuals)
 
 ##Diff af x_t
 acf(X_t,lag.max = 70)
+diffacf <- acf(diff(X_t, plot = FALSE,lag.max = 100))
+acfdf <- with(diffacf, data.frame(lag, acf))
+ggplot(data = acfdf, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+xlim(0,100)+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
+
 autoplot(acf(diff(X_t)),main="")
+
+
+
 
 #De de-trended og de-sæson residualer
 ggplot(X_t,aes(y=X_t,x=1:length(X_t)))+
