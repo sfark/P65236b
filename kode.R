@@ -14,7 +14,9 @@
 # install.packages("readr")
 # install.packages("")
 # install.packages("")
-
+#install.packages('gtools')
+#load library
+library(gtools)
 #packagesss
 library(lubridate)
 library(readr)
@@ -506,9 +508,37 @@ adf.test(model1$residuals)
 
 ## estimering af D-parameteren
 d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
+d_hat
 diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
-auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 
+
+auto.arima(diffY,stepwise = F,approximation = F) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
+
+auto.arima(X_t)
+
+
+###Vi finder selv vores p og q værdier ved hjælp af AIC
+n <- c(0,1,2,3,4,5)
+#pick 2 balls from the urn with replacement
+#get all permutations
+per <- permutations(n=6,r=2,v=n,repeats.allowed=T)
+armanr <- c()
+
+for (i in 1:25) {
+  ARMAmatrix <- arima(diffY,order=c(per[i,1],0,per[i,2]))
+  armanr <- c(armanr,AIC( ARMAmatrix ))
+}
+
+armanr
+cbind(per,armanr)
+per[20,]
+min(armanr)
+
+#noget acf værk for residualer
+acf(diffY)
+res.diffy <- resid(arfima(X_t))
+par(mfrow=c(2,1))
+acf(res.diffy$Mode1)
 
 #ACF plots og alm plot
 diffY_ACF <- acf(diffY ,plot = FALSE)
@@ -520,4 +550,4 @@ ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
 autoplot(diffY,ylab="Sample")
 
-
+kpss.test(X_t)
