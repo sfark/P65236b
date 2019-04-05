@@ -13,7 +13,7 @@
 # install.packages("tidyverse")
 # install.packages("readr")
 # install.packages("")
-# install.packages("")
+# install.packages("LSTS")
 #install.packages('gtools')
 #load library
 library(gtools)
@@ -31,6 +31,7 @@ library(tidyr)
 library(arfima)
 library(fracdiff)
 library(tseries)
+library(LSTS)
 #data
 xtable(PRICES[1:10,])
 
@@ -511,9 +512,9 @@ d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
 d_hat
 diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
 
-
-auto.arima(diffY,stepwise = F,approximation = F) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
-
+auto.arima(diffY,stepwise = F,approximation = F)
+auto.arima(diffY,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+# Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 auto.arima(X_t)
 
 
@@ -532,7 +533,7 @@ for (i in 1:25) {
 armanr
 cbind(per,armanr)
 per[20,]
-min(armanr)
+which.min(armanr)
 
 #noget acf værk for residualer
 acf(diffY)
@@ -549,5 +550,126 @@ ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
   ylab("ACF")+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
 autoplot(diffY,ylab="Sample")
-
 kpss.test(X_t)
+
+###PACF af DiffY
+diffY_PACF <- pacf(diffY ,plot = FALSE)
+pacfdf <- with(diffY_PACF, data.frame(lag, acf))
+ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
+pacf(diffY,plot = T)
+autoplot(pacf(diffY))
+
+##ljung-box test
+res.arima <- resid(arima(diffY,order = c(2,0,3)))
+Box.Ljung.Test(res.arima,lag=10)
+plot(res.arima)
+lines(diffY,col="red")
+ts.diag(diffY)
+
+
+###alternativ d estimation
+dd_hat <- fdGPH(X_t)$d
+diffY2<- diffseries(X_t,dd_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+auto.arima(diffY2,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+res.arima2 <- resid(arima(diffY2,order = c(1,0,2)))
+qqnorm(res.arima2)
+acf(diffY2,lag.max = 100)
+fdGPH(diffY2)
+
+plot(diffY2)
+lines(res.arima2,col="red")
+
+### rekusiv metode for AIC et eller andet
+n <- c(0,1,2,3,4,5)
+#pick 2 balls from the urn with replacement
+#get all permutations
+per <- permutations(n=6,r=2,v=n,repeats.allowed=T)
+armanr2 <- c()
+
+for (i in 1:25) {
+  ARMAmatrix2 <- arima(diffY2,order=c(per[i,1],0,per[i,2]))
+  armanr2 <- c(armanr2,AIC( ARMAmatrix2 ))
+}
+
+armanr2
+cbind(per,armanr2)
+which.min(armanr2)
+
+res.arima1 <- residuals(arima(diffY,order = c(7,0,0)))
+res.arima2 <- residuals(arima(diffY2,order = c(6,0,2)))
+plot(res.arima1)
+plot(res.arima2)
+acf(res.arima1)
+acf(res.arima2)
+pacf(res.arima1)
+pacf(res.arima2)
+
+par(mfrow=c(2,1))
+sarima(diffY2,3,0,5)
+sarima(diffY,3,0,5)
+
+###ACF for d=0.19999
+diffY2_ACF <- acf(diffY2 ,plot = FALSE)
+acfdf2 <- with(diffY2_ACF, data.frame(lag, acf))
+ggplot(data = acfdf2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+###for alm x_T
+auto.arima(X_t)
+res.arima3 <- resid(arima(X_t,order = c(1,0,2)))
+acf(res.arima3)
+plot(res.arima3)
+
+##aic for x_t shit
+armanr3 <- c()
+
+for (i in 1:25) {
+  ARMAmatrix3 <- arima(X_t,order=c(per[i,1],0,per[i,2]))
+  armanr3 <- c(armanr3,AIC( ARMAmatrix3 ))
+}
+
+armanr3
+cbind(per,armanr)
+per[20,]
+which.min(armanr)
+
+res.arima1 <- residuals(arima(diffY,order = c(7,0,0)))
+res.arima2 <- residuals(arima(diffY2,order = c(6,0,2)))
+res.arima3 <- residuals(arima(X_t,order = c(8,0,0)))
+acf(res.arima3)
+
+###ACF of the residauls for the arima(7,0,0)
+res1_ACF <- acf(res.arima1 ,plot = FALSE)
+res1df2 <- with(res1_ACF, data.frame(lag, acf))
+ggplot(data = res1df2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+###ACF of the residauls for the arima(6,0,2)
+res2_ACF <- acf(res.arima2 ,plot = FALSE)
+res2df2 <- with(res2_ACF, data.frame(lag, acf))
+ggplot(data = res2df2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+###ACF of the residuals for the original times series X_T with a ARMA(8,0)
+res3_ACF <- acf(res.arima3 ,plot = FALSE)
+res3df2 <- with(res3_ACF, data.frame(lag, acf))
+ggplot(data = res3df2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+acf(res.arima3)
