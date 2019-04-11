@@ -42,12 +42,21 @@ setwd("~/P65236b/DATA")
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
-WEATHER_list <- list.files("WEATHER", full.names = 1)
+#WEATHER_list <- list.files("WEATHER", full.names = 1)
 
 PRICES <- read.csv2(PRICES_list[1], header = TRUE)[,c(10:15)]
 HYDRO <- read.csv2(HYDRO_list[1], header = TRUE)[,c(2:3)]
 CONSUMPTION <- read.csv2(CONSUMPTION_list[1], header = TRUE)[,c(2:7)]
-WEATHER <- read.csv2(WEATHER_list[1], header = TRUE,skip = 1)
+WEATHER <- read.csv2("vejrdata.csv", header = TRUE,skip = 1)[1:2191,c(3,6)]
+
+WEATHER$Precipitation <- as.numeric(gsub(",", ".", WEATHER$Precipitation,ignore.case = "."))
+for (i in 1:length(WEATHER$Precipitation)) {
+  if(is.na(WEATHER$Precipitation[i])==TRUE){
+    WEATHER$Precipitation[i] <- 0
+  }else{
+    
+  }
+}
 
 dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
 #fjerne data for 2019
@@ -63,7 +72,7 @@ for (i in 2:6) {
   HYDRO <- rbind(HYDRO,read.csv2(HYDRO_list[i], header = TRUE)[,c(2:3)])
   CONSUMPTION <- rbind(CONSUMPTION,read.csv2(CONSUMPTION_list[i], header = TRUE)[,c(2:7)])
 }
-
+hydrolang <- rep(HYDRO$NO,each=7)
 pris <- cbind(dato,PRICES)
 hydro2 <- cbind(dato2,HYDRO)
 
@@ -673,3 +682,19 @@ ggplot(data = res3df2, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
 acf(res.arima3)
+
+
+
+
+### corrolation mellem parameterne 
+{
+  ccf(PRICES$Oslo,WEATHER$Mean.temperature)
+  ccf(PRICES$Oslo,WEATHER$Precipitation)
+  ccf(PRICES$Oslo,WEATHER$Mean.temperature,lag.max = 360)
+  ccf(PRICES$Oslo,WEATHER$Precipitation,lag.max = 360)
+  ccf(PRICES$Oslo,data_NO1[,2],lag.max = 360)#HYDRO
+  ccf(PRICES$Oslo,data_NO1[,3],lag.max = 360)#CONSUMPTION
+  
+}
+
+
