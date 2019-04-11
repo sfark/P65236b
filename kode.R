@@ -55,7 +55,17 @@ WEATHER <- WEATHER[1:2191,]
 WEATHER$Date <- dato
 dato2 <- seq(ISOdate(2013,1,1),by="week", length.out = 310)
 
-
+##### frakdiff
+{
+  frakdiff <- function(x, d){
+    iT <- length(x)
+    np2 <- nextn(2*iT - 1, 2)
+    k <- 1:(iT-1)
+    b <- c(1, cumprod((k - d - 1)/k))
+    dx <- fft(fft(c(b, rep(0, np2 - iT))) * fft(c(x, rep(0, np2 - iT))), inverse = T) / np2;
+    return(Re(dx[1:iT]))
+  }
+}
 
 
 for (i in 2:6) {
@@ -286,7 +296,7 @@ which(AICMAtrix==min(AICMAtrix),arr.ind = TRUE)
 
 fit78 <- fracdiff(y, nar = 7, nma = 8)
 summary(fit78)
-diffx <-diffseries(y,fit78$d) 
+diffx <-frakdiff(y,fit78$d) 
 plot.ts(diffx)
 acf(diffx)
 pacf(diffx)
@@ -307,7 +317,7 @@ which(AICMAtrixdeco==min(AICMAtrixdeco),arr.ind = TRUE)
 
 fit1010 <- fracdiff(decom_pris, nar = 10, nma = 10)
 summary(fit1010)          
-diffy <- diffseries(decom_pris,fit1010$d)
+diffy <- frakdiff(decom_pris,fit1010$d)
 acf(diffy)
 qqnorm(diffy)
 plot.ts(diffy)
@@ -320,7 +330,7 @@ qqdiffy + stat_qq() + stat_qq_line()
 { 
 y <-log(PRICES$Oslo)
 d_hat <- fracdiff(y)$d#vi finder et estimat på d
-diffY <- diffseries(y,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+diffY <- frakdiff(y,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
 auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 plot.ts(diffy)
 acf(diffY)
@@ -391,7 +401,7 @@ adf.test(logpris[,2])
 adf.test(temp[,2])
 
 arfima(logpris[,2])
-difflogpris <- diffseries(logpris[,2],d=0.499391)
+difflogpris <- frakdiff(logpris[,2],d=0.499391)
 arima(difflogpris)
 
 adf.test(difflogpris)
@@ -460,13 +470,28 @@ for (i in 1:length(dummyhelligweekend)) {
     dummyhelligweekend[i]=1
   }
 }
+## dummy spiks
+{
+  
+  dummyspikes <- c()
+  for (i in 1:length(X_t)) {
+    if (X_t[i]>250) {
+      dummyspikes[i] <- 1
+    }else if (X_t[i]< -250) {
+      dummyspikes[i] <- -1
+    }
+    else{
+      dummyspikes[i] <- 0
+    }  
+  }
+}
 
-model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
-               I(time(dagligpris[,1])^2)+
-               cos((2*pi/365)*I(time(dagligpris[,1])))+
-               sin((2*pi/365)*I(time(dagligpris[,1])))+
-               cos((4*pi/365)*I(time(dagligpris[,1])))+
-               sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
+model1 <- glm(dagligpris[,2]~time(dagligpris[,1])+
+                I(time(dagligpris[,1])^2)+
+                cos((2*pi/365)*I(time(dagligpris[,1])))+
+                sin((2*pi/365)*I(time(dagligpris[,1])))+
+                cos((4*pi/365)*I(time(dagligpris[,1])))+
+                sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend+dummyspikes)
 summary(model1)
 
 #vores nye tidsserie
@@ -510,7 +535,7 @@ adf.test(model1$residuals)
 ## estimering af D-parameteren
 d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
 d_hat
-diffY <- diffseries(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+diffY <- frakdiff(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
 
 auto.arima(diffY,stepwise = F,approximation = F)
 auto.arima(diffY,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
@@ -573,7 +598,7 @@ ts.diag(diffY)
 
 ###alternativ d estimation
 dd_hat <- fdGPH(X_t)$d
-diffY2<- diffseries(X_t,dd_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+diffY2<- frakdiff(X_t,dd_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
 auto.arima(diffY2,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
 res.arima2 <- resid(arima(diffY2,order = c(1,0,2)))
 qqnorm(res.arima2)
@@ -645,6 +670,19 @@ res.arima2 <- residuals(arima(diffY2,order = c(6,0,2)))
 res.arima3 <- residuals(arima(X_t,order = c(8,0,0)))
 acf(res.arima3)
 
+### AIC
+AIC(arima(X_t,order = c(16,0,0)))
+AIC(arfima(X_t,order = c(7,0,0),fixed = list(frac=0.499081)))
+AIC(arfima(X_t,order = c(6,0,2),fixed = list(frac=0.1999554)))
+AIC(arima(X_t,order = c(0,1,2)))
+
+arfima(X_t,order = c(6,0.499081,2))
+
+# det differentierede tidsserie
+auto.arima(X_t,d=1,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
+
+
+
 ###ACF of the residauls for the arima(7,0,0)
 res1_ACF <- acf(res.arima1 ,plot = FALSE)
 res1df2 <- with(res1_ACF, data.frame(lag, acf))
@@ -673,3 +711,49 @@ ggplot(data = res3df2, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
 acf(res.arima3)
+
+### AIC og d estimations algoritme
+d_est <-seq(0.001,0.499,length.out = 500) 
+aic_vec <- c()
+for (i in 1:length(d_est)) {
+  diff_X_t <-  frakdiff(X_t,d_est[i])
+  b <- auto.arima(diff_X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+  aic_vec[i] <- AIC(arfima(X_t,order=c(b$arma[1],0,b$arma[2]),fixed = list(frac=d_est[i])))
+}
+
+##### fjerner spiks
+{
+  plot(X_t)
+dummyspikes <- c()
+for (i in 1:length(X_t)) {
+  if (X_t[i]>250) {
+    dummyspikes[i] <- 1
+  }else if (X_t[i]< -250) {
+    dummyspikes[i] <- -1
+  }
+  else{
+    dummyspikes[i] <- 0
+  }  
+}
+
+modelspikes <- glm(dagligpris[,2]~time(dagligpris[,1])+
+               I(time(dagligpris[,1])^2)+
+               cos((2*pi/365)*I(time(dagligpris[,1])))+
+               sin((2*pi/365)*I(time(dagligpris[,1])))+
+               cos((4*pi/365)*I(time(dagligpris[,1])))+
+               sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend+dummyspikes)
+plot.ts(residuals(modelspikes))
+
+summary(modelspikes)
+
+hist(residuals(modelspikes),breaks = 100)
+
+adf.test(residuals(modelspikes))
+acf(residuals(modelspikes),lag.max = 100)
+
+}
+
+
+
+
+
