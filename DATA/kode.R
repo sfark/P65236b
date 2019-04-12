@@ -12,17 +12,28 @@ library(tseries)
 library(fracdiff)
 library(gtools)
 
-
 #data
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
+
+WEATHER_list <- list.files("WEATHER", full.names = 1)
+
 Tal <- list.files("Karsten",full.names = 1)
+
 
 
 PRICES <- read.csv2(PRICES_list[1], header = TRUE)[,c(10:15)]
 HYDRO <- read.csv2(HYDRO_list[1], header = TRUE)[,c(2:3)]
 CONSUMPTION <- read.csv2(CONSUMPTION_list[1], header = TRUE)[,c(2:7)]
+
+WEATHER <- read.csv2(WEATHER_list[1], header = TRUE,skip = 1)
+
+dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
+#fjerne data for 2019
+WEATHER <- WEATHER[1:2191,]
+WEATHER$Date <- dato
+
 Karsten <- read.csv2(Tal[1], header = T)[,c(3:5)]
 
 
@@ -35,6 +46,9 @@ for (i in 2:6) {
 
 Karsten[,1] <- Karsten[,1]/2
 
+
+
+ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price Oslo")
 
 ###GGplot af elpris
 dato <- seq(c(ISOdate(2013,1,1)), by = "day", length.out = 2191)
@@ -54,6 +68,7 @@ ggplot(fortify(Karsten),aes(x=1:52 , y= Consumption.2017,colour="Consumption")) 
   scale_y_continuous(name="TWh", sec.axis=sec_axis(~./0.5, name="TWh"))+
   labs(x="Weeks",title = "Inflow, Production and Consumption of energy in Norway, 2017")+
   theme(plot.title = element_text(hjust = 0.5))
+
 
 ggplot(fortify(HYDRO),aes(x= dato, y= Oslo)) + geom_line() + geom_line(aes(x=dato, y=Bergen),col="red", alpha = 0.5)
 
@@ -125,6 +140,56 @@ cat("d.hat =", est$par, "se(dhat) = ",1/sqrt(est$hessian),"\n")
 g.dhat = g^est$par
 sig2 = sum(g.dhat*per[1:m])/m
 cat("sig2hat =",sig2,"\n")  
+
+
+
+#data for NO1(OSLO)
+
+HYDRO_NO <- rep(HYDRO$NO,each=7) #dagli
+data_NO1 <- cbind(PRICES$Oslo,HYDRO_NO,CONSUMPTION$NO1)
+colnames(data_NO1) <- c("Price","Hydro reserve","Consumption")
+
+#dummy weekend
+dummy_week <-  rep(c(0,0,0,0,0,1,1),310)
+#dummy sommer vinter
+
+#dummy regn?
+
+auto.arima(log(PRICES$Oslo),xreg=data_NO1[,c(2:3)])
+
+acf(log(PRICES$Oslo))
+acf(diff(log(PRICES$Oslo)))
+
+auto.arima(diff(log(PRICES$Oslo)))
+decom <- decompose(ts(log(PRICES$Oslo),frequency=365))
+autoplot(decom)
+ggplot(data = decom ,aes(x= dato, y= seasonal)) 
+
+
+
+#weather data
+
+head(WEATHER)
+vejr_data <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,WEATHER$Snow.depth)
+#ændre fra comma til punktum
+WEATHER$Precipitation <- as.numeric(sub(",", ".", sub(".", "", WEATHER$Precipitation, fixed=TRUE), fixed=TRUE))
+#sætter NA til 0
+vejr_data[,2][is.na(vejr_data[,2])] <- 0
+#variabler
+
+variable <- cbind(data_NO1[,2:3],vejr_data)
+colnames(variable) <- c("Hydro reserve","Consumption","Mean.temperature","Precipitation","Snow.depth")
+
+
+acf(WEATHER$Mean.temperature)
+acf(diff(WEATHER$Mean.temperature,356))
+
+decom_temperatur <- decompose(ts(WEATHER$Mean.temperature,frequency = 365))
+decom_temperatur$random
+
+
+
+
 }
 ###decompose
 {pris_2 <- log(ts(PRICES, frequency = 355))
@@ -209,3 +274,4 @@ fdSperio(y)
 memory.long <- fracdiff.sim(1500, d = 0.3)
 spm <- fdSperio(memory.long$series)
 str(spm, digits=6)
+
