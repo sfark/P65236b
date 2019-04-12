@@ -1,20 +1,20 @@
 #Install
-# install.packages("tseries")
-# install.packages("lubridate")
-# install.packages("fracdiff")
-# install.packages("arfima")
-# install.packages("tidyr")
-# install.packages("forecast")
-# install.packages("ggplot2")
-# install.packages("astsa")
-# install.packages("rlist")
-# install.packages("stringr")
-# install.packages("data.table")
-# install.packages("tidyverse")
-# install.packages("readr")
-# install.packages("")
-# install.packages("LSTS")
-#install.packages('gtools')
+install.packages("tseries")
+install.packages("lubridate")
+install.packages("fracdiff")
+install.packages("arfima")
+install.packages("tidyr")
+install.packages("forecast")
+install.packages("ggplot2")
+install.packages("astsa")
+install.packages("rlist")
+install.packages("stringr")
+install.packages("data.table")
+install.packages("tidyverse")
+install.packages("readr")
+install.packages("LSTS")
+install.packages('gtools')
+install.packages("dplyr")
 #load library
 library(gtools)
 #packagesss
@@ -32,7 +32,8 @@ library(arfima)
 library(fracdiff)
 library(tseries)
 library(LSTS)
-#data
+library(dplyr)
+
 xtable(PRICES[1:10,])
 
 #SETWD
@@ -736,13 +737,13 @@ acf(res.arima3)
 
 
 ### AIC og d estimations algoritme
-d_est <-seq(0.001,0.499,length.out = 500) 
-aic_vec <- c()
-for (i in 1:length(d_est)) {
-  diff_X_t <-  frakdiff(X_t,d_est[i])
-  b <- auto.arima(diff_X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
-  aic_vec[i] <- AIC(arfima(X_t,order=c(b$arma[1],0,b$arma[2]),fixed = list(frac=d_est[i])))
-}
+# d_est <-seq(0.001,0.499,length.out = 500) 
+# aic_vec <- c()
+# for (i in 1:length(d_est)) {
+#   diff_X_t <-  frakdiff(X_t,d_est[i])
+#   b <- auto.arima(diff_X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+#   aic_vec[i] <- AIC(arfima(X_t,order=c(b$arma[1],0,b$arma[2]),fixed = list(frac=d_est[i])))
+# }
 
 ##### fjerner spiks
 {
@@ -790,8 +791,6 @@ acf(residuals(modelspikes),lag.max = 100)
   ccf(WEATHER$Mean.temperature,data_NO1[,3],lag.max = 360,main="Mean Temperature Vs Consumption")
   corelationsd <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,data_NO1[,2],data_NO1[,3])
   cor(corelationsd)
-  tesdsft <- lm(PRICES$Oslo~WEATHER$Mean.temperature+WEATHER$Precipitation+data_NO1[,2]+data_NO1[,3])
- summary(tesdsft) 
 }
 
 ###Model uden spikes
@@ -839,4 +838,32 @@ ggplot(data = res17df2, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
   ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+#### ARMAX
+
+arima(X_t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
