@@ -38,7 +38,8 @@ xtable(PRICES[1:10,])
 #SETWD
 #setwd("/Users/Rasmus/Desktop/Uni/6 Semester/Data Mining/P65236b/DATA")
 setwd("~/P65236b/DATA")
-
+##DATA
+{
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
@@ -76,7 +77,7 @@ hydrolang <- rep(HYDRO$NO,each=7)
 pris <- cbind(dato,PRICES)
 hydro2 <- cbind(dato2,HYDRO)
 
-
+}
 ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price")
 {
 ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + 
@@ -415,8 +416,10 @@ qqnorm(decdifflogpris$random)
 
 plot.ts(resid(model))
   }
-{
+
 ### Hellllllllllllllllllllllllllllllllllllllllligdag
+
+{
 helligdage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
 
 helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
@@ -688,13 +691,17 @@ acf(res.arima3)
 
 ### corrolation mellem parameterne 
 {
-  ccf(PRICES$Oslo,WEATHER$Mean.temperature)
-  ccf(PRICES$Oslo,WEATHER$Precipitation)
-  ccf(PRICES$Oslo,WEATHER$Mean.temperature,lag.max = 360)
+  par(mfrow=c(3,1))
+  ccf(PRICES$Oslo,WEATHER$Mean.temperature,lag.max = 360,main="Price Vs Mean Temperature")
   ccf(PRICES$Oslo,WEATHER$Precipitation,lag.max = 360)
+  ccf(WEATHER$Mean.temperature,WEATHER$Precipitation,lag.max = 360)
   ccf(PRICES$Oslo,data_NO1[,2],lag.max = 360)#HYDRO
-  ccf(PRICES$Oslo,data_NO1[,3],lag.max = 360)#CONSUMPTION
-  
+  ccf(PRICES$Oslo,data_NO1[,3],lag.max = 360,main="Price Vs Consumption")#CONSUMPTION
+  ccf(WEATHER$Mean.temperature,data_NO1[,3],lag.max = 360,main="Mean Temperature Vs Consumption")
+  corelationsd <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,data_NO1[,2],data_NO1[,3])
+  cor(corelationsd)
+  tesdsft <- lm(PRICES$Oslo~WEATHER$Mean.temperature+WEATHER$Precipitation+data_NO1[,2]+data_NO1[,3])
+ summary(tesdsft) 
 }
 
 
