@@ -321,6 +321,9 @@ for (i in 1:10) {
     AICMAtrixdeco[i,j] <-  AIC(fracdiff(decom_pris, nar = i, nma = j))
   }
 }
+
+
+
 #hvilket element der har den mindste AIC
 which(AICMAtrixdeco==min(AICMAtrixdeco),arr.ind = TRUE)
 
@@ -508,12 +511,12 @@ X_t <- ts(model1$residuals)
 
 ##Diff af x_t
 acf(X_t,lag.max = 70)
-diffacf <- acf(diff(X_t, plot = FALSE,lag.max = 100))
+diffacf <- acf(diff(X_t, plot = FALSE,lag.max = 50))
 acfdf <- with(diffacf, data.frame(lag, acf))
 ggplot(data = acfdf, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept = 0)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
-  ylab("ACF")+xlim(0,100)+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
+  ylab("ACF")+xlim(0,50)+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
 
 autoplot(acf(diff(X_t)),main="")
@@ -544,10 +547,12 @@ adf.test(model1$residuals)
 ## estimering af D-parameteren
 d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
 d_hat
-diffY <- frakdiff(X_t,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+diffY <- ts(frakdiff(X_t,d_hat)) #vi fraktionel differ tids serien med vores estimerede d_hat
+plot.ts(diffY)
 
 auto.arima(diffY,stepwise = F,approximation = F)
 auto.arima(diffY,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+
 # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 auto.arima(X_t)
 
@@ -583,6 +588,7 @@ ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
   ylab("ACF")+geom_hline(aes(yintercept=0.04),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.04),col="blue",linetype=2)
+
 autoplot(diffY,ylab="Sample")
 kpss.test(X_t)
 
@@ -605,11 +611,14 @@ lines(diffY,col="red")
 ts.diag(diffY)
 
 
-###alternativ d estimation
+###alternativ d estimation med fdgph()
 dd_hat <- fdGPH(X_t)$d
-diffY2<- frakdiff(X_t,dd_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
+#vi fraktionel differ tids serien med vores estimerede d_hat
+diffY2<- frakdiff(X_t,dd_hat) 
+
+#vi fitter en arima funktion til den frak diffede med alternativ d
 auto.arima(diffY2,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
-res.arima2 <- resid(arima(diffY2,order = c(1,0,2)))
+res.arima2 <- resid(arima(diffY2,order = c(3,0,3)))
 qqnorm(res.arima2)
 acf(diffY2,lag.max = 100)
 fdGPH(diffY2)
@@ -646,7 +655,7 @@ par(mfrow=c(2,1))
 sarima(diffY2,3,0,5)
 sarima(diffY,3,0,5)
 
-###ACF for d=0.19999
+###ACF for d=0.199
 diffY2_ACF <- acf(diffY2 ,plot = FALSE)
 acfdf2 <- with(diffY2_ACF, data.frame(lag, acf))
 ggplot(data = acfdf2, mapping = aes(x = lag, y = acf)) +
@@ -656,8 +665,8 @@ ggplot(data = acfdf2, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
 ###for alm x_T
-auto.arima(X_t)
-res.arima3 <- resid(arima(X_t,order = c(1,0,2)))
+auto.arima(X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+res.arima3 <- residuals(arima(X_t,order = c(4,0,5)))
 acf(res.arima3)
 plot(res.arima3)
 
@@ -674,16 +683,17 @@ cbind(per,armanr)
 per[20,]
 which.min(armanr)
 
-res.arima1 <- residuals(arima(diffY,order = c(7,0,0)))
-res.arima2 <- residuals(arima(diffY2,order = c(6,0,2)))
+res.arima1 <- residuals(arima(diffY,order = c(4,0,6)))
+res.arima2 <- residuals(arima(diffY2,order = c(3,0,3),optim.control = list(maxit = 1000)))
 res.arima3 <- residuals(arima(X_t,order = c(8,0,0)))
-acf(res.arima3)
+res17 <- residuals(arima(DIFFYRIGTIG,order=c(8,0,9)))
+acf(res.arima2)
 
 ### AIC
-AIC(arima(X_t,order = c(16,0,0)))
-AIC(arfima(X_t,order = c(7,0,0),fixed = list(frac=0.499081)))
-AIC(arfima(X_t,order = c(6,0,2),fixed = list(frac=0.1999554)))
-AIC(arima(X_t,order = c(0,1,2)))
+AIC(arima(X_t,order = c(4,0,5)))
+AIC(arfima(X_t,order = c(4,0,6),fixed = list(frac=0.4992368)))
+AIC(arfima(X_t,order = c(3,0,3),fixed = list(frac=0.2943173)))
+AIC(arima(X_t,order = c(3,1,1)))
 
 arfima(X_t,order = c(6,0.499081,2))
 
@@ -692,7 +702,7 @@ auto.arima(X_t,d=1,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximati
 
 
 
-###ACF of the residauls for the arima(7,0,0)
+###ACF of the residauls for the arima(4,0,6)
 res1_ACF <- acf(res.arima1 ,plot = FALSE)
 res1df2 <- with(res1_ACF, data.frame(lag, acf))
 ggplot(data = res1df2, mapping = aes(x = lag, y = acf)) +
@@ -701,7 +711,7 @@ ggplot(data = res1df2, mapping = aes(x = lag, y = acf)) +
   ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
-###ACF of the residauls for the arima(6,0,2)
+###ACF of the residauls for the arima(3,0,3)
 res2_ACF <- acf(res.arima2 ,plot = FALSE)
 res2df2 <- with(res2_ACF, data.frame(lag, acf))
 ggplot(data = res2df2, mapping = aes(x = lag, y = acf)) +
@@ -710,7 +720,7 @@ ggplot(data = res2df2, mapping = aes(x = lag, y = acf)) +
   ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
-###ACF of the residuals for the original times series X_T with a ARMA(8,0)
+###ACF of the residuals for the original times series X_T with a ARMA(4,5)
 res3_ACF <- acf(res.arima3 ,plot = FALSE)
 res3df2 <- with(res3_ACF, data.frame(lag, acf))
 ggplot(data = res3df2, mapping = aes(x = lag, y = acf)) +
@@ -777,7 +787,8 @@ acf(residuals(modelspikes),lag.max = 100)
   
 }
 
-model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
+###Model uden spikes
+model3 <- lm(dagligpris[,2]~time(dagligpris[,1])+
              I(time(dagligpris[,1])^2)+
              cos((2*pi/365)*I(time(dagligpris[,1])))+
              sin((2*pi/365)*I(time(dagligpris[,1])))+
@@ -785,4 +796,40 @@ model1 <- lm(dagligpris[,2]~time(dagligpris[,1])+
              sin((4*pi/365)*I(time(dagligpris[,1])))+
              dummyhelligweekend)
 
+ggplot(ts(model3$residuals),aes(y=ts(model3$residuals),x=1:length(ts(model3$residuals))))+
+  geom_line()+xlab("Time")+ylab("Residuals")
+
+
+### Estimering af d-parameter
+AICmatrix_d <- matrix(0,10,10) 
+for (i in 1:10) {
+  for (j in 1:10) {
+    AICmatrix_d[i,j] <-  AIC(fracdiff(X_t, nar = i, nma = j))
+  }
+}
+which(AICmatrix_d == min(AICmatrix_d), arr.ind = TRUE)
+min(AICmatrix_d)
+ddd_hat <- fracdiff(X_t,nar = 8,nma = 9)$d
+DIFFYRIGTIG <- ts(frakdiff(X_t,ddd_hat))
+
+
+res17 <- residuals(arima(DIFFYRIGTIG,order=c(8,0,9)))
+autoplot(DIFFYRIGTIG,ylab="Sample")
+
+#acf with d=0.2305671
+di_ACF <- acf(DIFFYRIGTIG ,plot = FALSE,lag.max = 50)
+di_acfdf2 <- with(di_ACF, data.frame(lag, acf))
+ggplot(data = di_acfdf2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+
+res17_ACF <- acf(res17 ,plot = FALSE)
+res17df2 <- with(res17_ACF, data.frame(lag, acf))
+ggplot(data = res17df2, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
