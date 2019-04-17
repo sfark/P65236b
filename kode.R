@@ -691,12 +691,12 @@ acf(res.arima2)
 
 ### AIC
 AIC(arima(X_t,order = c(4,0,5)))
-AIC(arfima(X_t,order = c(4,0,6),fixed = list(frac=0.4992368)))
+AIC(arfima(X_t,order = c(8,0,9),fixed = list(frac=0.2305671)))
 AIC(arfima(X_t,order = c(3,0,3),fixed = list(frac=0.2943173)))
 AIC(arima(X_t,order = c(3,1,1)))
 
 arfima(X_t,order = c(6,0.499081,2))
-
+acf(arima(X_t,order = c(4,0,5)))
 # det differentierede tidsserie
 auto.arima(X_t,d=1,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
 
@@ -810,8 +810,16 @@ for (i in 1:10) {
 which(AICmatrix_d == min(AICmatrix_d), arr.ind = TRUE)
 min(AICmatrix_d)
 ddd_hat <- fracdiff(X_t,nar = 8,nma = 9)$d
-DIFFYRIGTIG <- ts(frakdiff(X_t,ddd_hat))
+summary(fracdiff.var(X_t,fracdiff(X_t,nar = 8,nma = 9),h=0.1))
 
+
+DIFFYRIGTIG <- ts(frakdiff(X_t,ddd_hat))
+fitarima89 <- arima(DIFFYRIGTIG,order = c(8,0,9))
+##Vi tvinger den til at finde Standart afvigelsen
+summary(fracdiff.var(X_t,fracdiff(X_t,nar = 8,nma = 9),h=0.1))
+auto.arima(DIFFYRIGTIG,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
+
+sarima(DIFFYRIGTIG,8,0,9)
 
 res17 <- residuals(arima(DIFFYRIGTIG,order=c(8,0,9)))
 autoplot(DIFFYRIGTIG,ylab="Sample")
@@ -832,4 +840,7 @@ ggplot(data = res17df2, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
   ylab("ACF")+geom_hline(aes(yintercept=0.05),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
+as.data.frame(AICmatrix_d)
+library(xtable)
+xtable(AICmatrix_d[5:10,5:10])
 
