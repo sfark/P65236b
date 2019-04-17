@@ -777,10 +777,10 @@ which.min(armaxaic)
 TSA::arimax(X_t,order=c(10 , 0 , 8),xreg = data_NO1[,2:5],transfer =list(c(0,0),c(1,0)))
 
 par(mfrow=c(4,1))
-ccf(X_t,data_NO1[,2],lag.max = 300)
-ccf(X_t,data_NO1[,3],lag.max = 300)
-ccf(X_t,data_NO1[,4],lag.max = 300)
-ccf(X_t,data_NO1[,5],lag.max = 300)
+ccf(X_t,data_NO1[,2],lag.max = 365)
+ccf(X_t,data_NO1[,3],lag.max = 365)
+ccf(X_t,data_NO1[,4],lag.max = 365)
+ccf(X_t,data_NO1[,5],lag.max = 365)
 
 
 ######### armax lm test
@@ -810,6 +810,10 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
   HYDRO_train_l3 = data_NO1[,2][3:(end-8)]
   HYDRO_train_l2 = data_NO1[,2][2:(end-9)]
   #HYDRO_train_l1 = data_NO1[,2][1:(end-10)]
+  
+  
+  
+  hydro_train <- cbind(HYDRO_train_l10,  HYDRO_train_l9,  HYDRO_train_l8,  HYDRO_train_l7,  HYDRO_train_l6,  HYDRO_train_l5,  HYDRO_train_l4,  HYDRO_train_l3,  HYDRO_train_l2)
   
   consumption_train_l10 = data_NO1[,3][10:(end-1)]
   consumption_train_l9 = data_NO1[,3][9:(end-2)]
@@ -850,6 +854,7 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
                        + price_train_l2 + price_train_l3 + price_train_l4 + price_train_l5 + price_train_l6 + price_train_l7 + price_train_l8 + price_train_l9 + price_train_l10 
                        + consumption_train_l2 + consumption_train_l3 + consumption_train_l4 + consumption_train_l5 + consumption_train_l6 + consumption_train_l7 + consumption_train_l8 + consumption_train_l9 + consumption_train_l10 
                        + HYDRO_train_l2 + HYDRO_train_l3 + HYDRO_train_l4 + HYDRO_train_l5 + HYDRO_train_l6 + HYDRO_train_l7 + HYDRO_train_l8 + HYDRO_train_l9 + HYDRO_train_l10
+                       +
                        + temp_train_l10+ temp_train_l9+ temp_train_l8 + temp_train_l7+ temp_train_l6+ temp_train_l5+ temp_train_l4+ temp_train_l3+ temp_train_l2
                        + rain_train_l10+rain_train_l9+rain_train_l8+rain_train_l7+rain_train_l6+rain_train_l5+rain_train_l4+rain_train_l3+rain_train_l2+rain_train_l1)
   
@@ -860,10 +865,10 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
   aic_best = Inf
   amount_LjungBox_best = -Inf
   aic_ljungbox_best = Inf
-  removed_variables = c(2:50) #price_train_l1 is very significant.. lm cant run if we remove all
-  for (i in 1:50) {
+  removed_variables = c(2:500) #price_train_l1 is very significant.. lm cant run if we remove all
+  for (i in 1:500) {
     #setup model
-    if (i < 50) {
+    if (i < 500) {
       x_model = x_lag[,-removed_variables]
       ols_adl = lm(X_t[1:(end-10)] ~ x_model) #this cant run when removed_variables = 0 --> therefore we split into if else statement
     }
@@ -878,7 +883,7 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
     }
     
     #check residuals - if amount of insignificant models is higher or the same 
-    amount_LjungBox_now = sum(LjungBoxTest(res = residuals(ols_adl), k = 50-length(removed_variables), lag.max = 50, StartLag = 50-length(removed_variables)+1)[,3]>0.05)
+    amount_LjungBox_now = sum(LjungBoxTest(res = residuals(ols_adl), k = 500-length(removed_variables), lag.max = 500, StartLag = 500-length(removed_variables)+1)[,3]>0.05)
     if (amount_LjungBox_now >= amount_LjungBox_best) {
       if (amount_LjungBox_now == amount_LjungBox_best) {
         if (AIC(ols_adl) < aic_ljungbox_best) {
@@ -894,7 +899,7 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
     }
     
     
-    if (i == 50) break
+    if (i == 500) break
     
     #add the most significant variable:
     most_significant_var = names(sort(summary(ols_all_lags)$coeff[-c(1,2),4], decreasing = FALSE)[i]) #we already added intercept and price lag 1
@@ -906,7 +911,7 @@ ccf(X_t,data_NO1[,5],lag.max = 300)
   par(mfrow=c(1,1))
   plot(residuals(best_adl_aic))
   qqnorm(residuals(best_adl_aic))
-  hist(residuals(best_adl_aic),breaks = 100)
+  hist(residuals(best_adl_aic),breaks = 200)
   auto.arima((residuals(best_adl_aic)),max.p = 10,max.q = 10,max.order = 10,stepwise=FALSE,approximation = FALSE,D=0)
 }
 
