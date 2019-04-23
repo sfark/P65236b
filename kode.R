@@ -781,6 +781,7 @@ ccf(X_t,data_NO1[,2],lag.max = 365)
 ccf(X_t,data_NO1[,3],lag.max = 365)
 ccf(X_t,data_NO1[,4],lag.max = 365)
 ccf(X_t,data_NO1[,5],lag.max = 365)
+ccf(data_NO1[,3],data_NO1[,4],lag.max = 365)
 
 
 ######### armax lm test
@@ -797,7 +798,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
   price_train_l4 = X_t[4:(end-7)]
   price_train_l3 = X_t[3:(end-8)]
   price_train_l2 = X_t[2:(end-9)]
-  #price_train_l1 = X_t[1:(end-10)]
+  #price_train_l1 = X_t[1:(end-(lagmaks))]
   
   
   HYDRO_train_l10 = data_NO1[,2][10:(end-1)]
@@ -809,7 +810,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
   HYDRO_train_l4 = data_NO1[,2][4:(end-7)]
   HYDRO_train_l3 = data_NO1[,2][3:(end-8)]
   HYDRO_train_l2 = data_NO1[,2][2:(end-9)]
-  #HYDRO_train_l1 = data_NO1[,2][1:(end-10)]
+  #HYDRO_train_l1 = data_NO1[,2][1:(end-(lagmaks))]
   
   
   
@@ -824,7 +825,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
   consumption_train_l4 = data_NO1[,3][4:(end-7)]
   consumption_train_l3 = data_NO1[,3][3:(end-8)]
   consumption_train_l2 = data_NO1[,3][2:(end-9)]
-  #consumption_train_l1 = data_NO1[,3][1:(end-10)]
+  #consumption_train_l1 = data_NO1[,3][1:(end-(lagmaks))]
   
   temp_train_l10 = data_NO1[,4][10:(end-1)]
   temp_train_l9 = data_NO1[,4][9:(end-2)]
@@ -835,7 +836,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
   temp_train_l4 = data_NO1[,4][4:(end-7)]
   temp_train_l3 = data_NO1[,4][3:(end-8)]
   temp_train_l2 = data_NO1[,4][2:(end-9)]
-  #temp_train_l1 = data_NO1[,4][1:(end-10)]
+  #temp_train_l1 = data_NO1[,4][1:(end-(lagmaks))]
   
   rain_train_l10 = data_NO1[,5][10:(end-1)]
   rain_train_l9 = data_NO1[,5][9:(end-2)]
@@ -846,7 +847,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
   rain_train_l4 = data_NO1[,5][4:(end-7)]
   rain_train_l3 = data_NO1[,5][3:(end-8)]
   rain_train_l2 = data_NO1[,5][2:(end-9)]
-  rain_train_l1 = data_NO1[,5][1:(end-10)]
+  rain_train_l1 = data_NO1[,5][1:(end-(lagmaks))]
   
   
   #Normal OLS setup, including all lags of exo. var.
@@ -857,24 +858,25 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
                        +
                        + temp_train_l10+ temp_train_l9+ temp_train_l8 + temp_train_l7+ temp_train_l6+ temp_train_l5+ temp_train_l4+ temp_train_l3+ temp_train_l2
                        + rain_train_l10+rain_train_l9+rain_train_l8+rain_train_l7+rain_train_l6+rain_train_l5+rain_train_l4+rain_train_l3+rain_train_l2+rain_train_l1)
-  
+  #antal lag der skal tjekkes for
+  lagtjek <- 5*lagmaks
   ### ARDL model - loop to add the most significant variables
-  ols_all_lags = lm(X_t[1:(end-10)] ~ x_lag)
+  ols_all_lags = lm(X_t[(lagmaks+1):(end)] ~ x_lag)
   #each loop we add the most significant variable from the ols_all_lags model
   #setup start aic value and amount of insignificant p-values for ljung box test
   aic_best = Inf
   amount_LjungBox_best = -Inf
   aic_ljungbox_best = Inf
-  removed_variables = c(2:500) #price_train_l1 is very significant.. lm cant run if we remove all
-  for (i in 1:500) {
+  removed_variables <-  c(1:lagtjek) #price_train_l1 is very significant.. lm cant run if we remove all
+  for (i in 1:lagtjek) {
     #setup model
-    if (i < 500) {
-      x_model = x_lag[,-removed_variables]
-      ols_adl = lm(X_t[1:(end-10)] ~ x_model) #this cant run when removed_variables = 0 --> therefore we split into if else statement
+    if (i < lagtjek) {
+      x_model = x_lag[,-removed_variables[i]]
+      ols_adl = lm(X_t[(lagmaks+1):(end)] ~ x_model) #this cant run when removed_variables = 0 --> therefore we split into if else statement
     }
     else {
       x_model = x_lag
-      ols_adl = lm(X_t[1:(end-10)] ~ x_model)
+      ols_adl = lm(X_t[(lagmaks+1):end] ~ x_model)
     }
     #check the aic and take the best model
     if (AIC(ols_adl) < aic_best) {
@@ -883,7 +885,7 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
     }
     
     #check residuals - if amount of insignificant models is higher or the same 
-    amount_LjungBox_now = sum(LjungBoxTest(res = residuals(ols_adl), k = 500-length(removed_variables), lag.max = 500, StartLag = 500-length(removed_variables)+1)[,3]>0.05)
+    amount_LjungBox_now = sum(LjungBoxTest(res = residuals(ols_adl), k = lagtjek-length(removed_variables), lag.max = 1500, StartLag = lagtjek-length(removed_variables)+1)[,3]>0.05)
     if (amount_LjungBox_now >= amount_LjungBox_best) {
       if (amount_LjungBox_now == amount_LjungBox_best) {
         if (AIC(ols_adl) < aic_ljungbox_best) {
@@ -899,12 +901,12 @@ ccf(X_t,data_NO1[,5],lag.max = 365)
     }
     
     
-    if (i == 500) break
+    if (i == lagtjek) break
     
     #add the most significant variable:
-    most_significant_var = names(sort(summary(ols_all_lags)$coeff[-c(1,2),4], decreasing = FALSE)[i]) #we already added intercept and price lag 1
-    entry_to_add = 1 + which(names(ols_all_lags$coefficients[-c(1,2)]) == most_significant_var)    #entry #1 here is the price lag 2
-    removed_variables = removed_variables[-which(removed_variables == entry_to_add)]
+    most_significant_var = names(sort(summary(ols_all_lags)$coeff[-1,4], decreasing = FALSE)[1]) #we already added intercept and price lag 1
+    entry_to_add = 1+which(names(ols_all_lags$coefficients[-1]) == most_significant_var)    #entry #1 here is the price lag 2
+    #removed_variables = removed_variables[-which(removed_variables == entry_to_add)]
   }
   summary(best_adl_aic)
   AIC(best_adl_aic)

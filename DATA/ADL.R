@@ -1,23 +1,9 @@
 end = length(X_t)
-lagmaks <- 100
-
-price_train <- cbind(
-price_train_l10 = X_t[10:(end-1)],
-price_train_l9 = X_t[9:(end-2)],
-price_train_l8 = X_t[8:(end-3)],
-price_train_l7 = X_t[7:(end-4)],
-price_train_l6 = X_t[6:(end-5)],
-price_train_l5 = X_t[5:(end-6)],
-price_train_l4 = X_t[4:(end-7)],
-price_train_l3 = X_t[3:(end-8)],
-price_train_l2 = X_t[2:(end-9)])
-#price_train_l1 = X_t[1:(end-10)])
+lagmaks <- 10
 
 
-
-
-lagseq <- seq(1,end)
-laqmod <- seq(end,(1+1))
+lagseq <- seq(1,lagmaks)
+laqmod <- seq(lagmaks,1)
 
 price_train = c()
   #X_t[2:(end-(lagmaks+1))]
@@ -40,20 +26,20 @@ rain_train = c()
 namerain_train <- c()
 
 
-for (i in 2:(lagmaks-1)) {
-  price_train <-cbind(price_train, X_t[lagseq[i]:(end-(lagseq[i]+(lagmaks+1)))])
+for (i in 2:(lagmaks)) {
+  price_train <-cbind(price_train, X_t[lagseq[i]:(end-laqmod[i])])
   nameprice_train<- c(nameprice_train,paste("price_train_l",toString(i),sep = ""))
   
-  hydro_train <- cbind(hydro_train, data_NO1[,2][lagseq[i]:(end-(lagseq[i]+(lagmaks+1)))])
+  hydro_train <- cbind(hydro_train, data_NO1[,2][lagseq[i]:(end-laqmod[i])])
   namehydro_train <- c(namehydro_train,paste("hydro_train_l",toString(i),sep = ""))
   
-  consumption_train <- cbind( consumption_train, data_NO1[,3][lagseq[i]:(end-(lagseq[i]+(lagmaks+1)))])
+  consumption_train <- cbind( consumption_train, data_NO1[,3][lagseq[i]:(end-laqmod[i])])
   nameconsumption_train <- c(nameconsumption_train,paste("consumption_train_l",toString(i),sep = ""))
   
-  temp_train <-cbind(temp_train, data_NO1[,4][lagseq[i]:(end-(lagseq[i]+(lagmaks+1)))])
+  temp_train <-cbind(temp_train, data_NO1[,4][lagseq[i]:(end-laqmod[i])])
   nametemp_train <- c(nametemp_train,paste("temp_train_l",toString(i),sep = ""))
   
-  rain_train <-cbind(rain_train, data_NO1[,5][lagseq[i]:(end-(lagseq[i]+(lagmaks+1)))])
+  rain_train <-cbind(rain_train, data_NO1[,5][lagseq[i]:(end-laqmod[i])])
   namerain_train <- c(namerain_train,paste("rain_train_l",toString(i),sep = ""))
 }
 colnames(price_train) <- nameprice_train
@@ -63,6 +49,14 @@ colnames(temp_train) <- nametemp_train
 colnames(rain_train) <- namerain_train
 
 
+dim(price_train)
+dim(hydro_train)
+dim(consumption_train)
+dim(temp_train)
+dim(rain_train)
+length(X_t[1:(end-(lagmaks))])
+length(lagseq[i]:(end-laqmod[i]))
+
 
 #Normal OLS setup, including all lags of exo. var.
-x_lag = model.matrix(X_t[2:(end-(lagmaks-1))] ~ 0 +price_train +hydro_train + consumption_train +temp_train+rain_train)
+x_lag = model.matrix(X_t[1:(end-(lagmaks))] ~ 0 +price_train +hydro_train + consumption_train +temp_train+rain_train)
