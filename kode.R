@@ -18,9 +18,11 @@
 #install.packages("TSA")
 #install.packages("FitAR")
 #install.packages("glmnet")
+#install.packages("stringr")
 #load library
 library(gtools)
 #packagesss
+library(stringr)
 library(lubridate)
 library(readr)
 library(stringr)
@@ -774,14 +776,32 @@ for (i in 1:10) {
 which.min(armaxaic)
 
 
-TSA::arimax(X_t,order=c(10 , 0 , 8),xreg = data_NO1[,2:5],transfer =list(c(0,0),c(1,0)))
 
-par(mfrow=c(4,1))
-ccf(X_t,data_NO1[,2],lag.max = 365)
-ccf(X_t,data_NO1[,3],lag.max = 365)
-ccf(X_t,data_NO1[,4],lag.max = 365)
-ccf(X_t,data_NO1[,5],lag.max = 365)
-ccf(data_NO1[,3],data_NO1[,4],lag.max = 365)
+TSA::arimax(X_t,order=c(10 , 0 , 8),xreg = data_NO1[,2:5],transfer =list(c(0,0),c(1,0)))
+#####CCF plot
+{
+  
+  par(mfrow=c(4,1))
+  ccf(X_t,data_NO1[,2],lag.max = 365)#hydro
+  ccf(X_t,data_NO1[,3],lag.max = 365)#consumption
+  ccf(X_t,data_NO1[,4],lag.max = 365)#mean Temp
+  ccf(X_t,data_NO1[,5],lag.max = 365)#rain
+  ccf(data_NO1[,3],data_NO1[,4],lag.max = 365)
+  
+  
+  Hydro_level <- data_NO1[,2]
+  Consumption <- data_NO1[,3]
+  Mean.Temp <- data_NO1[,4]
+  Paticipation <- data_NO1[,5]
+  
+  p1 <- ggCcf(X_t,Hydro_level, lag.max = 365, type = "correlation",plot = TRUE)
+  p2 <- ggCcf(X_t,Consumption, lag.max = 365, type = "correlation",plot = TRUE)
+  p3 <- ggCcf(X_t,Mean.Temp, lag.max = 365, type = "correlation",plot = TRUE)
+  p4 <- ggCcf(X_t,Paticipation, lag.max = 365, type = "correlation",plot = TRUE)
+  
+  multiplot(p1, p4, p2, p3, cols=2) 
+}
+
 
 
 ######### armax lm test
