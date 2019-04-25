@@ -232,6 +232,7 @@ temppre_lag <- c()
 hydropre_lag <- c()
 conpre_lag <- c()
 laqseq <- seq(-30,-1)
+### tjekker for signifikante lags
 for (i in 1:length(laqseq)) {
   if (rainpre$ccf[laqseq[i]]< -0.05 || rainpre$ccf[laqseq[i]]> 0.05) {
     rainpre_lag <- c(rainpre_lag,laqseq[i])
@@ -293,6 +294,9 @@ AIC(Pennmodel)
 AIC(Premodel)
 summary(Premodel)
 summary(Pennmodel)
+###########################################
+
+
 testsum <- summary(testmodel)
 testsum$coefficients[,4]
 goodlag <- c()
