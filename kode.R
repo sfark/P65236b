@@ -21,7 +21,6 @@
 #install.packages("stringr")
 #load library
 library(gtools)
-#packagesss
 library(stringr)
 library(lubridate)
 library(readr)
@@ -40,6 +39,7 @@ library(LSTS)
 library(dplyr)
 library(FitAR)
 library(glmnet)
+library(TSA)
 
 xtable(PRICES[1:10,])
 

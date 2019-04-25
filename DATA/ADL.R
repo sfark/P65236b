@@ -1,5 +1,5 @@
 end = length(X_t)
-lagmaks <- 25
+lagmaks <- 30
 
 
 lagseq <- seq(2,lagmaks)
@@ -112,7 +112,7 @@ for (i in 1:lagtjek) {
 }
 par(mfrow=c(2,1))
 plot(decompose(ts(data_NO1[,2],frequency = 365))$random)
-
+plot(decompose(ts(data_NO1[,1],frequency = 365))$random)
 
 model1hydro <- glm(data_NO1[,2]~time(dagligpris[,1])+
                      I(time(dagligpris[,1])^2)+
@@ -122,44 +122,58 @@ model1hydro <- glm(data_NO1[,2]~time(dagligpris[,1])+
                      sin((4*pi/365)*I(time(dagligpris[,1]))))
 summary(model1hydro)
 
-#vores nye tidsserie
+#vores nye tidsserie hydro adjusteret for sæson
 hydro_sason <- ts(model1hydro$residuals)
 plot.ts(model1hydro$residuals)
 
 AIC(fracdiff((hydro_sason), nar = 28, nma = 28))
 fracdiff((data_NO1[,2]/(1000)))
 
-AICMAtrixhydro <-matrix(0,30,30) 
-for (i in 1:30) {
-  for (j in 1:30) {
+AICMAtrixhydro <-matrix(0,10,10) 
+for (i in 1:10) {
+  for (j in 1:10) {
     AICMAtrixhydro[i,j] <-  AIC(fracdiff((data_NO1[,2]/(1000)), nar = i, nma = j))
   }
 }
 
 which(AICMAtrixhydro==min(AICMAtrixhydro),arr.ind = TRUE)
 
+#Sæson adjusteret data ?????????
+model1temp <- glm(data_NO1[,3]~time(dagligpris[,1])+
+                     I(time(dagligpris[,1])^2)+
+                     cos((2*pi/365)*I(time(dagligpris[,1])))+
+                     sin((2*pi/365)*I(time(dagligpris[,1])))+
+                     cos((4*pi/365)*I(time(dagligpris[,1])))+
+                     sin((4*pi/365)*I(time(dagligpris[,1]))))
+summary(model1temp)
+
+#vores nye tidsserie hydro adjusteret for sæson
+hydro_sason <- ts(model1hydro$residuals)
+temp_sason <- ts(model1temp$residuals)
+
+plot(decompose(ts(data_NO1[,3],frequency = 365))$random)
 
 
-
-auto.arima(hydro_sason,max.p = 10,max.q = 10,max.order = 100)#hydro
-
+auto.arima(hydro_sason,max.p = 30,max.q = 30,max.order = 100)#hydro
+# ARIMA (5,0,5) for hydro efter sæson adjusteret
 aa_hydro <- auto.arima(hydro_sason,max.p = 10,max.q = 10,max.order = 100)#hydro
 hydro_coef <- aa_hydro$coef[1:10] 
 arma55model = aa_hydro
 arma55model
-pwx=arma55model$residuals
-newpwy = stats::filter(X_t, filter = as.numeric(hydro_coef), sides =1)
-ccf (newpwy,pwx,na.action=na.omit,lag.max = 300)
-hydropre <- prewhiten(data_NO1[,2],X_t,x.model=arma55model,lag.max=365)
+hypwxhy=arma55model$residuals
+hynewpwyhy = stats::filter(X_t, filter = as.numeric(hydro_coef), sides =1)
+ccf(hydro_sason,X_t)
+ccf (hynewpwyhy,hypwxhy,na.action=na.omit)
+hydropre <- prewhiten(hydro_sason,X_t,x.model=arma55model)
 
 
 aa_con <- auto.arima(hydro_sason)#consump
 consum_coef <- c(1/(-aa_con$coef[5]),aa_con$coef[1]+1/(-aa_con$coef[5]),aa_con$coef[2]+aa_con$coef[1]/(-aa_con$coef[5]),aa_con$coef[3]+aa_con$coef[2]/(-aa_con$coef[5]),aa_con$coef[4]+aa_con$coef[3]/(-aa_con$coef[5]),aa_con$coef[4]/(-aa_con$coef[5]))
 arma1model = auto.arima(data_NO1[,3]/(1000))
-arma1model
-pwx=arma1model$residuals
-newpwy = Arima(X_t,model= arma1model)
-ccf (newpwy$residuals,pwx,na.action=na.omit)
+con_coef <- arma1model$coef[1:5]
+conpwx=arma1model$residuals
+connewpwy = stats::filter(X_t, filter = as.numeric(con_coef), sides =1)
+ccf (connewpwy,conpwx,na.action=na.omit)
 prewhiten(data_NO1[,3],X_t,x.model=arma1model)
 conpre <- prewhiten(data_NO1[,3],X_t,x.model=arma1model)
 
@@ -168,29 +182,28 @@ aa_temp <- auto.arima(data_NO1[,4])#temp
 temp_coef <- c(aa_temp$coef[1:5])
 arma5model = auto.arima(data_NO1[,4])
 arma5model
-pwx=arma5model$residuals
-newpwy = stats::filter(X_t, filter = as.numeric(temp_coef), sides =1)
-ccf (newpwy,pwx,na.action=na.omit)
-prewhiten(data_NO1[,4],X_t,x.model=arma5model,lag.max=365)
+temppwx=arma5model$residuals
+tempnewpwy = stats::filter(X_t, filter = as.numeric(temp_coef), sides =1)
+ccf (tempnewpwy,temppwx,na.action=na.omit)
+prewhiten(data_NO1[,4],X_t,x.model=arma5model)
 temppre <- prewhiten(data_NO1[,4],X_t,x.model=arma5model,lag.max=365)
-
-for (i in 1:length(temppre$ccf)) {
-  
-}
-
-
 
 
 
 aa_rain <- auto.arima(data_NO1[,5])#rain
-rain_coef <- c(-1/(aa_rain$coef[2]),(aa_rain$coef[1]+1)/aa_rain$coef[2],(-aa_rain$coef[1])/aa_rain$coef[2])
+rain_coef <- aa_rain$coef[1:2]
+#rain_coef <- c(-1/(aa_rain$coef[2]),(aa_rain$coef[1]+1)/aa_rain$coef[2],(-aa_rain$coef[1])/aa_rain$coef[2])
 arma11model = auto.arima(data_NO1[,5])
 arma11model
-pwx=arma11model$residuals
-newpwy = stats::filter(X_t, filter = as.numeric(rain_coef), sides =1)
-ccf (newpwy,pwx,na.action=na.omit)
-prewhiten(data_NO1[,5],X_t,x.model=arma11model,lag.max=365)
+rainpwx=arma11model$residuals
+rainnewpwy = stats::filter(X_t, filter = as.numeric(rain_coef), sides =1)
+ccf (rainnewpwy,rainpwx,na.action=na.omit)
+prewhiten(data_NO1[,5],X_t,x.model=arma11model)
 rainpre <- prewhiten(data_NO1[,5],X_t,x.model=arma11model,lag.max=365)
+
+
+
+
 
 acf(X_t)
 acf(X_t,family="serif")
@@ -204,11 +217,21 @@ rainpre <- prewhiten(data_NO1[,5],X_t,x.model=arma11model,lag.max=365)
 # con lag 2,3,4,5
 # temp lag 1, 2, 3, 4, 5
 # rain lag 1
+hydroccf <- ccf (hynewpwyhy,hypwxhy,na.action=na.omit)
+conccf <- ccf (connewpwy,conpwx,na.action=na.omit)
+tempccf <- ccf (tempnewpwy,temppwx,na.action=na.omit)
+rainccf <- ccf (rainnewpwy,rainpwx,na.action=na.omit)
+
+rain_lag <- c()
+temp_lag <- c()
+hydro_lag <- c()
+con_lag <- c()
+
 rainpre_lag <- c()
 temppre_lag <- c()
 hydropre_lag <- c()
 conpre_lag <- c()
-laqseq <- seq(-100,-1)
+laqseq <- seq(-30,-1)
 for (i in 1:length(laqseq)) {
   if (rainpre$ccf[laqseq[i]]< -0.05 || rainpre$ccf[laqseq[i]]> 0.05) {
     rainpre_lag <- c(rainpre_lag,laqseq[i])
@@ -222,26 +245,54 @@ for (i in 1:length(laqseq)) {
   if (conpre$ccf[laqseq[i]]< -0.05 || conpre$ccf[laqseq[i]]> 0.05) {
     conpre_lag <- c(conpre_lag,laqseq[i])
   }
+  
+  
+  if (rainccf[laqseq[i]]< -0.05 || rainccf[laqseq[i]]> 0.05) {
+    rain_lag <- c(rain_lag,laqseq[i])
+  }
+  if (tempccf[laqseq[i]]< -0.05 || tempccf[laqseq[i]]> 0.05) {
+    temp_lag <- c(temp_lag,laqseq[i])
+  }
+  if (hydroccf[laqseq[i]]< -0.05 || hydroccf[laqseq[i]]> 0.05) {
+    hydro_lag <- c(hydro_lag,laqseq[i])
+  }
+  if (conccf[laqseq[i]]< -0.05 || conccf[laqseq[i]]> 0.05) {
+    con_lag <- c(con_lag,laqseq[i])
+  }
 }
 
-rainpre_lag
-temppre_lag 
-hydropre_lag 
-conpre_lag 
+rain_lag <- rain_lag*-1
+temp_lag <- temp_lag *-1
+hydro_lag <- hydro_lag *-1
+con_lag <- con_lag *-1
 
 rainpre_lag <- rainpre_lag*-1
 temppre_lag <- temppre_lag *-1
 hydropre_lag <- hydropre_lag *-1
 conpre_lag <- conpre_lag *-1
 
+rainpre_lag
+temppre_lag 
+hydropre_lag 
+conpre_lag 
+
+rain_lag 
+temp_lag
+hydro_lag
+con_lag
+
+
 hydro_train[,hydropre_lag]
 consumption_train[,conpre_lag]
 temp_train[,temppre_lag]
 rain_train[,conpre_lag]
 
-testmodel <- lm(X_t[1:(length(X_t)-lagmaks-1)]~-1+price_train[,c(1,2, 3,  6, 13, 14)]+hydro_train[,c(4)]+consumption_train[,c(1,2,10,11,15,16)]+temp_train[,c(1,17)]+rain_train[,c(2,5,6)])
-testmodel <- lm(X_t[1:(length(X_t)-lagmaks)]~-1+datalag)
-AIC(testmodel)
+Premodel <- lm(X_t[1:(length(X_t)-lagmaks-1)]~-1+price_train[,c(1,2, 3,  6, 13, 14)]+consumption_train[,c(conpre_lag )]+temp_train[,c(temppre_lag)]+rain_train[,c(rainpre_lag)])
+Pennmodel <- lm(X_t[1:(length(X_t)-lagmaks-1)]~-1+price_train[,c(1,2, 3,  6, 13, 14,21,22)]+hydro_train[,c(hydro_lag)]+consumption_train[,c(con_lag)]+temp_train[,c(temp_lag)]+rain_train[,c(rain_lag)])
+AIC(Pennmodel)
+AIC(Premodel)
+summary(Premodel)
+summary(Pennmodel)
 testsum <- summary(testmodel)
 testsum$coefficients[,4]
 goodlag <- c()
