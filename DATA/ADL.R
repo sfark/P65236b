@@ -4,7 +4,7 @@ lagmaks <- 30
 
 lagseq <- seq(2,lagmaks)
 laqmod <- seq(lagmaks,2)
-{
+#{
 price_train = c()
   #X_t[2:(end-(lagmaks+1))]
 nameprice_train <- c()
@@ -49,7 +49,7 @@ colnames(temp_train) <- nametemp_train
 colnames(rain_train) <- namerain_train
 datalag <- cbind(price_train,hydro_train,consumption_train,temp_train,rain_train)
 }
-{
+#{
 #Normal OLS setup, including all lags of exo. var.
 x_lag = model.matrix(X_t[1:(end-(lagmaks))] ~ 0 +price_train +hydro_train + consumption_train +temp_train+rain_train)
 
@@ -156,6 +156,9 @@ plot(decompose(ts(data_NO1[,3],frequency = 365))$random)
 
 auto.arima(hydro_sason,max.p = 30,max.q = 30,max.order = 100)#hydro
 # ARIMA (5,0,5) for hydro efter sæson adjusteret
+#prewhitning forsøg
+###################
+
 aa_hydro <- auto.arima(hydro_sason,max.p = 10,max.q = 10,max.order = 100)#hydro
 hydro_coef <- aa_hydro$coef[1:10] 
 arma55model = aa_hydro
@@ -183,7 +186,7 @@ temp_coef <- c(aa_temp$coef[1:5])
 arma5model = auto.arima(data_NO1[,4])
 arma5model
 temppwx=arma5model$residuals
-tempnewpwy = stats::filter(X_t, filter = as.numeric(temp_coef), sides =1)
+tempnewpwy = stats::filter(X_t, filter = temp_coef, sides =1)
 ccf (tempnewpwy,temppwx,na.action=na.omit)
 prewhiten(data_NO1[,4],X_t,x.model=arma5model)
 temppre <- prewhiten(data_NO1[,4],X_t,x.model=arma5model,lag.max=365)
@@ -202,7 +205,7 @@ prewhiten(data_NO1[,5],X_t,x.model=arma11model)
 rainpre <- prewhiten(data_NO1[,5],X_t,x.model=arma11model,lag.max=365)
 
 
-
+#################
 
 
 acf(X_t)
@@ -294,9 +297,79 @@ AIC(Pennmodel)
 AIC(Premodel)
 summary(Premodel)
 summary(Pennmodel)
+
+
+testmodel <- lm(X_t[1:(length(X_t)-lagmaks-1)]~-1+price_train[,c(1,2, 3,  6, 13, 14,21,22)]+hydro_train[,c(hydro_lag)]+consumption_train[,c(con_lag)]+temp_train[,c(temp_lag)]+rain_train[,c(rain_lag)])
+
+xmod <- forecast::Arima(X_t[1:(length(X_t)-(lagmaks+1))], order=c(1,0,2),xreg = cbind(hydro_train[,c(hydro_lag)],consumption_train[,c(con_lag)],temp_train[,c(temp_lag)],rain_train[,c(rain_lag)]))
+
+xrreg <- cbind(price_train[,c(1,2, 3,  6, 13, 14,21,22)],hydro_train[,c(hydro_lag)],consumption_train[,c(con_lag)],temp_train[,c(temp_lag)],rain_train[,c(rain_lag)])
+dim(xrreg)
+length(X_t[1:(length(X_t)-(lagmaks+1))])
+summary(xmod)
+
+Pacf(X_t,lag.max = 100)
+AIC(xmod)
+
+## tjekker order
+
+armaxAICtest <- matrix(nrow = 10,ncol = 10)
+for (i in 1:10) {
+  for (j in 1:10) {
+    armaxAICtest[i,j] <- AIC(forecast::Arima(X_t[1:(length(X_t)-(lagmaks+1))], order=c(i,0,j),xreg = cbind(hydro_train[,c(hydro_lag)],consumption_train[,c(con_lag)],temp_train[,c(temp_lag)],rain_train[,c(rain_lag)])))
+
+  }
+}
+
+
+which.min(armaxaic[1:8,1:10])
+(sarima(X_t[1:(length(X_t)-(lagmaks+1))], p=1,d=0,q=2,xreg = cbind(hydro_train[,c(hydro_lag)],consumption_train[,c(con_lag)],temp_train[,c(temp_lag)],rain_train[,c(rain_lag)])))
+
+
+
 ###########################################
 
+# # Definer model
+# 70 vindlmodel = Arima ( vindfrac , order = c(0 ,0 ,1) , include . mean = FALSE )
+# 71
+# 72 # Gør spotpriserne stationære
+# 73 fracspot = ts( frakdiff (ts( daily . spot . prices $DK1 [’/ 2017 -12 -31 ’]) ,0.2244354) )
+# 74 spot = diff ( diff ( fracspot ,7) )
+# 75
+# 76 # prewhite spot og vind
+# 77 spot . pw = resid ( Arima ( spot , model = vindlmodel ) )
+# 78 vind . pw = resid ( vindlmodel )
 
+aa_temp <- auto.arima(data_NO1[,4])#temp
+temp_coef <- c(aa_temp$coef[1:5])
+arma5model = auto.arima(data_NO1[,4])
+arma5model
+temppwx=arma5model$residuals
+tempnewpwy = stats::filter(X_t, filter = temp_coef, sides =1)
+ccf (tempnewpwy,temppwx,na.action=na.omit)
+prewhiten(data_NO1[,4],X_t,x.model=arma5model)
+temppre <- prewhiten(data_NO1[,4],X_t,x.model=arma5model,lag.max=365)
+
+
+
+
+########################################
+ccf (hynewpwyhy,hypwxhy,na.action=na.omit)
+ccf (connewpwy,conpwx,na.action=na.omit)
+ccf (tempnewpwy,temppwx,na.action=na.omit)
+ccf (rainnewpwy,rainpwx,na.action=na.omit)
+
+
+p1 <- ggCcf(hynewpwyhy,hypwxhy, lag.max = 30, type = "correlation",plot = TRUE)+ggtitle("Hydro Reservoir Level")
+p2 <- ggCcf(connewpwy,conpwx, lag.max = 30, type = "correlation",plot = TRUE)+ggtitle("Consumption")
+p3 <- ggCcf(tempnewpwy,temppwx, lag.max = 30, type = "correlation",plot = TRUE)+ggtitle("Mean Temperature")
+p4 <- ggCcf(rainnewpwy,rainpwx, lag.max = 30, type = "correlation",plot = TRUE)+ggtitle("Precipitation")
+
+multiplot(p1, p4, p2, p3, cols=2) 
+
+
+
+###################################
 testsum <- summary(testmodel)
 testsum$coefficients[,4]
 goodlag <- c()
@@ -362,8 +435,21 @@ summary(best_adl_aic)
 # temp lag c(1,2,17,23)
 # rain lag c(2,5,6)
 
+#lag function STATS::Lag
+##################
 
+lagmaks <- 30
+laggedHydro <- matrix(0,2191,lagmaks)
+laggedCon <- matrix(0,2191,lagmaks)
+laggedTemp <- matrix(0,2191,lagmaks)
+laggedRain <- matrix(0,2191,lagmaks)
 
+for (i in 1:lagmaks) {
+  laggedHydro[,i] <- stats::lag(ts(data_NO1[,2]),k=i)
+  laggedCon[,i] <- stats::lag(ts(data_NO1[,3]),k=i)
+  laggedTemp[,i] <- stats::lag(ts(data_NO1[,4]),k=i)
+  laggedRain[,i] <- stats::lag(ts(data_NO1[,5]),k=i)
+}
 
 
 
