@@ -1,0 +1,748 @@
+
+<html>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<td colspan="7">Production NO areas in MWh</td>
+				</tr><tr>
+					<td colspan="7">Data was last updated 12-11-2015</td>
+				</tr><tr>
+					<td></td><td style="text-align:center;">NO1</td><td style="text-align:center;">NO2</td><td style="text-align:center;">NO3</td><td style="text-align:center;">NO4</td><td style="text-align:center;">NO5</td><td style="text-align:center;">NO</td>
+				</tr>
+			</thead><tbody>
+				<tr>
+					<td style="text-align:left;">01-01-2013</td><td style="text-align:right;">73196</td><td style="text-align:right;">115645</td><td style="text-align:right;">31313</td><td style="text-align:right;">46072</td><td style="text-align:right;">40148</td><td style="text-align:right;">306371</td>
+				</tr><tr>
+					<td style="text-align:left;">02-01-2013</td><td style="text-align:right;">99035</td><td style="text-align:right;">169842</td><td style="text-align:right;">41418</td><td style="text-align:right;">70779</td><td style="text-align:right;">53930</td><td style="text-align:right;">435000</td>
+				</tr><tr>
+					<td style="text-align:left;">03-01-2013</td><td style="text-align:right;">88476</td><td style="text-align:right;">159771</td><td style="text-align:right;">40087</td><td style="text-align:right;">64665</td><td style="text-align:right;">46689</td><td style="text-align:right;">399683</td>
+				</tr><tr>
+					<td style="text-align:left;">04-01-2013</td><td style="text-align:right;">90007</td><td style="text-align:right;">167456</td><td style="text-align:right;">41438</td><td style="text-align:right;">69050</td><td style="text-align:right;">47746</td><td style="text-align:right;">415696</td>
+				</tr><tr>
+					<td style="text-align:left;">05-01-2013</td><td style="text-align:right;">86396</td><td style="text-align:right;">158647</td><td style="text-align:right;">43220</td><td style="text-align:right;">70491</td><td style="text-align:right;">56969</td><td style="text-align:right;">415722</td>
+				</tr><tr>
+					<td style="text-align:left;">06-01-2013</td><td style="text-align:right;">81562</td><td style="text-align:right;">145515</td><td style="text-align:right;">37738</td><td style="text-align:right;">65636</td><td style="text-align:right;">54128</td><td style="text-align:right;">384571</td>
+				</tr><tr>
+					<td style="text-align:left;">07-01-2013</td><td style="text-align:right;">115299</td><td style="text-align:right;">183400</td><td style="text-align:right;">53071</td><td style="text-align:right;">84316</td><td style="text-align:right;">59006</td><td style="text-align:right;">495086</td>
+				</tr><tr>
+					<td style="text-align:left;">08-01-2013</td><td style="text-align:right;">120146</td><td style="text-align:right;">179753</td><td style="text-align:right;">52221</td><td style="text-align:right;">88176</td><td style="text-align:right;">56298</td><td style="text-align:right;">496591</td>
+				</tr><tr>
+					<td style="text-align:left;">09-01-2013</td><td style="text-align:right;">115331</td><td style="text-align:right;">182798</td><td style="text-align:right;">49739</td><td style="text-align:right;">85553</td><td style="text-align:right;">54211</td><td style="text-align:right;">487624</td>
+				</tr><tr>
+					<td style="text-align:left;">10-01-2013</td><td style="text-align:right;">109261</td><td style="text-align:right;">183739</td><td style="text-align:right;">48037</td><td style="text-align:right;">83875</td><td style="text-align:right;">52911</td><td style="text-align:right;">477818</td>
+				</tr><tr>
+					<td style="text-align:left;">11-01-2013</td><td style="text-align:right;">114185</td><td style="text-align:right;">192339</td><td style="text-align:right;">53268</td><td style="text-align:right;">89534</td><td style="text-align:right;">58598</td><td style="text-align:right;">507923</td>
+				</tr><tr>
+					<td style="text-align:left;">12-01-2013</td><td style="text-align:right;">104547</td><td style="text-align:right;">193922</td><td style="text-align:right;">47666</td><td style="text-align:right;">91656</td><td style="text-align:right;">57570</td><td style="text-align:right;">495356</td>
+				</tr><tr>
+					<td style="text-align:left;">13-01-2013</td><td style="text-align:right;">91517</td><td style="text-align:right;">183781</td><td style="text-align:right;">44518</td><td style="text-align:right;">89979</td><td style="text-align:right;">54927</td><td style="text-align:right;">464720</td>
+				</tr><tr>
+					<td style="text-align:left;">14-01-2013</td><td style="text-align:right;">123330</td><td style="text-align:right;">198665</td><td style="text-align:right;">55214</td><td style="text-align:right;">94263</td><td style="text-align:right;">60274</td><td style="text-align:right;">531740</td>
+				</tr><tr>
+					<td style="text-align:left;">15-01-2013</td><td style="text-align:right;">123381</td><td style="text-align:right;">207300</td><td style="text-align:right;">58928</td><td style="text-align:right;">94356</td><td style="text-align:right;">62889</td><td style="text-align:right;">546849</td>
+				</tr><tr>
+					<td style="text-align:left;">16-01-2013</td><td style="text-align:right;">125814</td><td style="text-align:right;">213339</td><td style="text-align:right;">58795</td><td style="text-align:right;">97157</td><td style="text-align:right;">65553</td><td style="text-align:right;">560651</td>
+				</tr><tr>
+					<td style="text-align:left;">17-01-2013</td><td style="text-align:right;">126330</td><td style="text-align:right;">211736</td><td style="text-align:right;">57432</td><td style="text-align:right;">97331</td><td style="text-align:right;">64881</td><td style="text-align:right;">557708</td>
+				</tr><tr>
+					<td style="text-align:left;">18-01-2013</td><td style="text-align:right;">120075</td><td style="text-align:right;">207353</td><td style="text-align:right;">54208</td><td style="text-align:right;">94003</td><td style="text-align:right;">63415</td><td style="text-align:right;">539051</td>
+				</tr><tr>
+					<td style="text-align:left;">19-01-2013</td><td style="text-align:right;">96968</td><td style="text-align:right;">184800</td><td style="text-align:right;">43077</td><td style="text-align:right;">85903</td><td style="text-align:right;">57834</td><td style="text-align:right;">468573</td>
+				</tr><tr>
+					<td style="text-align:left;">20-01-2013</td><td style="text-align:right;">79341</td><td style="text-align:right;">164311</td><td style="text-align:right;">39194</td><td style="text-align:right;">82750</td><td style="text-align:right;">47754</td><td style="text-align:right;">413345</td>
+				</tr><tr>
+					<td style="text-align:left;">21-01-2013</td><td style="text-align:right;">111249</td><td style="text-align:right;">195388</td><td style="text-align:right;">49486</td><td style="text-align:right;">93962</td><td style="text-align:right;">57906</td><td style="text-align:right;">507990</td>
+				</tr><tr>
+					<td style="text-align:left;">22-01-2013</td><td style="text-align:right;">121613</td><td style="text-align:right;">208606</td><td style="text-align:right;">52812</td><td style="text-align:right;">96342</td><td style="text-align:right;">62421</td><td style="text-align:right;">541790</td>
+				</tr><tr>
+					<td style="text-align:left;">23-01-2013</td><td style="text-align:right;">127553</td><td style="text-align:right;">215814</td><td style="text-align:right;">57340</td><td style="text-align:right;">98361</td><td style="text-align:right;">65588</td><td style="text-align:right;">564653</td>
+				</tr><tr>
+					<td style="text-align:left;">24-01-2013</td><td style="text-align:right;">130212</td><td style="text-align:right;">212169</td><td style="text-align:right;">56991</td><td style="text-align:right;">99564</td><td style="text-align:right;">67096</td><td style="text-align:right;">566027</td>
+				</tr><tr>
+					<td style="text-align:left;">25-01-2013</td><td style="text-align:right;">127155</td><td style="text-align:right;">211868</td><td style="text-align:right;">57341</td><td style="text-align:right;">97203</td><td style="text-align:right;">65658</td><td style="text-align:right;">559222</td>
+				</tr><tr>
+					<td style="text-align:left;">26-01-2013</td><td style="text-align:right;">91072</td><td style="text-align:right;">174362</td><td style="text-align:right;">45786</td><td style="text-align:right;">84933</td><td style="text-align:right;">52211</td><td style="text-align:right;">448361</td>
+				</tr><tr>
+					<td style="text-align:left;">27-01-2013</td><td style="text-align:right;">80767</td><td style="text-align:right;">149247</td><td style="text-align:right;">38233</td><td style="text-align:right;">77009</td><td style="text-align:right;">46858</td><td style="text-align:right;">392112</td>
+				</tr><tr>
+					<td style="text-align:left;">28-01-2013</td><td style="text-align:right;">97218</td><td style="text-align:right;">174380</td><td style="text-align:right;">44437</td><td style="text-align:right;">81057</td><td style="text-align:right;">48875</td><td style="text-align:right;">445963</td>
+				</tr><tr>
+					<td style="text-align:left;">29-01-2013</td><td style="text-align:right;">96884</td><td style="text-align:right;">166011</td><td style="text-align:right;">38919</td><td style="text-align:right;">73536</td><td style="text-align:right;">47948</td><td style="text-align:right;">423295</td>
+				</tr><tr>
+					<td style="text-align:left;">30-01-2013</td><td style="text-align:right;">87493</td><td style="text-align:right;">158919</td><td style="text-align:right;">35710</td><td style="text-align:right;">68121</td><td style="text-align:right;">42707</td><td style="text-align:right;">392948</td>
+				</tr><tr>
+					<td style="text-align:left;">31-01-2013</td><td style="text-align:right;">87149</td><td style="text-align:right;">153343</td><td style="text-align:right;">35801</td><td style="text-align:right;">68943</td><td style="text-align:right;">43388</td><td style="text-align:right;">388613</td>
+				</tr><tr>
+					<td style="text-align:left;">01-02-2013</td><td style="text-align:right;">107084</td><td style="text-align:right;">186087</td><td style="text-align:right;">46730</td><td style="text-align:right;">82427</td><td style="text-align:right;">52909</td><td style="text-align:right;">475226</td>
+				</tr><tr>
+					<td style="text-align:left;">02-02-2013</td><td style="text-align:right;">83648</td><td style="text-align:right;">156945</td><td style="text-align:right;">36577</td><td style="text-align:right;">76258</td><td style="text-align:right;">48616</td><td style="text-align:right;">402043</td>
+				</tr><tr>
+					<td style="text-align:left;">03-02-2013</td><td style="text-align:right;">77943</td><td style="text-align:right;">144800</td><td style="text-align:right;">32284</td><td style="text-align:right;">76156</td><td style="text-align:right;">43072</td><td style="text-align:right;">374244</td>
+				</tr><tr>
+					<td style="text-align:left;">04-02-2013</td><td style="text-align:right;">92085</td><td style="text-align:right;">171118</td><td style="text-align:right;">39531</td><td style="text-align:right;">70136</td><td style="text-align:right;">49252</td><td style="text-align:right;">422118</td>
+				</tr><tr>
+					<td style="text-align:left;">05-02-2013</td><td style="text-align:right;">96575</td><td style="text-align:right;">176348</td><td style="text-align:right;">37385</td><td style="text-align:right;">69284</td><td style="text-align:right;">50178</td><td style="text-align:right;">429766</td>
+				</tr><tr>
+					<td style="text-align:left;">06-02-2013</td><td style="text-align:right;">108150</td><td style="text-align:right;">188761</td><td style="text-align:right;">44672</td><td style="text-align:right;">78031</td><td style="text-align:right;">55337</td><td style="text-align:right;">474946</td>
+				</tr><tr>
+					<td style="text-align:left;">07-02-2013</td><td style="text-align:right;">116248</td><td style="text-align:right;">188321</td><td style="text-align:right;">47928</td><td style="text-align:right;">73772</td><td style="text-align:right;">58742</td><td style="text-align:right;">485000</td>
+				</tr><tr>
+					<td style="text-align:left;">08-02-2013</td><td style="text-align:right;">112370</td><td style="text-align:right;">187456</td><td style="text-align:right;">48800</td><td style="text-align:right;">75323</td><td style="text-align:right;">60037</td><td style="text-align:right;">483980</td>
+				</tr><tr>
+					<td style="text-align:left;">09-02-2013</td><td style="text-align:right;">96915</td><td style="text-align:right;">166920</td><td style="text-align:right;">41575</td><td style="text-align:right;">68391</td><td style="text-align:right;">57992</td><td style="text-align:right;">431781</td>
+				</tr><tr>
+					<td style="text-align:left;">10-02-2013</td><td style="text-align:right;">84940</td><td style="text-align:right;">153095</td><td style="text-align:right;">39586</td><td style="text-align:right;">67534</td><td style="text-align:right;">51561</td><td style="text-align:right;">396711</td>
+				</tr><tr>
+					<td style="text-align:left;">11-02-2013</td><td style="text-align:right;">110313</td><td style="text-align:right;">190496</td><td style="text-align:right;">50017</td><td style="text-align:right;">76385</td><td style="text-align:right;">58270</td><td style="text-align:right;">485475</td>
+				</tr><tr>
+					<td style="text-align:left;">12-02-2013</td><td style="text-align:right;">116528</td><td style="text-align:right;">196144</td><td style="text-align:right;">52330</td><td style="text-align:right;">78571</td><td style="text-align:right;">62829</td><td style="text-align:right;">506397</td>
+				</tr><tr>
+					<td style="text-align:left;">13-02-2013</td><td style="text-align:right;">109714</td><td style="text-align:right;">195559</td><td style="text-align:right;">51759</td><td style="text-align:right;">83474</td><td style="text-align:right;">61904</td><td style="text-align:right;">502406</td>
+				</tr><tr>
+					<td style="text-align:left;">14-02-2013</td><td style="text-align:right;">109085</td><td style="text-align:right;">184532</td><td style="text-align:right;">48875</td><td style="text-align:right;">80120</td><td style="text-align:right;">55995</td><td style="text-align:right;">478599</td>
+				</tr><tr>
+					<td style="text-align:left;">15-02-2013</td><td style="text-align:right;">109307</td><td style="text-align:right;">187300</td><td style="text-align:right;">47043</td><td style="text-align:right;">82371</td><td style="text-align:right;">52784</td><td style="text-align:right;">478797</td>
+				</tr><tr>
+					<td style="text-align:left;">16-02-2013</td><td style="text-align:right;">89303</td><td style="text-align:right;">159181</td><td style="text-align:right;">38757</td><td style="text-align:right;">78626</td><td style="text-align:right;">51576</td><td style="text-align:right;">417443</td>
+				</tr><tr>
+					<td style="text-align:left;">17-02-2013</td><td style="text-align:right;">79385</td><td style="text-align:right;">140945</td><td style="text-align:right;">33861</td><td style="text-align:right;">74689</td><td style="text-align:right;">48666</td><td style="text-align:right;">377549</td>
+				</tr><tr>
+					<td style="text-align:left;">18-02-2013</td><td style="text-align:right;">94549</td><td style="text-align:right;">178421</td><td style="text-align:right;">43613</td><td style="text-align:right;">80088</td><td style="text-align:right;">53647</td><td style="text-align:right;">450319</td>
+				</tr><tr>
+					<td style="text-align:left;">19-02-2013</td><td style="text-align:right;">94332</td><td style="text-align:right;">176876</td><td style="text-align:right;">42669</td><td style="text-align:right;">78716</td><td style="text-align:right;">56019</td><td style="text-align:right;">448609</td>
+				</tr><tr>
+					<td style="text-align:left;">20-02-2013</td><td style="text-align:right;">105065</td><td style="text-align:right;">189319</td><td style="text-align:right;">46136</td><td style="text-align:right;">84920</td><td style="text-align:right;">59827</td><td style="text-align:right;">485267</td>
+				</tr><tr>
+					<td style="text-align:left;">21-02-2013</td><td style="text-align:right;">112931</td><td style="text-align:right;">195689</td><td style="text-align:right;">53554</td><td style="text-align:right;">92416</td><td style="text-align:right;">61937</td><td style="text-align:right;">516529</td>
+				</tr><tr>
+					<td style="text-align:left;">22-02-2013</td><td style="text-align:right;">110201</td><td style="text-align:right;">187623</td><td style="text-align:right;">52618</td><td style="text-align:right;">89464</td><td style="text-align:right;">59457</td><td style="text-align:right;">499360</td>
+				</tr><tr>
+					<td style="text-align:left;">23-02-2013</td><td style="text-align:right;">77955</td><td style="text-align:right;">136343</td><td style="text-align:right;">32743</td><td style="text-align:right;">74261</td><td style="text-align:right;">42564</td><td style="text-align:right;">363859</td>
+				</tr><tr>
+					<td style="text-align:left;">24-02-2013</td><td style="text-align:right;">70280</td><td style="text-align:right;">128320</td><td style="text-align:right;">31801</td><td style="text-align:right;">65784</td><td style="text-align:right;">36843</td><td style="text-align:right;">333025</td>
+				</tr><tr>
+					<td style="text-align:left;">25-02-2013</td><td style="text-align:right;">92905</td><td style="text-align:right;">164901</td><td style="text-align:right;">41869</td><td style="text-align:right;">79911</td><td style="text-align:right;">47743</td><td style="text-align:right;">427325</td>
+				</tr><tr>
+					<td style="text-align:left;">26-02-2013</td><td style="text-align:right;">98139</td><td style="text-align:right;">174805</td><td style="text-align:right;">47100</td><td style="text-align:right;">83761</td><td style="text-align:right;">49813</td><td style="text-align:right;">453613</td>
+				</tr><tr>
+					<td style="text-align:left;">27-02-2013</td><td style="text-align:right;">93839</td><td style="text-align:right;">173874</td><td style="text-align:right;">48250</td><td style="text-align:right;">82781</td><td style="text-align:right;">44047</td><td style="text-align:right;">442786</td>
+				</tr><tr>
+					<td style="text-align:left;">28-02-2013</td><td style="text-align:right;">82581</td><td style="text-align:right;">162364</td><td style="text-align:right;">47042</td><td style="text-align:right;">78969</td><td style="text-align:right;">42143</td><td style="text-align:right;">413098</td>
+				</tr><tr>
+					<td style="text-align:left;">01-03-2013</td><td style="text-align:right;">84763</td><td style="text-align:right;">166345</td><td style="text-align:right;">40614</td><td style="text-align:right;">76977</td><td style="text-align:right;">44823</td><td style="text-align:right;">413523</td>
+				</tr><tr>
+					<td style="text-align:left;">02-03-2013</td><td style="text-align:right;">63612</td><td style="text-align:right;">134410</td><td style="text-align:right;">33043</td><td style="text-align:right;">66296</td><td style="text-align:right;">43977</td><td style="text-align:right;">341331</td>
+				</tr><tr>
+					<td style="text-align:left;">03-03-2013</td><td style="text-align:right;">64725</td><td style="text-align:right;">137478</td><td style="text-align:right;">33210</td><td style="text-align:right;">64946</td><td style="text-align:right;">45358</td><td style="text-align:right;">345712</td>
+				</tr><tr>
+					<td style="text-align:left;">04-03-2013</td><td style="text-align:right;">84288</td><td style="text-align:right;">167968</td><td style="text-align:right;">50750</td><td style="text-align:right;">82657</td><td style="text-align:right;">45618</td><td style="text-align:right;">431269</td>
+				</tr><tr>
+					<td style="text-align:left;">05-03-2013</td><td style="text-align:right;">78367</td><td style="text-align:right;">158918</td><td style="text-align:right;">46099</td><td style="text-align:right;">76966</td><td style="text-align:right;">44532</td><td style="text-align:right;">404883</td>
+				</tr><tr>
+					<td style="text-align:left;">06-03-2013</td><td style="text-align:right;">81740</td><td style="text-align:right;">162804</td><td style="text-align:right;">44375</td><td style="text-align:right;">79015</td><td style="text-align:right;">40856</td><td style="text-align:right;">408786</td>
+				</tr><tr>
+					<td style="text-align:left;">07-03-2013</td><td style="text-align:right;">73287</td><td style="text-align:right;">154858</td><td style="text-align:right;">41893</td><td style="text-align:right;">77441</td><td style="text-align:right;">38643</td><td style="text-align:right;">386116</td>
+				</tr><tr>
+					<td style="text-align:left;">08-03-2013</td><td style="text-align:right;">76084</td><td style="text-align:right;">151310</td><td style="text-align:right;">37238</td><td style="text-align:right;">76803</td><td style="text-align:right;">39753</td><td style="text-align:right;">381179</td>
+				</tr><tr>
+					<td style="text-align:left;">09-03-2013</td><td style="text-align:right;">66245</td><td style="text-align:right;">135853</td><td style="text-align:right;">29787</td><td style="text-align:right;">69569</td><td style="text-align:right;">43384</td><td style="text-align:right;">344832</td>
+				</tr><tr>
+					<td style="text-align:left;">10-03-2013</td><td style="text-align:right;">64503</td><td style="text-align:right;">134946</td><td style="text-align:right;">28959</td><td style="text-align:right;">71663</td><td style="text-align:right;">45154</td><td style="text-align:right;">345222</td>
+				</tr><tr>
+					<td style="text-align:left;">11-03-2013</td><td style="text-align:right;">95642</td><td style="text-align:right;">181050</td><td style="text-align:right;">48584</td><td style="text-align:right;">86845</td><td style="text-align:right;">47711</td><td style="text-align:right;">459822</td>
+				</tr><tr>
+					<td style="text-align:left;">12-03-2013</td><td style="text-align:right;">100136</td><td style="text-align:right;">188270</td><td style="text-align:right;">52462</td><td style="text-align:right;">86107</td><td style="text-align:right;">42025</td><td style="text-align:right;">468995</td>
+				</tr><tr>
+					<td style="text-align:left;">13-03-2013</td><td style="text-align:right;">104247</td><td style="text-align:right;">191284</td><td style="text-align:right;">50956</td><td style="text-align:right;">85554</td><td style="text-align:right;">50114</td><td style="text-align:right;">482147</td>
+				</tr><tr>
+					<td style="text-align:left;">14-03-2013</td><td style="text-align:right;">106732</td><td style="text-align:right;">191806</td><td style="text-align:right;">52584</td><td style="text-align:right;">88163</td><td style="text-align:right;">51060</td><td style="text-align:right;">490335</td>
+				</tr><tr>
+					<td style="text-align:left;">15-03-2013</td><td style="text-align:right;">94978</td><td style="text-align:right;">183980</td><td style="text-align:right;">51077</td><td style="text-align:right;">89707</td><td style="text-align:right;">47975</td><td style="text-align:right;">467712</td>
+				</tr><tr>
+					<td style="text-align:left;">16-03-2013</td><td style="text-align:right;">70526</td><td style="text-align:right;">155558</td><td style="text-align:right;">40686</td><td style="text-align:right;">84561</td><td style="text-align:right;">42548</td><td style="text-align:right;">393875</td>
+				</tr><tr>
+					<td style="text-align:left;">17-03-2013</td><td style="text-align:right;">56546</td><td style="text-align:right;">141948</td><td style="text-align:right;">34422</td><td style="text-align:right;">81850</td><td style="text-align:right;">36212</td><td style="text-align:right;">350972</td>
+				</tr><tr>
+					<td style="text-align:left;">18-03-2013</td><td style="text-align:right;">74021</td><td style="text-align:right;">167665</td><td style="text-align:right;">43658</td><td style="text-align:right;">85753</td><td style="text-align:right;">41386</td><td style="text-align:right;">412478</td>
+				</tr><tr>
+					<td style="text-align:left;">19-03-2013</td><td style="text-align:right;">86627</td><td style="text-align:right;">173289</td><td style="text-align:right;">46338</td><td style="text-align:right;">84577</td><td style="text-align:right;">47588</td><td style="text-align:right;">438407</td>
+				</tr><tr>
+					<td style="text-align:left;">20-03-2013</td><td style="text-align:right;">96441</td><td style="text-align:right;">183088</td><td style="text-align:right;">48552</td><td style="text-align:right;">85182</td><td style="text-align:right;">45257</td><td style="text-align:right;">458518</td>
+				</tr><tr>
+					<td style="text-align:left;">21-03-2013</td><td style="text-align:right;">93907</td><td style="text-align:right;">190334</td><td style="text-align:right;">49264</td><td style="text-align:right;">88596</td><td style="text-align:right;">40674</td><td style="text-align:right;">462771</td>
+				</tr><tr>
+					<td style="text-align:left;">22-03-2013</td><td style="text-align:right;">71661</td><td style="text-align:right;">180779</td><td style="text-align:right;">44736</td><td style="text-align:right;">88963</td><td style="text-align:right;">39649</td><td style="text-align:right;">425789</td>
+				</tr><tr>
+					<td style="text-align:left;">23-03-2013</td><td style="text-align:right;">50391</td><td style="text-align:right;">166920</td><td style="text-align:right;">30781</td><td style="text-align:right;">80229</td><td style="text-align:right;">37628</td><td style="text-align:right;">365946</td>
+				</tr><tr>
+					<td style="text-align:left;">24-03-2013</td><td style="text-align:right;">46397</td><td style="text-align:right;">157758</td><td style="text-align:right;">30973</td><td style="text-align:right;">80399</td><td style="text-align:right;">31604</td><td style="text-align:right;">347129</td>
+				</tr><tr>
+					<td style="text-align:left;">25-03-2013</td><td style="text-align:right;">62194</td><td style="text-align:right;">174045</td><td style="text-align:right;">36978</td><td style="text-align:right;">82838</td><td style="text-align:right;">33840</td><td style="text-align:right;">389891</td>
+				</tr><tr>
+					<td style="text-align:left;">26-03-2013</td><td style="text-align:right;">64000</td><td style="text-align:right;">170177</td><td style="text-align:right;">39377</td><td style="text-align:right;">82018</td><td style="text-align:right;">33967</td><td style="text-align:right;">389537</td>
+				</tr><tr>
+					<td style="text-align:left;">27-03-2013</td><td style="text-align:right;">63359</td><td style="text-align:right;">175178</td><td style="text-align:right;">36509</td><td style="text-align:right;">84639</td><td style="text-align:right;">34395</td><td style="text-align:right;">394076</td>
+				</tr><tr>
+					<td style="text-align:left;">28-03-2013</td><td style="text-align:right;">54724</td><td style="text-align:right;">171193</td><td style="text-align:right;">29106</td><td style="text-align:right;">83196</td><td style="text-align:right;">31996</td><td style="text-align:right;">370216</td>
+				</tr><tr>
+					<td style="text-align:left;">29-03-2013</td><td style="text-align:right;">44735</td><td style="text-align:right;">164501</td><td style="text-align:right;">22161</td><td style="text-align:right;">80084</td><td style="text-align:right;">30480</td><td style="text-align:right;">341953</td>
+				</tr><tr>
+					<td style="text-align:left;">30-03-2013</td><td style="text-align:right;">42087</td><td style="text-align:right;">161982</td><td style="text-align:right;">21475</td><td style="text-align:right;">78927</td><td style="text-align:right;">29902</td><td style="text-align:right;">334365</td>
+				</tr><tr>
+					<td style="text-align:left;">31-03-2013</td><td style="text-align:right;">37791</td><td style="text-align:right;">145896</td><td style="text-align:right;">23105</td><td style="text-align:right;">67071</td><td style="text-align:right;">30410</td><td style="text-align:right;">304267</td>
+				</tr><tr>
+					<td style="text-align:left;">01-04-2013</td><td style="text-align:right;">42352</td><td style="text-align:right;">158985</td><td style="text-align:right;">22403</td><td style="text-align:right;">76033</td><td style="text-align:right;">31683</td><td style="text-align:right;">331455</td>
+				</tr><tr>
+					<td style="text-align:left;">02-04-2013</td><td style="text-align:right;">58988</td><td style="text-align:right;">173849</td><td style="text-align:right;">31688</td><td style="text-align:right;">83305</td><td style="text-align:right;">30884</td><td style="text-align:right;">378712</td>
+				</tr><tr>
+					<td style="text-align:left;">03-04-2013</td><td style="text-align:right;">61691</td><td style="text-align:right;">172529</td><td style="text-align:right;">36044</td><td style="text-align:right;">76348</td><td style="text-align:right;">32646</td><td style="text-align:right;">379261</td>
+				</tr><tr>
+					<td style="text-align:left;">04-04-2013</td><td style="text-align:right;">60027</td><td style="text-align:right;">168269</td><td style="text-align:right;">37382</td><td style="text-align:right;">73488</td><td style="text-align:right;">31941</td><td style="text-align:right;">371098</td>
+				</tr><tr>
+					<td style="text-align:left;">05-04-2013</td><td style="text-align:right;">65867</td><td style="text-align:right;">171040</td><td style="text-align:right;">36557</td><td style="text-align:right;">72294</td><td style="text-align:right;">29534</td><td style="text-align:right;">375290</td>
+				</tr><tr>
+					<td style="text-align:left;">06-04-2013</td><td style="text-align:right;">43756</td><td style="text-align:right;">158308</td><td style="text-align:right;">34524</td><td style="text-align:right;">70903</td><td style="text-align:right;">27582</td><td style="text-align:right;">335062</td>
+				</tr><tr>
+					<td style="text-align:left;">07-04-2013</td><td style="text-align:right;">41693</td><td style="text-align:right;">152897</td><td style="text-align:right;">19760</td><td style="text-align:right;">68758</td><td style="text-align:right;">27383</td><td style="text-align:right;">310491</td>
+				</tr><tr>
+					<td style="text-align:left;">08-04-2013</td><td style="text-align:right;">66690</td><td style="text-align:right;">179087</td><td style="text-align:right;">31338</td><td style="text-align:right;">82471</td><td style="text-align:right;">34423</td><td style="text-align:right;">394008</td>
+				</tr><tr>
+					<td style="text-align:left;">09-04-2013</td><td style="text-align:right;">56866</td><td style="text-align:right;">171668</td><td style="text-align:right;">34416</td><td style="text-align:right;">79959</td><td style="text-align:right;">33963</td><td style="text-align:right;">376866</td>
+				</tr><tr>
+					<td style="text-align:left;">10-04-2013</td><td style="text-align:right;">57294</td><td style="text-align:right;">172004</td><td style="text-align:right;">31726</td><td style="text-align:right;">80579</td><td style="text-align:right;">39207</td><td style="text-align:right;">380810</td>
+				</tr><tr>
+					<td style="text-align:left;">11-04-2013</td><td style="text-align:right;">57328</td><td style="text-align:right;">166250</td><td style="text-align:right;">29731</td><td style="text-align:right;">78912</td><td style="text-align:right;">44899</td><td style="text-align:right;">377119</td>
+				</tr><tr>
+					<td style="text-align:left;">12-04-2013</td><td style="text-align:right;">52705</td><td style="text-align:right;">162911</td><td style="text-align:right;">25157</td><td style="text-align:right;">78126</td><td style="text-align:right;">42848</td><td style="text-align:right;">361747</td>
+				</tr><tr>
+					<td style="text-align:left;">13-04-2013</td><td style="text-align:right;">31167</td><td style="text-align:right;">143335</td><td style="text-align:right;">19364</td><td style="text-align:right;">74672</td><td style="text-align:right;">34625</td><td style="text-align:right;">303160</td>
+				</tr><tr>
+					<td style="text-align:left;">14-04-2013</td><td style="text-align:right;">29221</td><td style="text-align:right;">128599</td><td style="text-align:right;">15767</td><td style="text-align:right;">61459</td><td style="text-align:right;">28984</td><td style="text-align:right;">264029</td>
+				</tr><tr>
+					<td style="text-align:left;">15-04-2013</td><td style="text-align:right;">40393</td><td style="text-align:right;">140229</td><td style="text-align:right;">23774</td><td style="text-align:right;">69889</td><td style="text-align:right;">31225</td><td style="text-align:right;">305504</td>
+				</tr><tr>
+					<td style="text-align:left;">16-04-2013</td><td style="text-align:right;">45220</td><td style="text-align:right;">142660</td><td style="text-align:right;">27303</td><td style="text-align:right;">68249</td><td style="text-align:right;">38968</td><td style="text-align:right;">322389</td>
+				</tr><tr>
+					<td style="text-align:left;">17-04-2013</td><td style="text-align:right;">40237</td><td style="text-align:right;">127451</td><td style="text-align:right;">24147</td><td style="text-align:right;">58472</td><td style="text-align:right;">29863</td><td style="text-align:right;">280166</td>
+				</tr><tr>
+					<td style="text-align:left;">18-04-2013</td><td style="text-align:right;">43165</td><td style="text-align:right;">124235</td><td style="text-align:right;">19626</td><td style="text-align:right;">50951</td><td style="text-align:right;">28689</td><td style="text-align:right;">266661</td>
+				</tr><tr>
+					<td style="text-align:left;">19-04-2013</td><td style="text-align:right;">50427</td><td style="text-align:right;">117788</td><td style="text-align:right;">20139</td><td style="text-align:right;">46061</td><td style="text-align:right;">33391</td><td style="text-align:right;">267803</td>
+				</tr><tr>
+					<td style="text-align:left;">20-04-2013</td><td style="text-align:right;">48052</td><td style="text-align:right;">113406</td><td style="text-align:right;">22485</td><td style="text-align:right;">43345</td><td style="text-align:right;">31399</td><td style="text-align:right;">258682</td>
+				</tr><tr>
+					<td style="text-align:left;">21-04-2013</td><td style="text-align:right;">46684</td><td style="text-align:right;">103761</td><td style="text-align:right;">17203</td><td style="text-align:right;">44240</td><td style="text-align:right;">26372</td><td style="text-align:right;">238256</td>
+				</tr><tr>
+					<td style="text-align:left;">22-04-2013</td><td style="text-align:right;">62062</td><td style="text-align:right;">134748</td><td style="text-align:right;">25202</td><td style="text-align:right;">52110</td><td style="text-align:right;">33309</td><td style="text-align:right;">307430</td>
+				</tr><tr>
+					<td style="text-align:left;">23-04-2013</td><td style="text-align:right;">51917</td><td style="text-align:right;">128702</td><td style="text-align:right;">21590</td><td style="text-align:right;">45258</td><td style="text-align:right;">30505</td><td style="text-align:right;">277965</td>
+				</tr><tr>
+					<td style="text-align:left;">24-04-2013</td><td style="text-align:right;">55536</td><td style="text-align:right;">136247</td><td style="text-align:right;">21394</td><td style="text-align:right;">50731</td><td style="text-align:right;">29773</td><td style="text-align:right;">293677</td>
+				</tr><tr>
+					<td style="text-align:left;">25-04-2013</td><td style="text-align:right;">52285</td><td style="text-align:right;">131881</td><td style="text-align:right;">23774</td><td style="text-align:right;">55265</td><td style="text-align:right;">30981</td><td style="text-align:right;">294171</td>
+				</tr><tr>
+					<td style="text-align:left;">26-04-2013</td><td style="text-align:right;">50057</td><td style="text-align:right;">137729</td><td style="text-align:right;">21544</td><td style="text-align:right;">54375</td><td style="text-align:right;">28966</td><td style="text-align:right;">292668</td>
+				</tr><tr>
+					<td style="text-align:left;">27-04-2013</td><td style="text-align:right;">45365</td><td style="text-align:right;">121068</td><td style="text-align:right;">17549</td><td style="text-align:right;">45975</td><td style="text-align:right;">27360</td><td style="text-align:right;">257319</td>
+				</tr><tr>
+					<td style="text-align:left;">28-04-2013</td><td style="text-align:right;">44850</td><td style="text-align:right;">121220</td><td style="text-align:right;">17174</td><td style="text-align:right;">45146</td><td style="text-align:right;">33118</td><td style="text-align:right;">261508</td>
+				</tr><tr>
+					<td style="text-align:left;">29-04-2013</td><td style="text-align:right;">52540</td><td style="text-align:right;">135125</td><td style="text-align:right;">18859</td><td style="text-align:right;">55818</td><td style="text-align:right;">33819</td><td style="text-align:right;">296155</td>
+				</tr><tr>
+					<td style="text-align:left;">30-04-2013</td><td style="text-align:right;">46915</td><td style="text-align:right;">139417</td><td style="text-align:right;">21258</td><td style="text-align:right;">57275</td><td style="text-align:right;">31806</td><td style="text-align:right;">296671</td>
+				</tr><tr>
+					<td style="text-align:left;">01-05-2013</td><td style="text-align:right;">44620</td><td style="text-align:right;">120646</td><td style="text-align:right;">15809</td><td style="text-align:right;">49441</td><td style="text-align:right;">36313</td><td style="text-align:right;">266822</td>
+				</tr><tr>
+					<td style="text-align:left;">02-05-2013</td><td style="text-align:right;">48434</td><td style="text-align:right;">133153</td><td style="text-align:right;">23676</td><td style="text-align:right;">57289</td><td style="text-align:right;">33962</td><td style="text-align:right;">296510</td>
+				</tr><tr>
+					<td style="text-align:left;">03-05-2013</td><td style="text-align:right;">49066</td><td style="text-align:right;">138703</td><td style="text-align:right;">22275</td><td style="text-align:right;">58939</td><td style="text-align:right;">33614</td><td style="text-align:right;">302593</td>
+				</tr><tr>
+					<td style="text-align:left;">04-05-2013</td><td style="text-align:right;">40470</td><td style="text-align:right;">108577</td><td style="text-align:right;">20427</td><td style="text-align:right;">46735</td><td style="text-align:right;">28246</td><td style="text-align:right;">244453</td>
+				</tr><tr>
+					<td style="text-align:left;">05-05-2013</td><td style="text-align:right;">38509</td><td style="text-align:right;">97918</td><td style="text-align:right;">16030</td><td style="text-align:right;">47152</td><td style="text-align:right;">28178</td><td style="text-align:right;">227781</td>
+				</tr><tr>
+					<td style="text-align:left;">06-05-2013</td><td style="text-align:right;">52113</td><td style="text-align:right;">127674</td><td style="text-align:right;">28595</td><td style="text-align:right;">64104</td><td style="text-align:right;">32673</td><td style="text-align:right;">305158</td>
+				</tr><tr>
+					<td style="text-align:left;">07-05-2013</td><td style="text-align:right;">48881</td><td style="text-align:right;">113282</td><td style="text-align:right;">32696</td><td style="text-align:right;">57260</td><td style="text-align:right;">38894</td><td style="text-align:right;">291010</td>
+				</tr><tr>
+					<td style="text-align:left;">08-05-2013</td><td style="text-align:right;">53310</td><td style="text-align:right;">98462</td><td style="text-align:right;">32673</td><td style="text-align:right;">54189</td><td style="text-align:right;">38976</td><td style="text-align:right;">277605</td>
+				</tr><tr>
+					<td style="text-align:left;">09-05-2013</td><td style="text-align:right;">58158</td><td style="text-align:right;">79959</td><td style="text-align:right;">25239</td><td style="text-align:right;">42055</td><td style="text-align:right;">37841</td><td style="text-align:right;">243254</td>
+				</tr><tr>
+					<td style="text-align:left;">10-05-2013</td><td style="text-align:right;">64511</td><td style="text-align:right;">88115</td><td style="text-align:right;">26037</td><td style="text-align:right;">43232</td><td style="text-align:right;">37755</td><td style="text-align:right;">259649</td>
+				</tr><tr>
+					<td style="text-align:left;">11-05-2013</td><td style="text-align:right;">66169</td><td style="text-align:right;">85907</td><td style="text-align:right;">25439</td><td style="text-align:right;">34532</td><td style="text-align:right;">42102</td><td style="text-align:right;">254145</td>
+				</tr><tr>
+					<td style="text-align:left;">12-05-2013</td><td style="text-align:right;">65571</td><td style="text-align:right;">82032</td><td style="text-align:right;">27417</td><td style="text-align:right;">33331</td><td style="text-align:right;">40284</td><td style="text-align:right;">248628</td>
+				</tr><tr>
+					<td style="text-align:left;">13-05-2013</td><td style="text-align:right;">69776</td><td style="text-align:right;">117814</td><td style="text-align:right;">35831</td><td style="text-align:right;">54968</td><td style="text-align:right;">46000</td><td style="text-align:right;">324386</td>
+				</tr><tr>
+					<td style="text-align:left;">14-05-2013</td><td style="text-align:right;">73423</td><td style="text-align:right;">133756</td><td style="text-align:right;">36022</td><td style="text-align:right;">59246</td><td style="text-align:right;">46165</td><td style="text-align:right;">348603</td>
+				</tr><tr>
+					<td style="text-align:left;">15-05-2013</td><td style="text-align:right;">76178</td><td style="text-align:right;">124157</td><td style="text-align:right;">31062</td><td style="text-align:right;">53318</td><td style="text-align:right;">42807</td><td style="text-align:right;">327515</td>
+				</tr><tr>
+					<td style="text-align:left;">16-05-2013</td><td style="text-align:right;">79986</td><td style="text-align:right;">125687</td><td style="text-align:right;">33609</td><td style="text-align:right;">49782</td><td style="text-align:right;">41941</td><td style="text-align:right;">331000</td>
+				</tr><tr>
+					<td style="text-align:left;">17-05-2013</td><td style="text-align:right;">77842</td><td style="text-align:right;">118293</td><td style="text-align:right;">31852</td><td style="text-align:right;">44742</td><td style="text-align:right;">48274</td><td style="text-align:right;">320994</td>
+				</tr><tr>
+					<td style="text-align:left;">18-05-2013</td><td style="text-align:right;">76731</td><td style="text-align:right;">100072</td><td style="text-align:right;">28951</td><td style="text-align:right;">33266</td><td style="text-align:right;">44430</td><td style="text-align:right;">283447</td>
+				</tr><tr>
+					<td style="text-align:left;">19-05-2013</td><td style="text-align:right;">79183</td><td style="text-align:right;">111836</td><td style="text-align:right;">29562</td><td style="text-align:right;">33963</td><td style="text-align:right;">45073</td><td style="text-align:right;">299611</td>
+				</tr><tr>
+					<td style="text-align:left;">20-05-2013</td><td style="text-align:right;">81368</td><td style="text-align:right;">135154</td><td style="text-align:right;">35522</td><td style="text-align:right;">50935</td><td style="text-align:right;">52932</td><td style="text-align:right;">355905</td>
+				</tr><tr>
+					<td style="text-align:left;">21-05-2013</td><td style="text-align:right;">95016</td><td style="text-align:right;">139928</td><td style="text-align:right;">39205</td><td style="text-align:right;">52095</td><td style="text-align:right;">54656</td><td style="text-align:right;">380897</td>
+				</tr><tr>
+					<td style="text-align:left;">22-05-2013</td><td style="text-align:right;">91691</td><td style="text-align:right;">122227</td><td style="text-align:right;">35808</td><td style="text-align:right;">51025</td><td style="text-align:right;">46063</td><td style="text-align:right;">346808</td>
+				</tr><tr>
+					<td style="text-align:left;">23-05-2013</td><td style="text-align:right;">95039</td><td style="text-align:right;">133878</td><td style="text-align:right;">42628</td><td style="text-align:right;">61335</td><td style="text-align:right;">49797</td><td style="text-align:right;">382674</td>
+				</tr><tr>
+					<td style="text-align:left;">24-05-2013</td><td style="text-align:right;">83685</td><td style="text-align:right;">124631</td><td style="text-align:right;">42698</td><td style="text-align:right;">61918</td><td style="text-align:right;">50866</td><td style="text-align:right;">363795</td>
+				</tr><tr>
+					<td style="text-align:left;">25-05-2013</td><td style="text-align:right;">77962</td><td style="text-align:right;">94861</td><td style="text-align:right;">25766</td><td style="text-align:right;">45560</td><td style="text-align:right;">44110</td><td style="text-align:right;">288254</td>
+				</tr><tr>
+					<td style="text-align:left;">26-05-2013</td><td style="text-align:right;">75370</td><td style="text-align:right;">68175</td><td style="text-align:right;">24153</td><td style="text-align:right;">41049</td><td style="text-align:right;">40642</td><td style="text-align:right;">249384</td>
+				</tr><tr>
+					<td style="text-align:left;">27-05-2013</td><td style="text-align:right;">92263</td><td style="text-align:right;">125322</td><td style="text-align:right;">39361</td><td style="text-align:right;">67180</td><td style="text-align:right;">51171</td><td style="text-align:right;">375286</td>
+				</tr><tr>
+					<td style="text-align:left;">28-05-2013</td><td style="text-align:right;">98412</td><td style="text-align:right;">121302</td><td style="text-align:right;">37077</td><td style="text-align:right;">63212</td><td style="text-align:right;">54737</td><td style="text-align:right;">374730</td>
+				</tr><tr>
+					<td style="text-align:left;">29-05-2013</td><td style="text-align:right;">101219</td><td style="text-align:right;">117176</td><td style="text-align:right;">38380</td><td style="text-align:right;">64584</td><td style="text-align:right;">51523</td><td style="text-align:right;">372881</td>
+				</tr><tr>
+					<td style="text-align:left;">30-05-2013</td><td style="text-align:right;">98388</td><td style="text-align:right;">115572</td><td style="text-align:right;">35620</td><td style="text-align:right;">60752</td><td style="text-align:right;">50993</td><td style="text-align:right;">361322</td>
+				</tr><tr>
+					<td style="text-align:left;">31-05-2013</td><td style="text-align:right;">96973</td><td style="text-align:right;">109416</td><td style="text-align:right;">33619</td><td style="text-align:right;">54673</td><td style="text-align:right;">48612</td><td style="text-align:right;">343292</td>
+				</tr><tr>
+					<td style="text-align:left;">01-06-2013</td><td style="text-align:right;">94202</td><td style="text-align:right;">86746</td><td style="text-align:right;">29590</td><td style="text-align:right;">44204</td><td style="text-align:right;">56097</td><td style="text-align:right;">310831</td>
+				</tr><tr>
+					<td style="text-align:left;">02-06-2013</td><td style="text-align:right;">89350</td><td style="text-align:right;">74172</td><td style="text-align:right;">28379</td><td style="text-align:right;">40475</td><td style="text-align:right;">52422</td><td style="text-align:right;">284793</td>
+				</tr><tr>
+					<td style="text-align:left;">03-06-2013</td><td style="text-align:right;">97659</td><td style="text-align:right;">92632</td><td style="text-align:right;">35655</td><td style="text-align:right;">51868</td><td style="text-align:right;">54173</td><td style="text-align:right;">331984</td>
+				</tr><tr>
+					<td style="text-align:left;">04-06-2013</td><td style="text-align:right;">95367</td><td style="text-align:right;">107468</td><td style="text-align:right;">38756</td><td style="text-align:right;">59020</td><td style="text-align:right;">55417</td><td style="text-align:right;">356026</td>
+				</tr><tr>
+					<td style="text-align:left;">05-06-2013</td><td style="text-align:right;">95579</td><td style="text-align:right;">114263</td><td style="text-align:right;">40692</td><td style="text-align:right;">62782</td><td style="text-align:right;">57622</td><td style="text-align:right;">370929</td>
+				</tr><tr>
+					<td style="text-align:left;">06-06-2013</td><td style="text-align:right;">95415</td><td style="text-align:right;">114656</td><td style="text-align:right;">38836</td><td style="text-align:right;">64296</td><td style="text-align:right;">56687</td><td style="text-align:right;">369882</td>
+				</tr><tr>
+					<td style="text-align:left;">07-06-2013</td><td style="text-align:right;">95623</td><td style="text-align:right;">108867</td><td style="text-align:right;">35841</td><td style="text-align:right;">60600</td><td style="text-align:right;">53981</td><td style="text-align:right;">354912</td>
+				</tr><tr>
+					<td style="text-align:left;">08-06-2013</td><td style="text-align:right;">81456</td><td style="text-align:right;">81575</td><td style="text-align:right;">25529</td><td style="text-align:right;">55199</td><td style="text-align:right;">50293</td><td style="text-align:right;">294044</td>
+				</tr><tr>
+					<td style="text-align:left;">09-06-2013</td><td style="text-align:right;">78872</td><td style="text-align:right;">75138</td><td style="text-align:right;">27496</td><td style="text-align:right;">55008</td><td style="text-align:right;">48761</td><td style="text-align:right;">285273</td>
+				</tr><tr>
+					<td style="text-align:left;">10-06-2013</td><td style="text-align:right;">99647</td><td style="text-align:right;">106948</td><td style="text-align:right;">38584</td><td style="text-align:right;">60293</td><td style="text-align:right;">51976</td><td style="text-align:right;">357447</td>
+				</tr><tr>
+					<td style="text-align:left;">11-06-2013</td><td style="text-align:right;">100955</td><td style="text-align:right;">106866</td><td style="text-align:right;">42353</td><td style="text-align:right;">59351</td><td style="text-align:right;">54792</td><td style="text-align:right;">364318</td>
+				</tr><tr>
+					<td style="text-align:left;">12-06-2013</td><td style="text-align:right;">103529</td><td style="text-align:right;">104308</td><td style="text-align:right;">42164</td><td style="text-align:right;">59476</td><td style="text-align:right;">54162</td><td style="text-align:right;">363641</td>
+				</tr><tr>
+					<td style="text-align:left;">13-06-2013</td><td style="text-align:right;">96306</td><td style="text-align:right;">91768</td><td style="text-align:right;">36670</td><td style="text-align:right;">53346</td><td style="text-align:right;">48715</td><td style="text-align:right;">326794</td>
+				</tr><tr>
+					<td style="text-align:left;">14-06-2013</td><td style="text-align:right;">91776</td><td style="text-align:right;">83960</td><td style="text-align:right;">38433</td><td style="text-align:right;">50856</td><td style="text-align:right;">45978</td><td style="text-align:right;">310997</td>
+				</tr><tr>
+					<td style="text-align:left;">15-06-2013</td><td style="text-align:right;">84220</td><td style="text-align:right;">70513</td><td style="text-align:right;">31245</td><td style="text-align:right;">42921</td><td style="text-align:right;">42745</td><td style="text-align:right;">271641</td>
+				</tr><tr>
+					<td style="text-align:left;">16-06-2013</td><td style="text-align:right;">81895</td><td style="text-align:right;">67784</td><td style="text-align:right;">27236</td><td style="text-align:right;">39768</td><td style="text-align:right;">39721</td><td style="text-align:right;">256401</td>
+				</tr><tr>
+					<td style="text-align:left;">17-06-2013</td><td style="text-align:right;">98847</td><td style="text-align:right;">85100</td><td style="text-align:right;">39511</td><td style="text-align:right;">51421</td><td style="text-align:right;">43418</td><td style="text-align:right;">318293</td>
+				</tr><tr>
+					<td style="text-align:left;">18-06-2013</td><td style="text-align:right;">98629</td><td style="text-align:right;">83265</td><td style="text-align:right;">39909</td><td style="text-align:right;">52574</td><td style="text-align:right;">44822</td><td style="text-align:right;">319195</td>
+				</tr><tr>
+					<td style="text-align:left;">19-06-2013</td><td style="text-align:right;">97924</td><td style="text-align:right;">81385</td><td style="text-align:right;">37034</td><td style="text-align:right;">48569</td><td style="text-align:right;">44659</td><td style="text-align:right;">309562</td>
+				</tr><tr>
+					<td style="text-align:left;">20-06-2013</td><td style="text-align:right;">98607</td><td style="text-align:right;">81328</td><td style="text-align:right;">40259</td><td style="text-align:right;">52201</td><td style="text-align:right;">42861</td><td style="text-align:right;">315250</td>
+				</tr><tr>
+					<td style="text-align:left;">21-06-2013</td><td style="text-align:right;">90436</td><td style="text-align:right;">69950</td><td style="text-align:right;">28318</td><td style="text-align:right;">44226</td><td style="text-align:right;">39296</td><td style="text-align:right;">272218</td>
+				</tr><tr>
+					<td style="text-align:left;">22-06-2013</td><td style="text-align:right;">78291</td><td style="text-align:right;">46076</td><td style="text-align:right;">20903</td><td style="text-align:right;">32632</td><td style="text-align:right;">30904</td><td style="text-align:right;">208800</td>
+				</tr><tr>
+					<td style="text-align:left;">23-06-2013</td><td style="text-align:right;">86436</td><td style="text-align:right;">47569</td><td style="text-align:right;">22670</td><td style="text-align:right;">35595</td><td style="text-align:right;">34328</td><td style="text-align:right;">226592</td>
+				</tr><tr>
+					<td style="text-align:left;">24-06-2013</td><td style="text-align:right;">99305</td><td style="text-align:right;">85956</td><td style="text-align:right;">37391</td><td style="text-align:right;">54244</td><td style="text-align:right;">47142</td><td style="text-align:right;">324035</td>
+				</tr><tr>
+					<td style="text-align:left;">25-06-2013</td><td style="text-align:right;">99348</td><td style="text-align:right;">91295</td><td style="text-align:right;">36952</td><td style="text-align:right;">49959</td><td style="text-align:right;">49919</td><td style="text-align:right;">327465</td>
+				</tr><tr>
+					<td style="text-align:left;">26-06-2013</td><td style="text-align:right;">95624</td><td style="text-align:right;">87718</td><td style="text-align:right;">37314</td><td style="text-align:right;">47306</td><td style="text-align:right;">48627</td><td style="text-align:right;">316581</td>
+				</tr><tr>
+					<td style="text-align:left;">27-06-2013</td><td style="text-align:right;">101744</td><td style="text-align:right;">94035</td><td style="text-align:right;">37386</td><td style="text-align:right;">49818</td><td style="text-align:right;">52005</td><td style="text-align:right;">334979</td>
+				</tr><tr>
+					<td style="text-align:left;">28-06-2013</td><td style="text-align:right;">100274</td><td style="text-align:right;">91805</td><td style="text-align:right;">35912</td><td style="text-align:right;">48404</td><td style="text-align:right;">49652</td><td style="text-align:right;">326045</td>
+				</tr><tr>
+					<td style="text-align:left;">29-06-2013</td><td style="text-align:right;">91529</td><td style="text-align:right;">62583</td><td style="text-align:right;">28306</td><td style="text-align:right;">40430</td><td style="text-align:right;">42790</td><td style="text-align:right;">265637</td>
+				</tr><tr>
+					<td style="text-align:left;">30-06-2013</td><td style="text-align:right;">88728</td><td style="text-align:right;">62861</td><td style="text-align:right;">27283</td><td style="text-align:right;">36737</td><td style="text-align:right;">39872</td><td style="text-align:right;">255475</td>
+				</tr><tr>
+					<td style="text-align:left;">01-07-2013</td><td style="text-align:right;">96490</td><td style="text-align:right;">91499</td><td style="text-align:right;">34424</td><td style="text-align:right;">50376</td><td style="text-align:right;">47624</td><td style="text-align:right;">320405</td>
+				</tr><tr>
+					<td style="text-align:left;">02-07-2013</td><td style="text-align:right;">97993</td><td style="text-align:right;">97807</td><td style="text-align:right;">33258</td><td style="text-align:right;">51586</td><td style="text-align:right;">48266</td><td style="text-align:right;">328905</td>
+				</tr><tr>
+					<td style="text-align:left;">03-07-2013</td><td style="text-align:right;">101249</td><td style="text-align:right;">93204</td><td style="text-align:right;">29599</td><td style="text-align:right;">50238</td><td style="text-align:right;">45969</td><td style="text-align:right;">320250</td>
+				</tr><tr>
+					<td style="text-align:left;">04-07-2013</td><td style="text-align:right;">100554</td><td style="text-align:right;">98842</td><td style="text-align:right;">29307</td><td style="text-align:right;">55183</td><td style="text-align:right;">50545</td><td style="text-align:right;">334427</td>
+				</tr><tr>
+					<td style="text-align:left;">05-07-2013</td><td style="text-align:right;">101899</td><td style="text-align:right;">85030</td><td style="text-align:right;">31002</td><td style="text-align:right;">45764</td><td style="text-align:right;">44635</td><td style="text-align:right;">308326</td>
+				</tr><tr>
+					<td style="text-align:left;">06-07-2013</td><td style="text-align:right;">89744</td><td style="text-align:right;">59902</td><td style="text-align:right;">21928</td><td style="text-align:right;">41028</td><td style="text-align:right;">43274</td><td style="text-align:right;">255874</td>
+				</tr><tr>
+					<td style="text-align:left;">07-07-2013</td><td style="text-align:right;">83512</td><td style="text-align:right;">49383</td><td style="text-align:right;">25174</td><td style="text-align:right;">40104</td><td style="text-align:right;">43935</td><td style="text-align:right;">242104</td>
+				</tr><tr>
+					<td style="text-align:left;">08-07-2013</td><td style="text-align:right;">97953</td><td style="text-align:right;">87418</td><td style="text-align:right;">35316</td><td style="text-align:right;">48819</td><td style="text-align:right;">48894</td><td style="text-align:right;">318391</td>
+				</tr><tr>
+					<td style="text-align:left;">09-07-2013</td><td style="text-align:right;">103702</td><td style="text-align:right;">85507</td><td style="text-align:right;">34084</td><td style="text-align:right;">45233</td><td style="text-align:right;">51252</td><td style="text-align:right;">319772</td>
+				</tr><tr>
+					<td style="text-align:left;">10-07-2013</td><td style="text-align:right;">95589</td><td style="text-align:right;">83288</td><td style="text-align:right;">30928</td><td style="text-align:right;">45995</td><td style="text-align:right;">45400</td><td style="text-align:right;">301194</td>
+				</tr><tr>
+					<td style="text-align:left;">11-07-2013</td><td style="text-align:right;">95777</td><td style="text-align:right;">91420</td><td style="text-align:right;">37173</td><td style="text-align:right;">50125</td><td style="text-align:right;">50246</td><td style="text-align:right;">324740</td>
+				</tr><tr>
+					<td style="text-align:left;">12-07-2013</td><td style="text-align:right;">93444</td><td style="text-align:right;">97695</td><td style="text-align:right;">36363</td><td style="text-align:right;">54546</td><td style="text-align:right;">51867</td><td style="text-align:right;">333914</td>
+				</tr><tr>
+					<td style="text-align:left;">13-07-2013</td><td style="text-align:right;">79326</td><td style="text-align:right;">75545</td><td style="text-align:right;">28012</td><td style="text-align:right;">48035</td><td style="text-align:right;">50676</td><td style="text-align:right;">281586</td>
+				</tr><tr>
+					<td style="text-align:left;">14-07-2013</td><td style="text-align:right;">65553</td><td style="text-align:right;">55338</td><td style="text-align:right;">24827</td><td style="text-align:right;">45310</td><td style="text-align:right;">44790</td><td style="text-align:right;">235814</td>
+				</tr><tr>
+					<td style="text-align:left;">15-07-2013</td><td style="text-align:right;">83431</td><td style="text-align:right;">95107</td><td style="text-align:right;">41693</td><td style="text-align:right;">52912</td><td style="text-align:right;">50423</td><td style="text-align:right;">323562</td>
+				</tr><tr>
+					<td style="text-align:left;">16-07-2013</td><td style="text-align:right;">85869</td><td style="text-align:right;">106408</td><td style="text-align:right;">41017</td><td style="text-align:right;">57098</td><td style="text-align:right;">51931</td><td style="text-align:right;">342315</td>
+				</tr><tr>
+					<td style="text-align:left;">17-07-2013</td><td style="text-align:right;">80847</td><td style="text-align:right;">99036</td><td style="text-align:right;">44558</td><td style="text-align:right;">59339</td><td style="text-align:right;">52161</td><td style="text-align:right;">335934</td>
+				</tr><tr>
+					<td style="text-align:left;">18-07-2013</td><td style="text-align:right;">76000</td><td style="text-align:right;">97413</td><td style="text-align:right;">47410</td><td style="text-align:right;">60164</td><td style="text-align:right;">50429</td><td style="text-align:right;">331410</td>
+				</tr><tr>
+					<td style="text-align:left;">19-07-2013</td><td style="text-align:right;">80114</td><td style="text-align:right;">88177</td><td style="text-align:right;">38313</td><td style="text-align:right;">53842</td><td style="text-align:right;">47758</td><td style="text-align:right;">308201</td>
+				</tr><tr>
+					<td style="text-align:left;">20-07-2013</td><td style="text-align:right;">70984</td><td style="text-align:right;">81327</td><td style="text-align:right;">34755</td><td style="text-align:right;">51679</td><td style="text-align:right;">51060</td><td style="text-align:right;">289805</td>
+				</tr><tr>
+					<td style="text-align:left;">21-07-2013</td><td style="text-align:right;">59470</td><td style="text-align:right;">71736</td><td style="text-align:right;">30379</td><td style="text-align:right;">49518</td><td style="text-align:right;">48734</td><td style="text-align:right;">259833</td>
+				</tr><tr>
+					<td style="text-align:left;">22-07-2013</td><td style="text-align:right;">72504</td><td style="text-align:right;">103450</td><td style="text-align:right;">38510</td><td style="text-align:right;">59935</td><td style="text-align:right;">42707</td><td style="text-align:right;">317107</td>
+				</tr><tr>
+					<td style="text-align:left;">23-07-2013</td><td style="text-align:right;">71281</td><td style="text-align:right;">95845</td><td style="text-align:right;">41861</td><td style="text-align:right;">58981</td><td style="text-align:right;">47499</td><td style="text-align:right;">315458</td>
+				</tr><tr>
+					<td style="text-align:left;">24-07-2013</td><td style="text-align:right;">73958</td><td style="text-align:right;">96639</td><td style="text-align:right;">39075</td><td style="text-align:right;">58791</td><td style="text-align:right;">48777</td><td style="text-align:right;">317240</td>
+				</tr><tr>
+					<td style="text-align:left;">25-07-2013</td><td style="text-align:right;">81005</td><td style="text-align:right;">104153</td><td style="text-align:right;">37779</td><td style="text-align:right;">58299</td><td style="text-align:right;">52708</td><td style="text-align:right;">333930</td>
+				</tr><tr>
+					<td style="text-align:left;">26-07-2013</td><td style="text-align:right;">76689</td><td style="text-align:right;">110617</td><td style="text-align:right;">35768</td><td style="text-align:right;">63754</td><td style="text-align:right;">52281</td><td style="text-align:right;">339104</td>
+				</tr><tr>
+					<td style="text-align:left;">27-07-2013</td><td style="text-align:right;">60717</td><td style="text-align:right;">106701</td><td style="text-align:right;">27068</td><td style="text-align:right;">53358</td><td style="text-align:right;">53156</td><td style="text-align:right;">300997</td>
+				</tr><tr>
+					<td style="text-align:left;">28-07-2013</td><td style="text-align:right;">55437</td><td style="text-align:right;">73124</td><td style="text-align:right;">24239</td><td style="text-align:right;">45164</td><td style="text-align:right;">48616</td><td style="text-align:right;">246575</td>
+				</tr><tr>
+					<td style="text-align:left;">29-07-2013</td><td style="text-align:right;">69520</td><td style="text-align:right;">111331</td><td style="text-align:right;">37482</td><td style="text-align:right;">62792</td><td style="text-align:right;">52772</td><td style="text-align:right;">333897</td>
+				</tr><tr>
+					<td style="text-align:left;">30-07-2013</td><td style="text-align:right;">71794</td><td style="text-align:right;">105290</td><td style="text-align:right;">33550</td><td style="text-align:right;">57680</td><td style="text-align:right;">54084</td><td style="text-align:right;">322390</td>
+				</tr><tr>
+					<td style="text-align:left;">31-07-2013</td><td style="text-align:right;">69344</td><td style="text-align:right;">98725</td><td style="text-align:right;">33985</td><td style="text-align:right;">59518</td><td style="text-align:right;">51833</td><td style="text-align:right;">313398</td>
+				</tr><tr>
+					<td style="text-align:left;">01-08-2013</td><td style="text-align:right;">68238</td><td style="text-align:right;">111347</td><td style="text-align:right;">40406</td><td style="text-align:right;">63106</td><td style="text-align:right;">55314</td><td style="text-align:right;">338408</td>
+				</tr><tr>
+					<td style="text-align:left;">02-08-2013</td><td style="text-align:right;">62162</td><td style="text-align:right;">108668</td><td style="text-align:right;">39835</td><td style="text-align:right;">62586</td><td style="text-align:right;">52085</td><td style="text-align:right;">325330</td>
+				</tr><tr>
+					<td style="text-align:left;">03-08-2013</td><td style="text-align:right;">60567</td><td style="text-align:right;">89021</td><td style="text-align:right;">33030</td><td style="text-align:right;">53859</td><td style="text-align:right;">52191</td><td style="text-align:right;">288660</td>
+				</tr><tr>
+					<td style="text-align:left;">04-08-2013</td><td style="text-align:right;">61118</td><td style="text-align:right;">87634</td><td style="text-align:right;">31398</td><td style="text-align:right;">56191</td><td style="text-align:right;">53781</td><td style="text-align:right;">290114</td>
+				</tr><tr>
+					<td style="text-align:left;">05-08-2013</td><td style="text-align:right;">73818</td><td style="text-align:right;">110021</td><td style="text-align:right;">41480</td><td style="text-align:right;">63974</td><td style="text-align:right;">53141</td><td style="text-align:right;">342426</td>
+				</tr><tr>
+					<td style="text-align:left;">06-08-2013</td><td style="text-align:right;">83182</td><td style="text-align:right;">108920</td><td style="text-align:right;">39783</td><td style="text-align:right;">63072</td><td style="text-align:right;">51377</td><td style="text-align:right;">346327</td>
+				</tr><tr>
+					<td style="text-align:left;">07-08-2013</td><td style="text-align:right;">78362</td><td style="text-align:right;">94485</td><td style="text-align:right;">42080</td><td style="text-align:right;">65961</td><td style="text-align:right;">49121</td><td style="text-align:right;">330006</td>
+				</tr><tr>
+					<td style="text-align:left;">08-08-2013</td><td style="text-align:right;">86024</td><td style="text-align:right;">96460</td><td style="text-align:right;">44454</td><td style="text-align:right;">69252</td><td style="text-align:right;">48060</td><td style="text-align:right;">344245</td>
+				</tr><tr>
+					<td style="text-align:left;">09-08-2013</td><td style="text-align:right;">96300</td><td style="text-align:right;">91163</td><td style="text-align:right;">42770</td><td style="text-align:right;">64318</td><td style="text-align:right;">53556</td><td style="text-align:right;">348101</td>
+				</tr><tr>
+					<td style="text-align:left;">10-08-2013</td><td style="text-align:right;">95220</td><td style="text-align:right;">76062</td><td style="text-align:right;">36946</td><td style="text-align:right;">61068</td><td style="text-align:right;">49908</td><td style="text-align:right;">319197</td>
+				</tr><tr>
+					<td style="text-align:left;">11-08-2013</td><td style="text-align:right;">86240</td><td style="text-align:right;">66032</td><td style="text-align:right;">32842</td><td style="text-align:right;">54360</td><td style="text-align:right;">47046</td><td style="text-align:right;">286513</td>
+				</tr><tr>
+					<td style="text-align:left;">12-08-2013</td><td style="text-align:right;">98205</td><td style="text-align:right;">85915</td><td style="text-align:right;">41659</td><td style="text-align:right;">64745</td><td style="text-align:right;">48917</td><td style="text-align:right;">339438</td>
+				</tr><tr>
+					<td style="text-align:left;">13-08-2013</td><td style="text-align:right;">99478</td><td style="text-align:right;">83413</td><td style="text-align:right;">45085</td><td style="text-align:right;">59775</td><td style="text-align:right;">48533</td><td style="text-align:right;">336277</td>
+				</tr><tr>
+					<td style="text-align:left;">14-08-2013</td><td style="text-align:right;">87934</td><td style="text-align:right;">74166</td><td style="text-align:right;">43920</td><td style="text-align:right;">61040</td><td style="text-align:right;">42091</td><td style="text-align:right;">309141</td>
+				</tr><tr>
+					<td style="text-align:left;">15-08-2013</td><td style="text-align:right;">99021</td><td style="text-align:right;">79888</td><td style="text-align:right;">44480</td><td style="text-align:right;">68364</td><td style="text-align:right;">44556</td><td style="text-align:right;">336308</td>
+				</tr><tr>
+					<td style="text-align:left;">16-08-2013</td><td style="text-align:right;">96800</td><td style="text-align:right;">91233</td><td style="text-align:right;">44339</td><td style="text-align:right;">65038</td><td style="text-align:right;">41420</td><td style="text-align:right;">338827</td>
+				</tr><tr>
+					<td style="text-align:left;">17-08-2013</td><td style="text-align:right;">87858</td><td style="text-align:right;">83702</td><td style="text-align:right;">39407</td><td style="text-align:right;">58613</td><td style="text-align:right;">45481</td><td style="text-align:right;">315058</td>
+				</tr><tr>
+					<td style="text-align:left;">18-08-2013</td><td style="text-align:right;">84182</td><td style="text-align:right;">73111</td><td style="text-align:right;">36478</td><td style="text-align:right;">47154</td><td style="text-align:right;">40192</td><td style="text-align:right;">281117</td>
+				</tr><tr>
+					<td style="text-align:left;">19-08-2013</td><td style="text-align:right;">90458</td><td style="text-align:right;">81323</td><td style="text-align:right;">45681</td><td style="text-align:right;">67875</td><td style="text-align:right;">44940</td><td style="text-align:right;">330276</td>
+				</tr><tr>
+					<td style="text-align:left;">20-08-2013</td><td style="text-align:right;">93758</td><td style="text-align:right;">80330</td><td style="text-align:right;">41558</td><td style="text-align:right;">66157</td><td style="text-align:right;">46155</td><td style="text-align:right;">327954</td>
+				</tr><tr>
+					<td style="text-align:left;">21-08-2013</td><td style="text-align:right;">98696</td><td style="text-align:right;">74649</td><td style="text-align:right;">44459</td><td style="text-align:right;">70902</td><td style="text-align:right;">44863</td><td style="text-align:right;">333564</td>
+				</tr><tr>
+					<td style="text-align:left;">22-08-2013</td><td style="text-align:right;">93657</td><td style="text-align:right;">68311</td><td style="text-align:right;">42648</td><td style="text-align:right;">69315</td><td style="text-align:right;">42775</td><td style="text-align:right;">316702</td>
+				</tr><tr>
+					<td style="text-align:left;">23-08-2013</td><td style="text-align:right;">89563</td><td style="text-align:right;">75990</td><td style="text-align:right;">43362</td><td style="text-align:right;">68035</td><td style="text-align:right;">44752</td><td style="text-align:right;">321695</td>
+				</tr><tr>
+					<td style="text-align:left;">24-08-2013</td><td style="text-align:right;">78104</td><td style="text-align:right;">75375</td><td style="text-align:right;">41221</td><td style="text-align:right;">69739</td><td style="text-align:right;">44890</td><td style="text-align:right;">309328</td>
+				</tr><tr>
+					<td style="text-align:left;">25-08-2013</td><td style="text-align:right;">71346</td><td style="text-align:right;">73913</td><td style="text-align:right;">40749</td><td style="text-align:right;">65524</td><td style="text-align:right;">44637</td><td style="text-align:right;">296164</td>
+				</tr><tr>
+					<td style="text-align:left;">26-08-2013</td><td style="text-align:right;">80902</td><td style="text-align:right;">85005</td><td style="text-align:right;">49409</td><td style="text-align:right;">71572</td><td style="text-align:right;">50967</td><td style="text-align:right;">337841</td>
+				</tr><tr>
+					<td style="text-align:left;">27-08-2013</td><td style="text-align:right;">77666</td><td style="text-align:right;">85773</td><td style="text-align:right;">48621</td><td style="text-align:right;">71275</td><td style="text-align:right;">52408</td><td style="text-align:right;">335734</td>
+				</tr><tr>
+					<td style="text-align:left;">28-08-2013</td><td style="text-align:right;">75467</td><td style="text-align:right;">90880</td><td style="text-align:right;">47657</td><td style="text-align:right;">69592</td><td style="text-align:right;">50348</td><td style="text-align:right;">333941</td>
+				</tr><tr>
+					<td style="text-align:left;">29-08-2013</td><td style="text-align:right;">65870</td><td style="text-align:right;">92131</td><td style="text-align:right;">47380</td><td style="text-align:right;">73460</td><td style="text-align:right;">53511</td><td style="text-align:right;">332348</td>
+				</tr><tr>
+					<td style="text-align:left;">30-08-2013</td><td style="text-align:right;">64298</td><td style="text-align:right;">99240</td><td style="text-align:right;">46498</td><td style="text-align:right;">76569</td><td style="text-align:right;">54282</td><td style="text-align:right;">340878</td>
+				</tr><tr>
+					<td style="text-align:left;">31-08-2013</td><td style="text-align:right;">57563</td><td style="text-align:right;">88848</td><td style="text-align:right;">34269</td><td style="text-align:right;">66999</td><td style="text-align:right;">45969</td><td style="text-align:right;">293645</td>
+				</tr><tr>
+					<td style="text-align:left;">01-09-2013</td><td style="text-align:right;">54822</td><td style="text-align:right;">76423</td><td style="text-align:right;">25411</td><td style="text-align:right;">59541</td><td style="text-align:right;">45939</td><td style="text-align:right;">262134</td>
+				</tr><tr>
+					<td style="text-align:left;">02-09-2013</td><td style="text-align:right;">54211</td><td style="text-align:right;">91260</td><td style="text-align:right;">32846</td><td style="text-align:right;">68635</td><td style="text-align:right;">48346</td><td style="text-align:right;">295286</td>
+				</tr><tr>
+					<td style="text-align:left;">03-09-2013</td><td style="text-align:right;">55225</td><td style="text-align:right;">109512</td><td style="text-align:right;">41477</td><td style="text-align:right;">75734</td><td style="text-align:right;">47882</td><td style="text-align:right;">329819</td>
+				</tr><tr>
+					<td style="text-align:left;">04-09-2013</td><td style="text-align:right;">62220</td><td style="text-align:right;">106502</td><td style="text-align:right;">40067</td><td style="text-align:right;">78571</td><td style="text-align:right;">48324</td><td style="text-align:right;">335677</td>
+				</tr><tr>
+					<td style="text-align:left;">05-09-2013</td><td style="text-align:right;">49419</td><td style="text-align:right;">114010</td><td style="text-align:right;">36961</td><td style="text-align:right;">74455</td><td style="text-align:right;">52506</td><td style="text-align:right;">327349</td>
+				</tr><tr>
+					<td style="text-align:left;">06-09-2013</td><td style="text-align:right;">48956</td><td style="text-align:right;">102716</td><td style="text-align:right;">33503</td><td style="text-align:right;">69782</td><td style="text-align:right;">49894</td><td style="text-align:right;">304851</td>
+				</tr><tr>
+					<td style="text-align:left;">07-09-2013</td><td style="text-align:right;">44412</td><td style="text-align:right;">99058</td><td style="text-align:right;">30494</td><td style="text-align:right;">71597</td><td style="text-align:right;">52470</td><td style="text-align:right;">298021</td>
+				</tr><tr>
+					<td style="text-align:left;">08-09-2013</td><td style="text-align:right;">41529</td><td style="text-align:right;">89395</td><td style="text-align:right;">28561</td><td style="text-align:right;">71739</td><td style="text-align:right;">45386</td><td style="text-align:right;">276599</td>
+				</tr><tr>
+					<td style="text-align:left;">09-09-2013</td><td style="text-align:right;">56160</td><td style="text-align:right;">125287</td><td style="text-align:right;">43541</td><td style="text-align:right;">78855</td><td style="text-align:right;">51074</td><td style="text-align:right;">354909</td>
+				</tr><tr>
+					<td style="text-align:left;">10-09-2013</td><td style="text-align:right;">57703</td><td style="text-align:right;">122643</td><td style="text-align:right;">43602</td><td style="text-align:right;">80062</td><td style="text-align:right;">49334</td><td style="text-align:right;">353338</td>
+				</tr><tr>
+					<td style="text-align:left;">11-09-2013</td><td style="text-align:right;">63433</td><td style="text-align:right;">117020</td><td style="text-align:right;">45995</td><td style="text-align:right;">80877</td><td style="text-align:right;">47082</td><td style="text-align:right;">354394</td>
+				</tr><tr>
+					<td style="text-align:left;">12-09-2013</td><td style="text-align:right;">74065</td><td style="text-align:right;">106587</td><td style="text-align:right;">43153</td><td style="text-align:right;">79905</td><td style="text-align:right;">50840</td><td style="text-align:right;">354543</td>
+				</tr><tr>
+					<td style="text-align:left;">13-09-2013</td><td style="text-align:right;">74304</td><td style="text-align:right;">117691</td><td style="text-align:right;">46910</td><td style="text-align:right;">79242</td><td style="text-align:right;">48345</td><td style="text-align:right;">366488</td>
+				</tr><tr>
+					<td style="text-align:left;">14-09-2013</td><td style="text-align:right;">71369</td><td style="text-align:right;">98610</td><td style="text-align:right;">34812</td><td style="text-align:right;">72931</td><td style="text-align:right;">46480</td><td style="text-align:right;">324194</td>
+				</tr><tr>
+					<td style="text-align:left;">15-09-2013</td><td style="text-align:right;">66804</td><td style="text-align:right;">87179</td><td style="text-align:right;">30530</td><td style="text-align:right;">62273</td><td style="text-align:right;">45290</td><td style="text-align:right;">292067</td>
+				</tr><tr>
+					<td style="text-align:left;">16-09-2013</td><td style="text-align:right;">71384</td><td style="text-align:right;">96380</td><td style="text-align:right;">45327</td><td style="text-align:right;">65806</td><td style="text-align:right;">43553</td><td style="text-align:right;">322442</td>
+				</tr><tr>
+					<td style="text-align:left;">17-09-2013</td><td style="text-align:right;">82142</td><td style="text-align:right;">101566</td><td style="text-align:right;">45941</td><td style="text-align:right;">70993</td><td style="text-align:right;">42251</td><td style="text-align:right;">342886</td>
+				</tr><tr>
+					<td style="text-align:left;">18-09-2013</td><td style="text-align:right;">95082</td><td style="text-align:right;">105793</td><td style="text-align:right;">42263</td><td style="text-align:right;">67993</td><td style="text-align:right;">41266</td><td style="text-align:right;">352395</td>
+				</tr><tr>
+					<td style="text-align:left;">19-09-2013</td><td style="text-align:right;">100034</td><td style="text-align:right;">106152</td><td style="text-align:right;">42487</td><td style="text-align:right;">68191</td><td style="text-align:right;">37031</td><td style="text-align:right;">353892</td>
+				</tr><tr>
+					<td style="text-align:left;">20-09-2013</td><td style="text-align:right;">96592</td><td style="text-align:right;">105612</td><td style="text-align:right;">41714</td><td style="text-align:right;">68000</td><td style="text-align:right;">42919</td><td style="text-align:right;">354826</td>
+				</tr><tr>
+					<td style="text-align:left;">21-09-2013</td><td style="text-align:right;">93000</td><td style="text-align:right;">91538</td><td style="text-align:right;">28612</td><td style="text-align:right;">58555</td><td style="text-align:right;">41732</td><td style="text-align:right;">313428</td>
+				</tr><tr>
+					<td style="text-align:left;">22-09-2013</td><td style="text-align:right;">82524</td><td style="text-align:right;">78102</td><td style="text-align:right;">22558</td><td style="text-align:right;">48390</td><td style="text-align:right;">38533</td><td style="text-align:right;">270106</td>
+				</tr><tr>
+					<td style="text-align:left;">23-09-2013</td><td style="text-align:right;">90631</td><td style="text-align:right;">96761</td><td style="text-align:right;">37830</td><td style="text-align:right;">62878</td><td style="text-align:right;">38646</td><td style="text-align:right;">326739</td>
+				</tr><tr>
+					<td style="text-align:left;">24-09-2013</td><td style="text-align:right;">86835</td><td style="text-align:right;">111405</td><td style="text-align:right;">41722</td><td style="text-align:right;">68405</td><td style="text-align:right;">39391</td><td style="text-align:right;">347753</td>
+				</tr><tr>
+					<td style="text-align:left;">25-09-2013</td><td style="text-align:right;">87283</td><td style="text-align:right;">119353</td><td style="text-align:right;">43711</td><td style="text-align:right;">68855</td><td style="text-align:right;">41010</td><td style="text-align:right;">360208</td>
+				</tr><tr>
+					<td style="text-align:left;">26-09-2013</td><td style="text-align:right;">80162</td><td style="text-align:right;">126370</td><td style="text-align:right;">44423</td><td style="text-align:right;">69422</td><td style="text-align:right;">41018</td><td style="text-align:right;">361385</td>
+				</tr><tr>
+					<td style="text-align:left;">27-09-2013</td><td style="text-align:right;">79615</td><td style="text-align:right;">128600</td><td style="text-align:right;">37632</td><td style="text-align:right;">71021</td><td style="text-align:right;">41648</td><td style="text-align:right;">358502</td>
+				</tr><tr>
+					<td style="text-align:left;">28-09-2013</td><td style="text-align:right;">74921</td><td style="text-align:right;">120446</td><td style="text-align:right;">24175</td><td style="text-align:right;">62841</td><td style="text-align:right;">35429</td><td style="text-align:right;">317806</td>
+				</tr><tr>
+					<td style="text-align:left;">29-09-2013</td><td style="text-align:right;">70896</td><td style="text-align:right;">108707</td><td style="text-align:right;">24018</td><td style="text-align:right;">62870</td><td style="text-align:right;">34637</td><td style="text-align:right;">301129</td>
+				</tr><tr>
+					<td style="text-align:left;">30-09-2013</td><td style="text-align:right;">85341</td><td style="text-align:right;">122108</td><td style="text-align:right;">40542</td><td style="text-align:right;">72432</td><td style="text-align:right;">35571</td><td style="text-align:right;">355994</td>
+				</tr><tr>
+					<td style="text-align:left;">01-10-2013</td><td style="text-align:right;">85201</td><td style="text-align:right;">130186</td><td style="text-align:right;">45552</td><td style="text-align:right;">76306</td><td style="text-align:right;">36831</td><td style="text-align:right;">374072</td>
+				</tr><tr>
+					<td style="text-align:left;">02-10-2013</td><td style="text-align:right;">82385</td><td style="text-align:right;">127432</td><td style="text-align:right;">41183</td><td style="text-align:right;">73672</td><td style="text-align:right;">38094</td><td style="text-align:right;">362765</td>
+				</tr><tr>
+					<td style="text-align:left;">03-10-2013</td><td style="text-align:right;">80160</td><td style="text-align:right;">124792</td><td style="text-align:right;">33091</td><td style="text-align:right;">67481</td><td style="text-align:right;">36149</td><td style="text-align:right;">341666</td>
+				</tr><tr>
+					<td style="text-align:left;">04-10-2013</td><td style="text-align:right;">79395</td><td style="text-align:right;">128141</td><td style="text-align:right;">32956</td><td style="text-align:right;">60137</td><td style="text-align:right;">35239</td><td style="text-align:right;">335862</td>
+				</tr><tr>
+					<td style="text-align:left;">05-10-2013</td><td style="text-align:right;">69399</td><td style="text-align:right;">111336</td><td style="text-align:right;">26264</td><td style="text-align:right;">53034</td><td style="text-align:right;">33291</td><td style="text-align:right;">293316</td>
+				</tr><tr>
+					<td style="text-align:left;">06-10-2013</td><td style="text-align:right;">65583</td><td style="text-align:right;">114001</td><td style="text-align:right;">27815</td><td style="text-align:right;">56018</td><td style="text-align:right;">36425</td><td style="text-align:right;">299840</td>
+				</tr><tr>
+					<td style="text-align:left;">07-10-2013</td><td style="text-align:right;">74552</td><td style="text-align:right;">117334</td><td style="text-align:right;">43766</td><td style="text-align:right;">61043</td><td style="text-align:right;">42224</td><td style="text-align:right;">338913</td>
+				</tr><tr>
+					<td style="text-align:left;">08-10-2013</td><td style="text-align:right;">76783</td><td style="text-align:right;">108985</td><td style="text-align:right;">43522</td><td style="text-align:right;">65072</td><td style="text-align:right;">50474</td><td style="text-align:right;">344830</td>
+				</tr><tr>
+					<td style="text-align:left;">09-10-2013</td><td style="text-align:right;">82555</td><td style="text-align:right;">105888</td><td style="text-align:right;">48177</td><td style="text-align:right;">61916</td><td style="text-align:right;">49149</td><td style="text-align:right;">347686</td>
+				</tr><tr>
+					<td style="text-align:left;">10-10-2013</td><td style="text-align:right;">84560</td><td style="text-align:right;">113697</td><td style="text-align:right;">49331</td><td style="text-align:right;">64385</td><td style="text-align:right;">51332</td><td style="text-align:right;">363297</td>
+				</tr><tr>
+					<td style="text-align:left;">11-10-2013</td><td style="text-align:right;">76431</td><td style="text-align:right;">110238</td><td style="text-align:right;">45814</td><td style="text-align:right;">60356</td><td style="text-align:right;">52789</td><td style="text-align:right;">345628</td>
+				</tr><tr>
+					<td style="text-align:left;">12-10-2013</td><td style="text-align:right;">70544</td><td style="text-align:right;">97848</td><td style="text-align:right;">30377</td><td style="text-align:right;">61641</td><td style="text-align:right;">49717</td><td style="text-align:right;">310125</td>
+				</tr><tr>
+					<td style="text-align:left;">13-10-2013</td><td style="text-align:right;">67916</td><td style="text-align:right;">98377</td><td style="text-align:right;">30216</td><td style="text-align:right;">59285</td><td style="text-align:right;">47947</td><td style="text-align:right;">303736</td>
+				</tr><tr>
+					<td style="text-align:left;">14-10-2013</td><td style="text-align:right;">76582</td><td style="text-align:right;">132256</td><td style="text-align:right;">44028</td><td style="text-align:right;">65485</td><td style="text-align:right;">46640</td><td style="text-align:right;">364987</td>
+				</tr><tr>
+					<td style="text-align:left;">15-10-2013</td><td style="text-align:right;">73953</td><td style="text-align:right;">140239</td><td style="text-align:right;">40721</td><td style="text-align:right;">67955</td><td style="text-align:right;">48294</td><td style="text-align:right;">371156</td>
+				</tr><tr>
+					<td style="text-align:left;">16-10-2013</td><td style="text-align:right;">75553</td><td style="text-align:right;">141354</td><td style="text-align:right;">45758</td><td style="text-align:right;">67145</td><td style="text-align:right;">53226</td><td style="text-align:right;">383034</td>
+				</tr><tr>
+					<td style="text-align:left;">17-10-2013</td><td style="text-align:right;">73265</td><td style="text-align:right;">137926</td><td style="text-align:right;">46222</td><td style="text-align:right;">66399</td><td style="text-align:right;">51783</td><td style="text-align:right;">375591</td>
+				</tr><tr>
+					<td style="text-align:left;">18-10-2013</td><td style="text-align:right;">81484</td><td style="text-align:right;">145927</td><td style="text-align:right;">49115</td><td style="text-align:right;">69273</td><td style="text-align:right;">50473</td><td style="text-align:right;">396267</td>
+				</tr><tr>
+					<td style="text-align:left;">19-10-2013</td><td style="text-align:right;">74200</td><td style="text-align:right;">131338</td><td style="text-align:right;">45400</td><td style="text-align:right;">70870</td><td style="text-align:right;">52978</td><td style="text-align:right;">374782</td>
+				</tr><tr>
+					<td style="text-align:left;">20-10-2013</td><td style="text-align:right;">74028</td><td style="text-align:right;">129814</td><td style="text-align:right;">41028</td><td style="text-align:right;">71528</td><td style="text-align:right;">53358</td><td style="text-align:right;">369748</td>
+				</tr><tr>
+					<td style="text-align:left;">21-10-2013</td><td style="text-align:right;">85897</td><td style="text-align:right;">149551</td><td style="text-align:right;">51881</td><td style="text-align:right;">71418</td><td style="text-align:right;">54470</td><td style="text-align:right;">413214</td>
+				</tr><tr>
+					<td style="text-align:left;">22-10-2013</td><td style="text-align:right;">75280</td><td style="text-align:right;">128646</td><td style="text-align:right;">44481</td><td style="text-align:right;">67318</td><td style="text-align:right;">53954</td><td style="text-align:right;">369672</td>
+				</tr><tr>
+					<td style="text-align:left;">23-10-2013</td><td style="text-align:right;">64757</td><td style="text-align:right;">112875</td><td style="text-align:right;">39848</td><td style="text-align:right;">60093</td><td style="text-align:right;">55243</td><td style="text-align:right;">332812</td>
+				</tr><tr>
+					<td style="text-align:left;">24-10-2013</td><td style="text-align:right;">70230</td><td style="text-align:right;">132796</td><td style="text-align:right;">43157</td><td style="text-align:right;">56864</td><td style="text-align:right;">53269</td><td style="text-align:right;">356308</td>
+				</tr><tr>
+					<td style="text-align:left;">25-10-2013</td><td style="text-align:right;">78258</td><td style="text-align:right;">138712</td><td style="text-align:right;">45174</td><td style="text-align:right;">67872</td><td style="text-align:right;">53302</td><td style="text-align:right;">383308</td>
+				</tr><tr>
+					<td style="text-align:left;">26-10-2013</td><td style="text-align:right;">67541</td><td style="text-align:right;">111411</td><td style="text-align:right;">29621</td><td style="text-align:right;">58351</td><td style="text-align:right;">49236</td><td style="text-align:right;">316158</td>
+				</tr><tr>
+					<td style="text-align:left;">27-10-2013</td><td style="text-align:right;">65329</td><td style="text-align:right;">105018</td><td style="text-align:right;">27236</td><td style="text-align:right;">53401</td><td style="text-align:right;">43890</td><td style="text-align:right;">294870</td>
+				</tr><tr>
+					<td style="text-align:left;">28-10-2013</td><td style="text-align:right;">72673</td><td style="text-align:right;">118831</td><td style="text-align:right;">30329</td><td style="text-align:right;">60087</td><td style="text-align:right;">45956</td><td style="text-align:right;">327869</td>
+				</tr><tr>
+					<td style="text-align:left;">29-10-2013</td><td style="text-align:right;">72964</td><td style="text-align:right;">118464</td><td style="text-align:right;">30086</td><td style="text-align:right;">53993</td><td style="text-align:right;">45702</td><td style="text-align:right;">321207</td>
+				</tr><tr>
+					<td style="text-align:left;">30-10-2013</td><td style="text-align:right;">77845</td><td style="text-align:right;">121735</td><td style="text-align:right;">32144</td><td style="text-align:right;">60564</td><td style="text-align:right;">48036</td><td style="text-align:right;">340325</td>
+				</tr><tr>
+					<td style="text-align:left;">31-10-2013</td><td style="text-align:right;">76667</td><td style="text-align:right;">124996</td><td style="text-align:right;">33923</td><td style="text-align:right;">65742</td><td style="text-align:right;">48402</td><td style="text-align:right;">349718</td>
+				</tr><tr>
+					<td style="text-align:left;">01-11-2013</td><td style="text-align:right;">76565</td><td style="text-align:right;">123485</td><td style="text-align:right;">34329</td><td style="text-align:right;">70747</td><td style="text-align:right;">47913</td><td style="text-align:right;">353043</td>
+				</tr><tr>
+					<td style="text-align:left;">02-11-2013</td><td style="text-align:right;">72770</td><td style="text-align:right;">123659</td><td style="text-align:right;">33286</td><td style="text-align:right;">72535</td><td style="text-align:right;">46418</td><td style="text-align:right;">348657</td>
+				</tr><tr>
+					<td style="text-align:left;">03-11-2013</td><td style="text-align:right;">71222</td><td style="text-align:right;">100146</td><td style="text-align:right;">29656</td><td style="text-align:right;">68113</td><td style="text-align:right;">45801</td><td style="text-align:right;">314929</td>
+				</tr><tr>
+					<td style="text-align:left;">04-11-2013</td><td style="text-align:right;">85342</td><td style="text-align:right;">127686</td><td style="text-align:right;">34288</td><td style="text-align:right;">74533</td><td style="text-align:right;">45422</td><td style="text-align:right;">367265</td>
+				</tr><tr>
+					<td style="text-align:left;">05-11-2013</td><td style="text-align:right;">90545</td><td style="text-align:right;">136404</td><td style="text-align:right;">36267</td><td style="text-align:right;">73994</td><td style="text-align:right;">44425</td><td style="text-align:right;">381633</td>
+				</tr><tr>
+					<td style="text-align:left;">06-11-2013</td><td style="text-align:right;">91161</td><td style="text-align:right;">149215</td><td style="text-align:right;">39289</td><td style="text-align:right;">73689</td><td style="text-align:right;">46475</td><td style="text-align:right;">399828</td>
+				</tr><tr>
+					<td style="text-align:left;">07-11-2013</td><td style="text-align:right;">91265</td><td style="text-align:right;">147921</td><td style="text-align:right;">38337</td><td style="text-align:right;">80381</td><td style="text-align:right;">49130</td><td style="text-align:right;">407028</td>
+				</tr><tr>
+					<td style="text-align:left;">08-11-2013</td><td style="text-align:right;">86981</td><td style="text-align:right;">142142</td><td style="text-align:right;">40412</td><td style="text-align:right;">76969</td><td style="text-align:right;">46007</td><td style="text-align:right;">392510</td>
+				</tr><tr>
+					<td style="text-align:left;">09-11-2013</td><td style="text-align:right;">72818</td><td style="text-align:right;">108743</td><td style="text-align:right;">26905</td><td style="text-align:right;">65997</td><td style="text-align:right;">41578</td><td style="text-align:right;">316035</td>
+				</tr><tr>
+					<td style="text-align:left;">10-11-2013</td><td style="text-align:right;">75256</td><td style="text-align:right;">110418</td><td style="text-align:right;">29644</td><td style="text-align:right;">65678</td><td style="text-align:right;">45467</td><td style="text-align:right;">326460</td>
+				</tr><tr>
+					<td style="text-align:left;">11-11-2013</td><td style="text-align:right;">99634</td><td style="text-align:right;">160023</td><td style="text-align:right;">42638</td><td style="text-align:right;">81180</td><td style="text-align:right;">53417</td><td style="text-align:right;">436889</td>
+				</tr><tr>
+					<td style="text-align:left;">12-11-2013</td><td style="text-align:right;">87331</td><td style="text-align:right;">152868</td><td style="text-align:right;">42573</td><td style="text-align:right;">75326</td><td style="text-align:right;">47057</td><td style="text-align:right;">405149</td>
+				</tr><tr>
+					<td style="text-align:left;">13-11-2013</td><td style="text-align:right;">88644</td><td style="text-align:right;">161994</td><td style="text-align:right;">41433</td><td style="text-align:right;">71902</td><td style="text-align:right;">52038</td><td style="text-align:right;">416005</td>
+				</tr><tr>
+					<td style="text-align:left;">14-11-2013</td><td style="text-align:right;">89892</td><td style="text-align:right;">169922</td><td style="text-align:right;">44446</td><td style="text-align:right;">79610</td><td style="text-align:right;">54309</td><td style="text-align:right;">438171</td>
+				</tr><tr>
+					<td style="text-align:left;">15-11-2013</td><td style="text-align:right;">87985</td><td style="text-align:right;">159813</td><td style="text-align:right;">43474</td><td style="text-align:right;">75282</td><td style="text-align:right;">53394</td><td style="text-align:right;">419945</td>
+				</tr><tr>
+					<td style="text-align:left;">16-11-2013</td><td style="text-align:right;">74258</td><td style="text-align:right;">100003</td><td style="text-align:right;">31142</td><td style="text-align:right;">60026</td><td style="text-align:right;">44309</td><td style="text-align:right;">309730</td>
+				</tr><tr>
+					<td style="text-align:left;">17-11-2013</td><td style="text-align:right;">81676</td><td style="text-align:right;">120159</td><td style="text-align:right;">28358</td><td style="text-align:right;">60563</td><td style="text-align:right;">50174</td><td style="text-align:right;">340925</td>
+				</tr><tr>
+					<td style="text-align:left;">18-11-2013</td><td style="text-align:right;">97123</td><td style="text-align:right;">155336</td><td style="text-align:right;">47828</td><td style="text-align:right;">76418</td><td style="text-align:right;">50776</td><td style="text-align:right;">427475</td>
+				</tr><tr>
+					<td style="text-align:left;">19-11-2013</td><td style="text-align:right;">103372</td><td style="text-align:right;">160728</td><td style="text-align:right;">46003</td><td style="text-align:right;">75885</td><td style="text-align:right;">52446</td><td style="text-align:right;">438433</td>
+				</tr><tr>
+					<td style="text-align:left;">20-11-2013</td><td style="text-align:right;">109143</td><td style="text-align:right;">174302</td><td style="text-align:right;">48358</td><td style="text-align:right;">85592</td><td style="text-align:right;">55894</td><td style="text-align:right;">473290</td>
+				</tr><tr>
+					<td style="text-align:left;">21-11-2013</td><td style="text-align:right;">108163</td><td style="text-align:right;">181655</td><td style="text-align:right;">46094</td><td style="text-align:right;">89757</td><td style="text-align:right;">56485</td><td style="text-align:right;">482145</td>
+				</tr><tr>
+					<td style="text-align:left;">22-11-2013</td><td style="text-align:right;">104265</td><td style="text-align:right;">188903</td><td style="text-align:right;">48746</td><td style="text-align:right;">89769</td><td style="text-align:right;">57194</td><td style="text-align:right;">488873</td>
+				</tr><tr>
+					<td style="text-align:left;">23-11-2013</td><td style="text-align:right;">96057</td><td style="text-align:right;">162174</td><td style="text-align:right;">41853</td><td style="text-align:right;">81888</td><td style="text-align:right;">51575</td><td style="text-align:right;">433542</td>
+				</tr><tr>
+					<td style="text-align:left;">24-11-2013</td><td style="text-align:right;">84345</td><td style="text-align:right;">126111</td><td style="text-align:right;">35735</td><td style="text-align:right;">76636</td><td style="text-align:right;">47469</td><td style="text-align:right;">370288</td>
+				</tr><tr>
+					<td style="text-align:left;">25-11-2013</td><td style="text-align:right;">117151</td><td style="text-align:right;">176592</td><td style="text-align:right;">51142</td><td style="text-align:right;">86727</td><td style="text-align:right;">48695</td><td style="text-align:right;">480298</td>
+				</tr><tr>
+					<td style="text-align:left;">26-11-2013</td><td style="text-align:right;">116621</td><td style="text-align:right;">182829</td><td style="text-align:right;">52540</td><td style="text-align:right;">85553</td><td style="text-align:right;">55591</td><td style="text-align:right;">493128</td>
+				</tr><tr>
+					<td style="text-align:left;">27-11-2013</td><td style="text-align:right;">95203</td><td style="text-align:right;">149190</td><td style="text-align:right;">46100</td><td style="text-align:right;">74721</td><td style="text-align:right;">46203</td><td style="text-align:right;">411406</td>
+				</tr><tr>
+					<td style="text-align:left;">28-11-2013</td><td style="text-align:right;">89915</td><td style="text-align:right;">146649</td><td style="text-align:right;">47931</td><td style="text-align:right;">72412</td><td style="text-align:right;">45276</td><td style="text-align:right;">402175</td>
+				</tr><tr>
+					<td style="text-align:left;">29-11-2013</td><td style="text-align:right;">104376</td><td style="text-align:right;">162945</td><td style="text-align:right;">53401</td><td style="text-align:right;">81958</td><td style="text-align:right;">54706</td><td style="text-align:right;">457386</td>
+				</tr><tr>
+					<td style="text-align:left;">30-11-2013</td><td style="text-align:right;">94914</td><td style="text-align:right;">166565</td><td style="text-align:right;">47782</td><td style="text-align:right;">79638</td><td style="text-align:right;">63624</td><td style="text-align:right;">452520</td>
+				</tr><tr>
+					<td style="text-align:left;">01-12-2013</td><td style="text-align:right;">75970</td><td style="text-align:right;">130320</td><td style="text-align:right;">41451</td><td style="text-align:right;">76085</td><td style="text-align:right;">55991</td><td style="text-align:right;">379813</td>
+				</tr><tr>
+					<td style="text-align:left;">02-12-2013</td><td style="text-align:right;">47438</td><td style="text-align:right;">171533</td><td style="text-align:right;">58542</td><td style="text-align:right;">88817</td><td style="text-align:right;">126155</td><td style="text-align:right;">492478</td>
+				</tr><tr>
+					<td style="text-align:left;">03-12-2013</td><td style="text-align:right;">46203</td><td style="text-align:right;">160140</td><td style="text-align:right;">51429</td><td style="text-align:right;">81631</td><td style="text-align:right;">116410</td><td style="text-align:right;">455812</td>
+				</tr><tr>
+					<td style="text-align:left;">04-12-2013</td><td style="text-align:right;">47120</td><td style="text-align:right;">156625</td><td style="text-align:right;">51439</td><td style="text-align:right;">83741</td><td style="text-align:right;">110125</td><td style="text-align:right;">449038</td>
+				</tr><tr>
+					<td style="text-align:left;">05-12-2013</td><td style="text-align:right;">45188</td><td style="text-align:right;">153584</td><td style="text-align:right;">47825</td><td style="text-align:right;">86669</td><td style="text-align:right;">102698</td><td style="text-align:right;">435958</td>
+				</tr><tr>
+					<td style="text-align:left;">06-12-2013</td><td style="text-align:right;">45116</td><td style="text-align:right;">153427</td><td style="text-align:right;">49786</td><td style="text-align:right;">86973</td><td style="text-align:right;">104479</td><td style="text-align:right;">439780</td>
+				</tr><tr>
+					<td style="text-align:left;">07-12-2013</td><td style="text-align:right;">49317</td><td style="text-align:right;">159662</td><td style="text-align:right;">52267</td><td style="text-align:right;">94211</td><td style="text-align:right;">109161</td><td style="text-align:right;">464612</td>
+				</tr><tr>
+					<td style="text-align:left;">08-12-2013</td><td style="text-align:right;">47587</td><td style="text-align:right;">157024</td><td style="text-align:right;">55144</td><td style="text-align:right;">96986</td><td style="text-align:right;">101018</td><td style="text-align:right;">457755</td>
+				</tr><tr>
+					<td style="text-align:left;">09-12-2013</td><td style="text-align:right;">52861</td><td style="text-align:right;">185390</td><td style="text-align:right;">58154</td><td style="text-align:right;">97995</td><td style="text-align:right;">126516</td><td style="text-align:right;">520911</td>
+				</tr><tr>
+					<td style="text-align:left;">10-12-2013</td><td style="text-align:right;">52547</td><td style="text-align:right;">181762</td><td style="text-align:right;">58864</td><td style="text-align:right;">95438</td><td style="text-align:right;">116464</td><td style="text-align:right;">505070</td>
+				</tr><tr>
+					<td style="text-align:left;">11-12-2013</td><td style="text-align:right;">50048</td><td style="text-align:right;">172654</td><td style="text-align:right;">55275</td><td style="text-align:right;">88413</td><td style="text-align:right;">111783</td><td style="text-align:right;">478173</td>
+				</tr><tr>
+					<td style="text-align:left;">12-12-2013</td><td style="text-align:right;">49204</td><td style="text-align:right;">170398</td><td style="text-align:right;">53237</td><td style="text-align:right;">90168</td><td style="text-align:right;">115638</td><td style="text-align:right;">478636</td>
+				</tr><tr>
+					<td style="text-align:left;">13-12-2013</td><td style="text-align:right;">49694</td><td style="text-align:right;">177508</td><td style="text-align:right;">52961</td><td style="text-align:right;">94008</td><td style="text-align:right;">120680</td><td style="text-align:right;">494842</td>
+				</tr><tr>
+					<td style="text-align:left;">14-12-2013</td><td style="text-align:right;">49868</td><td style="text-align:right;">160262</td><td style="text-align:right;">50374</td><td style="text-align:right;">90446</td><td style="text-align:right;">112952</td><td style="text-align:right;">463893</td>
+				</tr><tr>
+					<td style="text-align:left;">15-12-2013</td><td style="text-align:right;">46473</td><td style="text-align:right;">131763</td><td style="text-align:right;">44572</td><td style="text-align:right;">77522</td><td style="text-align:right;">88549</td><td style="text-align:right;">388874</td>
+				</tr><tr>
+					<td style="text-align:left;">16-12-2013</td><td style="text-align:right;">48381</td><td style="text-align:right;">145418</td><td style="text-align:right;">49840</td><td style="text-align:right;">79189</td><td style="text-align:right;">85800</td><td style="text-align:right;">408618</td>
+				</tr><tr>
+					<td style="text-align:left;">17-12-2013</td><td style="text-align:right;">52577</td><td style="text-align:right;">153703</td><td style="text-align:right;">60261</td><td style="text-align:right;">89578</td><td style="text-align:right;">115805</td><td style="text-align:right;">471922</td>
+				</tr><tr>
+					<td style="text-align:left;">18-12-2013</td><td style="text-align:right;">54390</td><td style="text-align:right;">168483</td><td style="text-align:right;">58514</td><td style="text-align:right;">93681</td><td style="text-align:right;">128720</td><td style="text-align:right;">503788</td>
+				</tr><tr>
+					<td style="text-align:left;">19-12-2013</td><td style="text-align:right;">50782</td><td style="text-align:right;">159073</td><td style="text-align:right;">54348</td><td style="text-align:right;">86263</td><td style="text-align:right;">107184</td><td style="text-align:right;">457646</td>
+				</tr><tr>
+					<td style="text-align:left;">20-12-2013</td><td style="text-align:right;">49995</td><td style="text-align:right;">157223</td><td style="text-align:right;">53271</td><td style="text-align:right;">84906</td><td style="text-align:right;">110844</td><td style="text-align:right;">456240</td>
+				</tr><tr>
+					<td style="text-align:left;">21-12-2013</td><td style="text-align:right;">41149</td><td style="text-align:right;">116092</td><td style="text-align:right;">39876</td><td style="text-align:right;">68538</td><td style="text-align:right;">84503</td><td style="text-align:right;">350153</td>
+				</tr><tr>
+					<td style="text-align:left;">22-12-2013</td><td style="text-align:right;">39099</td><td style="text-align:right;">105223</td><td style="text-align:right;">36981</td><td style="text-align:right;">66954</td><td style="text-align:right;">79396</td><td style="text-align:right;">327646</td>
+				</tr><tr>
+					<td style="text-align:left;">23-12-2013</td><td style="text-align:right;">48591</td><td style="text-align:right;">130062</td><td style="text-align:right;">47260</td><td style="text-align:right;">71977</td><td style="text-align:right;">88031</td><td style="text-align:right;">385917</td>
+				</tr><tr>
+					<td style="text-align:left;">24-12-2013</td><td style="text-align:right;">41884</td><td style="text-align:right;">106476</td><td style="text-align:right;">32295</td><td style="text-align:right;">62623</td><td style="text-align:right;">70830</td><td style="text-align:right;">314099</td>
+				</tr><tr>
+					<td style="text-align:left;">25-12-2013</td><td style="text-align:right;">44424</td><td style="text-align:right;">112457</td><td style="text-align:right;">37027</td><td style="text-align:right;">64578</td><td style="text-align:right;">76811</td><td style="text-align:right;">335295</td>
+				</tr><tr>
+					<td style="text-align:left;">26-12-2013</td><td style="text-align:right;">48123</td><td style="text-align:right;">129726</td><td style="text-align:right;">43665</td><td style="text-align:right;">71065</td><td style="text-align:right;">93430</td><td style="text-align:right;">386002</td>
+				</tr><tr>
+					<td style="text-align:left;">27-12-2013</td><td style="text-align:right;">49481</td><td style="text-align:right;">117724</td><td style="text-align:right;">41383</td><td style="text-align:right;">69226</td><td style="text-align:right;">73933</td><td style="text-align:right;">351742</td>
+				</tr><tr>
+					<td style="text-align:left;">28-12-2013</td><td style="text-align:right;">45556</td><td style="text-align:right;">114875</td><td style="text-align:right;">34268</td><td style="text-align:right;">64325</td><td style="text-align:right;">81461</td><td style="text-align:right;">340480</td>
+				</tr><tr>
+					<td style="text-align:left;">29-12-2013</td><td style="text-align:right;">48623</td><td style="text-align:right;">107682</td><td style="text-align:right;">39751</td><td style="text-align:right;">66368</td><td style="text-align:right;">85442</td><td style="text-align:right;">347868</td>
+				</tr><tr>
+					<td style="text-align:left;">30-12-2013</td><td style="text-align:right;">49775</td><td style="text-align:right;">127098</td><td style="text-align:right;">40135</td><td style="text-align:right;">70869</td><td style="text-align:right;">85016</td><td style="text-align:right;">372884</td>
+				</tr><tr>
+					<td style="text-align:left;">31-12-2013</td><td style="text-align:right;">48543</td><td style="text-align:right;">120126</td><td style="text-align:right;">36091</td><td style="text-align:right;">69016</td><td style="text-align:right;">82091</td><td style="text-align:right;">355859</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

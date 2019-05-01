@@ -1,4 +1,4 @@
-#Install
+# #Install
 # install.packages("tseries")
 # install.packages("lubridate")
 # install.packages("fracdiff")
@@ -12,12 +12,16 @@
 # install.packages("data.table")
 # install.packages("tidyverse")
 # install.packages("readr")
-# install.packages("")
 # install.packages("LSTS")
-#install.packages('gtools')
+# install.packages('gtools')
+# install.packages("dplyr")
+#install.packages("TSA")
+#install.packages("FitAR")
+#install.packages("glmnet")
+#install.packages("stringr")
 #load library
 library(gtools)
-#packagesss
+library(stringr)
 library(lubridate)
 library(readr)
 library(stringr)
@@ -32,22 +36,27 @@ library(arfima)
 library(fracdiff)
 library(tseries)
 library(LSTS)
-#data
+library(dplyr)
+library(FitAR)
+library(glmnet)
+library(TSA)
+
 xtable(PRICES[1:10,])
 
 #SETWD
 #setwd("/Users/Rasmus/Desktop/Uni/6 Semester/Data Mining/P65236b/DATA")
 setwd("~/P65236b/DATA")
-
+##DATA
+{
 PRICES_list <- list.files("PRICES", full.names = 1)
 HYDRO_list <- list.files("HYDRO", full.names = 1)
 CONSUMPTION_list <- list.files("CONSUMPTION", full.names = 1)
-#WEATHER_list <- list.files("WEATHER", full.names = 1)
+WEATHER_list <- list.files("WEATHER", full.names = 1)
 
 PRICES <- read.csv2(PRICES_list[1], header = TRUE)[,c(10:15)]
 HYDRO <- read.csv2(HYDRO_list[1], header = TRUE)[,c(2:3)]
 CONSUMPTION <- read.csv2(CONSUMPTION_list[1], header = TRUE)[,c(2:7)]
-WEATHER <- read.csv2("vejrdata.csv", header = TRUE,skip = 1)[1:2191,c(3,6)]
+WEATHER <- read.csv2(WEATHER_list[1], header = TRUE,skip = 1)[1:2191,c(3,6)]
 
 WEATHER$Precipitation <- as.numeric(gsub(",", ".", WEATHER$Precipitation,ignore.case = "."))
 for (i in 1:length(WEATHER$Precipitation)) {
@@ -86,54 +95,10 @@ hydrolang <- rep(HYDRO$NO,each=7)
 pris <- cbind(dato,PRICES)
 hydro2 <- cbind(dato2,HYDRO)
 
-
-ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price")
-{
-ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + 
-  geom_line() + geom_line(aes(x=dato, y=Bergen),col="red", alpha = 0.5)+
-  geom_line(aes(x=dato, y=Troms.),col="blue", alpha = 0.5)+
-  geom_line(aes(x=dato, y=Kr.sand),col="green", alpha = 0.5)+
-  xlab("Date")+ylab("EL-spot Price")
-  
-ggplot(fortify(PRICES),aes(x=Oslo,y=Tr.heim))+ 
-  geom_point()+
-  xlab("EL-Spot Prince, Oslo")+
-  ylab("EL-Spot Prince, Tr.Heim") +
-  geom_bin2d(bins=250)+
-  theme(legend.position = c(0.8, 0.2))+xlim(0, 750) + ylim(0, 750)
-
-ggplot(fortify(PRICES),aes(x=Kr.sand,y=Tr.heim))+ 
-  geom_point()+
-  xlab("EL-Spot Prince, Kr.sand")+
-  ylab("EL-Spot Prince, Tr.Heim") +
-  geom_bin2d(bins=250)+
-  theme(legend.position = c(0.8, 0.2))+xlim(0, 750) + ylim(0, 750)
-
-
-ggplot(fortify(PRICES),aes(x=Oslo,y=Bergen))+ 
-  geom_point()+
-  xlab("EL-Spot Prince, Oslo")+
-  ylab("EL-Spot Prince, Bergen") +
-  geom_bin2d(bins=250)+
-  theme(legend.position = c(0.8, 0.2))+xlim(0, 750) + ylim(0, 750)
-
-ggplot(fortify(PRICES),aes(x=Oslo,y=Troms.))+ 
-  geom_point()+
-  xlab("EL-Spot Prince, Oslo")+
-  ylab("EL-Spot Prince, Troms.") +
-  geom_bin2d(bins=250)+
-  theme(legend.position = c(0.8, 0.2))+xlim(0, 750) + ylim(0, 750)
-
-ggplot(fortify(HYDRO),aes(x=dato2,y=NO))+geom_line()+
-  xlab("Weeks")+ylab(" GWh")
-
-ggplot(fortify(WEATHER),aes(x=Date,y=Mean.temperature))+geom_line()+
-  xlab("Daily")+ylab("Mean Temperature")
-
-
-plot(WEATHER[,1],1:length(WEATHER[,1]))
 }
-max(PRICES[,1])
+ggplot(fortify(PRICES),aes(x= dato, y= Oslo)) + geom_line() + xlab("Date")+ylab("El-spot price")
+
+
 
 CONSUMPTION2 <- CONSUMPTION/1000
 Consumption3 <- cbind(dato,CONSUMPTION2)
@@ -144,30 +109,6 @@ ggplot(fortify(Consumption3),aes(x=dato,y=NO1))+
   xlab("Daily")+
   ylab("Consumption in GWh")
 
-
-
-
-###ACF for pris, hydro, og comsumption
-acf(log(PRICES[,1]),lag.max = 500)
-acf(log(HYDRO[,1]),lag.max=100)
-acf(log(CONSUMPTION[,1]),lag.max = 355)
-
-
-
-
-###ARFIMA model
-pris <- ts(PRICES[,1])
-
-y <- log(pris)-mean(log(pris))
-acf2(y,max.lag = 355)
-pris.fd <- arfima(y)
-summary(pris.fd)
-
-d <- summary(pris.fd)$coef[[1]][1]; d
-se.d <- summary(pris.fd)$coef[[1]][1,2];se.d
-residual <- resid(pris.fd)
-plot.ts(residual[[1]])
-acf(residual[[1]])
 
 {
   ###Long memory spectra for Priser
@@ -205,13 +146,10 @@ acf(residual[[1]])
   #dummy sommer vinter
   
   #dummy regn?
-  
-  auto.arima(log(PRICES$Oslo),xreg=data_NO1[,c(2:3)])
-  
   acf(log(PRICES$Oslo))
   acf(diff(log(PRICES$Oslo)))
   
-  auto.arima(diff(log(PRICES$Oslo)))
+  #auto.arima(diff(log(PRICES$Oslo)))
   decom <- decompose(ts(log(PRICES$Oslo),frequency=365))
   autoplot(decom)
   ggplot(data = decom ,aes(x= dato, y= seasonal)) 
@@ -231,30 +169,7 @@ acf(residual[[1]])
   colnames(variable) <- c("Hydro reserve","Consumption","Mean.temperature","Precipitation","Snow.depth")
 }
 
-### Den rigtie data behandling!!!!!!!!!
-acf(log(PRICES$Oslo))
-acf(diff(log(PRICES$Oslo)))
 
-##ACF Log price
-{
-  bacf <- acf(log(PRICES$Oslo),lag.max = 100 ,plot = FALSE)
-  bacfdf <- with(bacf, data.frame(lag, acf))
-  
-  q <- ggplot(data = bacfdf, mapping = aes(x = lag, y = acf)) +
-    geom_hline(aes(yintercept = 0)) +
-    geom_segment(mapping = aes(xend = lag, yend = 0))
-  q
-}
-### ACF diff log price
-{
-  diffacf <- acf(diff(log(PRICES$Oslo)),lag.max = 100 ,plot = FALSE)
-  diffacfdf <- with(diffacf, data.frame(lag, acf))
-  
-  diff_q <- ggplot(data = diffacfdf, mapping = aes(x = lag, y = acf)) +
-    geom_hline(aes(yintercept = 0)) +
-    geom_segment(mapping = aes(xend = lag, yend = 0))
-  diff_q
-}
 ### acf for mean temperature
 {
   acf(WEATHER$Mean.temperature)
@@ -286,10 +201,6 @@ ggdecompose(ts(WEATHER$Mean.temperature,frequency = 365))
 p <- ggplot(decom_temperatur$random, aes(sample = decom_temperatur$random))
 p + stat_qq() + stat_qq_line()
 }
-
-###ARFIMA
-y <-log(PRICES$Oslo)
-plot.ts(y,ylab="Log of El-Spot Prices")
 
 # Vi prøver så nogle forskellige modeller og ser hvilken der er bedst vha. fx AIC
 {
@@ -343,7 +254,7 @@ qqdiffy + stat_qq() + stat_qq_line()
 y <-log(PRICES$Oslo)
 d_hat <- fracdiff(y)$d#vi finder et estimat på d
 diffY <- frakdiff(y,d_hat) #vi fraktionel differ tids serien med vores estimerede d_hat
-auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
+#auto.arima(diffY) # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
 plot.ts(diffy)
 acf(diffY)
 acf(HYDRO)}
@@ -352,7 +263,7 @@ acf(HYDRO)}
 head(pris)
 
 ### Vi f?r en vektor p? med tal fra 1-7 hvor mandag=1 s?ndag=7
-dagligpris <- as.data.frame(mutate(select(pris,dato,Oslo),weekday = wday(dato)))
+dagligpris <- as.data.frame(mutate(dplyr::select(pris,dato,Oslo),weekday = wday(dato)))
 
 ##Vi laver 2 matricer en for hverdags priser og en for weekend priser
 hverdagspris <- filter(dagligpris,weekday==2|weekday==3|weekday==4|weekday==5|weekday==6)
@@ -428,8 +339,10 @@ qqnorm(decdifflogpris$random)
 
 plot.ts(resid(model))
   }
-{
+
 ### Hellllllllllllllllllllllllllllllllllllllllligdag
+
+{
 helligdage <- c("2013-01-01 12:00:00 GMT","2013-03-28 12:00:00 GMT","2013-03-29 12:00:00 GMT","2013-04-01 12:00:00 GMT","2013-05-01 12:00:00 GMT","2013-05-09 12:00:00 GMT","2013-05-17 12:00:00 GMT","2013-05-20 12:00:00 GMT","2013-12-25 12:00:00 GMT","2013-12-26 12:00:00 GMT","2014-01-01 12:00:00 GMT","2014-04-17 12:00:00 GMT","2014-04-18 12:00:00 GMT","2014-04-21 12:00:00 GMT","2014-05-01 12:00:00 GMT","2014-05-29 12:00:00 GMT","2014-06-09 12:00:00 GMT","2014-12-25 12:00:00 GMT","2014-12-26 12:00:00 GMT","2015-01-01 12:00:00 GMT","2015-04-02 12:00:00 GMT","2015-04-03 12:00:00 GMT","2015-04-06 12:00:00 GMT","2015-05-01 12:00:00 GMT","2015-05-14 12:00:00 GMT","2015-05-25 12:00:00 GMT","2015-12-25 12:00:00 GMT","2015-12-26 12:00:00 GMT","2016-01-01 12:00:00 GMT","2016-03-24 12:00:00 GMT","2016-03-25 12:00:00 GMT","2016-03-28 12:00:00 GMT","2016-05-05 12:00:00 GMT","2016-05-16 12:00:00 GMT","2016-05-17 12:00:00 GMT","2016-12-25 12:00:00 GMT","2016-12-26 12:00:00 GMT","2017-04-13 12:00:00 GMT","2017-04-14 12:00:00 GMT","2017-04-17 12:00:00 GMT","2017-05-01 12:00:00 GMT","2017-05-17 12:00:00 GMT","2017-05-25 12:00:00 GMT","2017-12-25 12:00:00 GMT","2017-12-26 12:00:00 GMT","2018-01-01 12:00:00 GMT","2018-03-29 12:00:00 GMT","2018-03-30 12:00:00 GMT","2018-04-02 12:00:00 GMT","2018-05-01 12:00:00 GMT","2018-05-10 12:00:00 GMT","2018-05-17 12:00:00 GMT","2018-05-21 12:00:00 GMT","2018-12-25 12:00:00 GMT","2018-12-26 12:00:00 GMT")
 
 helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
@@ -438,7 +351,7 @@ helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
 helligedage2019 <- c("2019-01-01 12:00:00 GMT",
                      "2019-04-18 12:00:00 GMT",
                      "2019-04-19 12:00:00 GMT",
-                     "2019-02-22 12:00:00 GMT",
+                     "2019-04-22 12:00:00 GMT",
                      "2019-05-01 12:00:00 GMT",
                      "2019-05-17 12:00:00 GMT",
                      "2019-05-30 12:00:00 GMT",
@@ -483,6 +396,17 @@ for (i in 1:length(dummyhelligweekend)) {
   }
 }
 ## dummy spiks
+model1 <- glm(dagligpris[,2]~time(dagligpris[,1])+
+                I(time(dagligpris[,1])^2)+
+                cos((2*pi/365)*I(time(dagligpris[,1])))+
+                sin((2*pi/365)*I(time(dagligpris[,1])))+
+                cos((4*pi/365)*I(time(dagligpris[,1])))+
+                sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
+summary(model1)
+
+#vores nye tidsserie###################
+X_t <- ts(model1$residuals)
+##################################
 {
   
   dummyspikes <- c()
@@ -497,7 +421,7 @@ for (i in 1:length(dummyhelligweekend)) {
     }  
   }
 }
-
+########### tilføjer dummy spikes til GLM
 model1 <- glm(dagligpris[,2]~time(dagligpris[,1])+
                 I(time(dagligpris[,1])^2)+
                 cos((2*pi/365)*I(time(dagligpris[,1])))+
@@ -549,11 +473,11 @@ d_hat
 diffY <- ts(frakdiff(X_t,d_hat)) #vi fraktionel differ tids serien med vores estimerede d_hat
 plot.ts(diffY)
 
-auto.arima(diffY,stepwise = F,approximation = F)
-auto.arima(diffY,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+##auto.arima(diffY,stepwise = F,approximation = F)
+##auto.arima(diffY,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
 
 # Vi bruger auto arima til at finde AR og MA delen på den diffede serie
-auto.arima(X_t)
+##auto.arima(X_t)
 
 
 ###Vi finder selv vores p og q værdier ved hjælp af AIC
@@ -614,7 +538,7 @@ dd_hat <- fdGPH(X_t)$d
 diffY2<- frakdiff(X_t,dd_hat) 
 
 #vi fitter en arima funktion til den frak diffede med alternativ d
-auto.arima(diffY2,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+##auto.arima(diffY2,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
 res.arima2 <- resid(arima(diffY2,order = c(3,0,3)))
 qqnorm(res.arima2)
 acf(diffY2,lag.max = 100)
@@ -660,7 +584,7 @@ ggplot(data = acfdf2, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
 ###for alm x_T
-auto.arima(X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+#auto.arima(X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
 res.arima3 <- residuals(arima(X_t,order = c(4,0,5)))
 acf(res.arima3)
 plot(res.arima3)
@@ -693,7 +617,7 @@ AIC(arima(X_t,order = c(3,1,1)))
 arfima(X_t,order = c(6,0.499081,2))
 acf(arima(X_t,order = c(4,0,5)))
 # det differentierede tidsserie
-auto.arima(X_t,d=1,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
+#auto.arima(X_t,d=1,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
 
 
 
@@ -728,13 +652,13 @@ acf(res.arima3)
 
 
 ### AIC og d estimations algoritme
-d_est <-seq(0.001,0.499,length.out = 500) 
-aic_vec <- c()
-for (i in 1:length(d_est)) {
-  diff_X_t <-  frakdiff(X_t,d_est[i])
-  b <- auto.arima(diff_X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
-  aic_vec[i] <- AIC(arfima(X_t,order=c(b$arma[1],0,b$arma[2]),fixed = list(frac=d_est[i])))
-}
+# d_est <-seq(0.001,0.499,length.out = 500) 
+# aic_vec <- c()
+# for (i in 1:length(d_est)) {
+#   diff_X_t <-  frakdiff(X_t,d_est[i])
+#   b <- #auto.arima(diff_X_t,stepwise = F,approximation = F,max.order = 10,max.p = 10,max.q = 10)
+#   aic_vec[i] <- AIC(arfima(X_t,order=c(b$arma[1],0,b$arma[2]),fixed = list(frac=d_est[i])))
+# }
 
 ##### fjerner spiks
 {
@@ -773,13 +697,15 @@ acf(residuals(modelspikes),lag.max = 100)
 
 ### corrolation mellem parameterne 
 {
-  ccf(PRICES$Oslo,WEATHER$Mean.temperature)
-  ccf(PRICES$Oslo,WEATHER$Precipitation)
-  ccf(PRICES$Oslo,WEATHER$Mean.temperature,lag.max = 360)
+  par(mfrow=c(3,1))
+  ccf(PRICES$Oslo,WEATHER$Mean.temperature,lag.max = 360,main="Price Vs Mean Temperature")
   ccf(PRICES$Oslo,WEATHER$Precipitation,lag.max = 360)
+  ccf(WEATHER$Mean.temperature,WEATHER$Precipitation,lag.max = 360)
   ccf(PRICES$Oslo,data_NO1[,2],lag.max = 360)#HYDRO
-  ccf(PRICES$Oslo,data_NO1[,3],lag.max = 360)#CONSUMPTION
-  
+  ccf(PRICES$Oslo,data_NO1[,3],lag.max = 360,main="Price Vs Consumption")#CONSUMPTION
+  ccf(WEATHER$Mean.temperature,data_NO1[,3],lag.max = 360,main="Mean Temperature Vs Consumption")
+  corelationsd <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,data_NO1[,2],data_NO1[,3])
+  cor(corelationsd)
 }
 
 ###Model uden spikes
@@ -841,4 +767,195 @@ ggplot(data = res17df2, mapping = aes(x = lag, y = acf)) +
 as.data.frame(AICmatrix_d)
 library(xtable)
 xtable(AICmatrix_d[5:10,5:10])
+
+#### ARMAX
+
+data_NO1 <- cbind(data_NO1,WEATHER$Mean.temperature,WEATHER$Precipitation)
+
+#auto.arima(X_t,xreg=data_NO1[,2:5],max.p = 10,max.q = 10,max.order = 20,stepwise=FALSE,approximation = FALSE,D=0)
+
+armaxaic <- matrix(nrow = 10,ncol = 10)
+for (i in 1:10) {
+  for (j in 1:10) {
+    armaxaic[i,j] <- AIC(TSA::arimax(X_t,order=c(i , 0 , j),xreg = data_NO1[,2:5]))
+  }
+}
+
+
+which.min(armaxaic)
+
+
+
+TSA::arimax(X_t,order=c(10 , 0 , 8),xreg = data_NO1[,2:5],transfer =list(c(0,0),c(1,0)))
+#####CCF plot
+{
+  
+  par(mfrow=c(4,1))
+  ccf(X_t,data_NO1[,2],lag.max = 365)#hydro
+  ccf(X_t,data_NO1[,3],lag.max = 365)#consumption
+  ccf(X_t,data_NO1[,4],lag.max = 365)#mean Temp
+  ccf(X_t,data_NO1[,5],lag.max = 365)#rain
+  ccf(data_NO1[,3],data_NO1[,4],lag.max = 365)
+  
+  
+  Hydro_level <- data_NO1[,2]
+  Consumption <- data_NO1[,3]
+  Mean.Temp <- data_NO1[,4]
+  Paticipation <- data_NO1[,5]
+  
+  p1 <- ggCcf(X_t,Hydro_level, lag.max = 365, type = "correlation",plot = TRUE)
+  p2 <- ggCcf(X_t,Consumption, lag.max = 365, type = "correlation",plot = TRUE)
+  p3 <- ggCcf(X_t,Mean.Temp, lag.max = 365, type = "correlation",plot = TRUE)
+  p4 <- ggCcf(X_t,Paticipation, lag.max = 365, type = "correlation",plot = TRUE)
+  
+  multiplot(p1, p4, p2, p3, cols=2) 
+}
+
+
+
+######### armax lm test
+{
+  #ARDL model building
+  #Setup lagged variables - up to 10 lag, i.e., all exo. var. must have the same length 1339, as we also lag the first
+  end = length(X_t)
+  price_train_l10 = X_t[10:(end-1)]
+  price_train_l9 = X_t[9:(end-2)]
+  price_train_l8 = X_t[8:(end-3)]
+  price_train_l7 = X_t[7:(end-4)]
+  price_train_l6 = X_t[6:(end-5)]
+  price_train_l5 = X_t[5:(end-6)]
+  price_train_l4 = X_t[4:(end-7)]
+  price_train_l3 = X_t[3:(end-8)]
+  price_train_l2 = X_t[2:(end-9)]
+  #price_train_l1 = X_t[1:(end-(lagmaks))]
+  
+  
+  HYDRO_train_l10 = data_NO1[,2][10:(end-1)]
+  HYDRO_train_l9 = data_NO1[,2][9:(end-2)]
+  HYDRO_train_l8 = data_NO1[,2][8:(end-3)]
+  HYDRO_train_l7 = data_NO1[,2][7:(end-4)]
+  HYDRO_train_l6 = data_NO1[,2][6:(end-5)]
+  HYDRO_train_l5 = data_NO1[,2][5:(end-6)]
+  HYDRO_train_l4 = data_NO1[,2][4:(end-7)]
+  HYDRO_train_l3 = data_NO1[,2][3:(end-8)]
+  HYDRO_train_l2 = data_NO1[,2][2:(end-9)]
+  #HYDRO_train_l1 = data_NO1[,2][1:(end-(lagmaks))]
+  
+  
+  
+  hydro_train <- cbind(HYDRO_train_l10,  HYDRO_train_l9,  HYDRO_train_l8,  HYDRO_train_l7,  HYDRO_train_l6,  HYDRO_train_l5,  HYDRO_train_l4,  HYDRO_train_l3,  HYDRO_train_l2)
+  
+  consumption_train_l10 = data_NO1[,3][10:(end-1)]
+  consumption_train_l9 = data_NO1[,3][9:(end-2)]
+  consumption_train_l8 = data_NO1[,3][8:(end-3)]
+  consumption_train_l7 = data_NO1[,3][7:(end-4)]
+  consumption_train_l6 = data_NO1[,3][6:(end-5)]
+  consumption_train_l5 = data_NO1[,3][5:(end-6)]
+  consumption_train_l4 = data_NO1[,3][4:(end-7)]
+  consumption_train_l3 = data_NO1[,3][3:(end-8)]
+  consumption_train_l2 = data_NO1[,3][2:(end-9)]
+  #consumption_train_l1 = data_NO1[,3][1:(end-(lagmaks))]
+  
+  temp_train_l10 = data_NO1[,4][10:(end-1)]
+  temp_train_l9 = data_NO1[,4][9:(end-2)]
+  temp_train_l8 = data_NO1[,4][8:(end-3)]
+  temp_train_l7 = data_NO1[,4][7:(end-4)]
+  temp_train_l6 = data_NO1[,4][6:(end-5)]
+  temp_train_l5 = data_NO1[,4][5:(end-6)]
+  temp_train_l4 = data_NO1[,4][4:(end-7)]
+  temp_train_l3 = data_NO1[,4][3:(end-8)]
+  temp_train_l2 = data_NO1[,4][2:(end-9)]
+  #temp_train_l1 = data_NO1[,4][1:(end-(lagmaks))]
+  
+  rain_train_l10 = data_NO1[,5][10:(end-1)]
+  rain_train_l9 = data_NO1[,5][9:(end-2)]
+  rain_train_l8 = data_NO1[,5][8:(end-3)]
+  rain_train_l7 = data_NO1[,5][7:(end-4)]
+  rain_train_l6 = data_NO1[,5][6:(end-5)]
+  rain_train_l5 = data_NO1[,5][5:(end-6)]
+  rain_train_l4 = data_NO1[,5][4:(end-7)]
+  rain_train_l3 = data_NO1[,5][3:(end-8)]
+  rain_train_l2 = data_NO1[,5][2:(end-9)]
+  rain_train_l1 = data_NO1[,5][1:(end-(lagmaks))]
+  
+  
+  #Normal OLS setup, including all lags of exo. var.
+  x_lag = model.matrix(X_t[2:(end-9)] ~ 0 
+                       + price_train_l2 + price_train_l3 + price_train_l4 + price_train_l5 + price_train_l6 + price_train_l7 + price_train_l8 + price_train_l9 + price_train_l10 
+                       + consumption_train_l2 + consumption_train_l3 + consumption_train_l4 + consumption_train_l5 + consumption_train_l6 + consumption_train_l7 + consumption_train_l8 + consumption_train_l9 + consumption_train_l10 
+                       + HYDRO_train_l2 + HYDRO_train_l3 + HYDRO_train_l4 + HYDRO_train_l5 + HYDRO_train_l6 + HYDRO_train_l7 + HYDRO_train_l8 + HYDRO_train_l9 + HYDRO_train_l10
+                       +
+                       + temp_train_l10+ temp_train_l9+ temp_train_l8 + temp_train_l7+ temp_train_l6+ temp_train_l5+ temp_train_l4+ temp_train_l3+ temp_train_l2
+                       + rain_train_l10+rain_train_l9+rain_train_l8+rain_train_l7+rain_train_l6+rain_train_l5+rain_train_l4+rain_train_l3+rain_train_l2+rain_train_l1)
+  #antal lag der skal tjekkes for
+  lagtjek <- 5*lagmaks
+  ### ARDL model - loop to add the most significant variables
+  ols_all_lags = lm(X_t[(lagmaks+1):(end)] ~ x_lag)
+  #each loop we add the most significant variable from the ols_all_lags model
+  #setup start aic value and amount of insignificant p-values for ljung box test
+  aic_best = Inf
+  amount_LjungBox_best = -Inf
+  aic_ljungbox_best = Inf
+  removed_variables <-  c(1:lagtjek) #price_train_l1 is very significant.. lm cant run if we remove all
+  for (i in 1:lagtjek) {
+    #setup model
+    if (i < lagtjek) {
+      x_model = x_lag[,-removed_variables[i]]
+      ols_adl = lm(X_t[(lagmaks+1):(end)] ~ x_model) #this cant run when removed_variables = 0 --> therefore we split into if else statement
+    }
+    else {
+      x_model = x_lag
+      ols_adl = lm(X_t[(lagmaks+1):end] ~ x_model)
+    }
+    #check the aic and take the best model
+    if (AIC(ols_adl) < aic_best) {
+      aic_best = AIC(ols_adl)
+      best_adl_aic = ols_adl
+    }
+    
+    #check residuals - if amount of insignificant models is higher or the same 
+    amount_LjungBox_now = sum(LjungBoxTest(res = residuals(ols_adl), k = lagtjek-length(removed_variables), lag.max = 1500, StartLag = lagtjek-length(removed_variables)+1)[,3]>0.05)
+    if (amount_LjungBox_now >= amount_LjungBox_best) {
+      if (amount_LjungBox_now == amount_LjungBox_best) {
+        if (AIC(ols_adl) < aic_ljungbox_best) {
+          aic_ljungbox_best = AIC(ols_adl) 
+          best_adl_LjungBox = ols_adl
+        }
+      }
+      else {
+        amount_LjungBox_best = amount_LjungBox_now
+        best_adl_LjungBox = ols_adl
+        #check residuals - if amount of insignificant models is the same, we take the one with the best aic
+      }
+    }
+    
+    
+    if (i == lagtjek) break
+    
+    #add the most significant variable:
+    most_significant_var = names(sort(summary(ols_all_lags)$coeff[-1,4], decreasing = FALSE)[1]) #we already added intercept and price lag 1
+    entry_to_add = 1+which(names(ols_all_lags$coefficients[-1]) == most_significant_var)    #entry #1 here is the price lag 2
+    #removed_variables = removed_variables[-which(removed_variables == entry_to_add)]
+  }
+  summary(best_adl_aic)
+  AIC(best_adl_aic)
+  par(mfrow=c(1,1))
+  plot(residuals(best_adl_aic))
+  qqnorm(residuals(best_adl_aic))
+  hist(residuals(best_adl_aic),breaks = 200)
+  auto.arima((residuals(best_adl_aic)),max.p = 10,max.q = 10,max.order = 10,stepwise=FALSE,approximation = FALSE,D=0)
+}
+
+
+
+
+
+fgf <- matrix(1,2,2)
+
+
+
+
+
+
+
 
