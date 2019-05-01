@@ -351,7 +351,7 @@ helligdage = strptime(helligdage, format = "%Y-%m-%d %H:%M:%S", "GMT")
 helligedage2019 <- c("2019-01-01 12:00:00 GMT",
                      "2019-04-18 12:00:00 GMT",
                      "2019-04-19 12:00:00 GMT",
-                     "2019-02-22 12:00:00 GMT",
+                     "2019-04-22 12:00:00 GMT",
                      "2019-05-01 12:00:00 GMT",
                      "2019-05-17 12:00:00 GMT",
                      "2019-05-30 12:00:00 GMT",
@@ -941,7 +941,7 @@ TSA::arimax(X_t,order=c(10 , 0 , 8),xreg = data_NO1[,2:5],transfer =list(c(0,0),
 
 
 
-
+fgf <- matrix(1,2,2)
 
 
 
