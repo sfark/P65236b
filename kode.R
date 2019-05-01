@@ -137,6 +137,7 @@ max(PRICES[,1])
 
 CONSUMPTION2 <- CONSUMPTION/1000
 Consumption3 <- cbind(dato,CONSUMPTION2)
+
 #consumption in GWh
 ggplot(fortify(Consumption3),aes(x=dato,y=NO1))+
   geom_line(linetype=1)+
@@ -195,7 +196,6 @@ acf(residual[[1]])
   
   
   #data for NO1(OSLO)
-  
   HYDRO_NO <- rep(HYDRO$NO,each=7) #dagli
   data_NO1 <- cbind(PRICES$Oslo,HYDRO_NO,CONSUMPTION$NO1)
   colnames(data_NO1) <- c("Price","Hydro reserve","Consumption")
@@ -219,7 +219,6 @@ acf(residual[[1]])
   
   
   #weather data
-  
   head(WEATHER)
   vejr_data <- cbind(WEATHER$Mean.temperature,WEATHER$Precipitation,WEATHER$Snow.depth)
   #ændre fra comma til punktum
@@ -311,6 +310,7 @@ acf(diffx)
 pacf(diffx)
 }
 par(mfrow=c(1,1))
+
 ###Vi fjerner trend og sæson før vi fracdiffer
 {plot(decompose(ts(y,frequency=365)))
 decom_pris <- na.omit(ts(decompose(ts(y,frequency=365))$random))
@@ -543,7 +543,6 @@ adf.test(model1$residuals,k = 0)
 adf.test(model1$residuals)
 
 
-
 ## estimering af D-parameteren
 d_hat <- fracdiff(X_t)$d#vi finder et estimat på d
 d_hat
@@ -559,8 +558,6 @@ auto.arima(X_t)
 
 ###Vi finder selv vores p og q værdier ved hjælp af AIC
 n <- c(0,1,2,3,4,5)
-#pick 2 balls from the urn with replacement
-#get all permutations
 per <- permutations(n=6,r=2,v=n,repeats.allowed=T)
 armanr <- c()
 
@@ -628,8 +625,6 @@ lines(res.arima2,col="red")
 
 ### rekusiv metode for AIC et eller andet
 n <- c(0,1,2,3,4,5)
-#pick 2 balls from the urn with replacement
-#get all permutations
 per <- permutations(n=6,r=2,v=n,repeats.allowed=T)
 armanr2 <- c()
 
@@ -801,7 +796,7 @@ ggplot(ts(model3$residuals),aes(y=ts(model3$residuals),x=1:length(ts(model3$resi
 
 
 ### Estimering af d-parameter
-AICmatrix_d <- matrix(0,10,10) 
+AICmatrix_d <- matrix(0,10,10)
 for (i in 1:10) {
   for (j in 1:10) {
     AICmatrix_d[i,j] <-  AIC(fracdiff(X_t, nar = i, nma = j))
@@ -809,17 +804,20 @@ for (i in 1:10) {
 }
 which(AICmatrix_d == min(AICmatrix_d), arr.ind = TRUE)
 min(AICmatrix_d)
+
 ddd_hat <- fracdiff(X_t,nar = 8,nma = 9)$d
 summary(fracdiff.var(X_t,fracdiff(X_t,nar = 8,nma = 9),h=0.1))
 
-
 DIFFYRIGTIG <- ts(frakdiff(X_t,ddd_hat))
 fitarima89 <- arima(DIFFYRIGTIG,order = c(8,0,9))
+
 ##Vi tvinger den til at finde Standart afvigelsen
 summary(fracdiff.var(X_t,fracdiff(X_t,nar = 8,nma = 9),h=0.1))
+
 auto.arima(DIFFYRIGTIG,max.p = 10,max.q = 10,max.order = 10,stepwise = F,approximation = F)
 
 sarima(DIFFYRIGTIG,8,0,9)
+
 
 res17 <- residuals(arima(DIFFYRIGTIG,order=c(8,0,9)))
 autoplot(DIFFYRIGTIG,ylab="Sample")
