@@ -334,8 +334,7 @@ PRICES_2019SA <- ts(model19$residuals)
 
 
 
-
-
+# opstiller data for 2019
 HYDRO_2019 <- read.csv2(data_2019_files[3], header = TRUE)[1:15,2]
 Hydrprep <- (rep(HYDRO_2019,each = 7,length.out=110))/1000
 CONSUMPTION_2019 <- read.csv2(data_2019_files[1], header = TRUE,skip = 2)[1:110,2]
@@ -344,59 +343,28 @@ WEATHER_2019[,1] <- as.numeric(WEATHER_2019)
 Data2019 <- cbind(PRICES_2019SA[1:110],Hydrprep,CONSUMPTION_2019/1000,WEATHER_2019[,1],WEATHER_2019[3:112,1],WEATHER_2019[,2])
 #Data2019 <- cbind(Hydrprep,CONSUMPTION_2019/1000,WEATHER_2019[,1],WEATHER_2019[3:112,1],WEATHER_2019[,2])
 
-
-
-
-
-
-
-
-testmodel <- lm(X_t[1:(length(X_t)-lagmaks-1)]~-1+price_train[,c(1,2, 3,  6, 13, 14,21,22)]+hydro_train[,c(hydro_lag)]+consumption_train[,c(con_lag)]+temp_train[,c(temp_lag)]+rain_train[,c(rain_lag)])
-
 xmod <- forecast::Arima(X_t[1:(length(X_t)-(lagmaks+1))], order=c(0,0,2),xreg = cbind(ts(X_t[2:(length(X_t)-(lagmaks))]),hydro_train[,1],consumption_train[,1]/1000,temp_train[,c(1,3)],rain_train[,1]))
 #xmod <- forecast::Arima(X_t[1:(length(X_t)-(lagmaks+1))], order=c(1,0,2),xreg = cbind(hydro_train[,1],consumption_train[,1],temp_train[,c(1,3)],rain_train[,1]))
 forecasttest <- forecast(xmod,xreg = Data2019, level=95)
 plot(forecast(xmod,xreg = Data2019, level=95),xlim=c(2100,length(c(X_t[1:(length(X_t)-lagmaks-1)],Data2019[,1]))))
-lines(forecasttest$lower,col="red")
-lines(forecasttest$upper,col="blue")
-#lines(c(X_t[1:(length(X_t)-(lagmaks+1))],PRICES_2019SA[1:110]),col="red")
-
-polygon(c(time(forecasttest$upper),rev(time(forecasttest$upper))), c(forecasttest$upper,rev(forecasttest$lower)),col = "grey30", border = NA)
 
 fore <- predict(xmod, n.ahead = 110, newxreg = Data2019,se.fit = TRUE)
 
-ts.plot(X_t[1:(length(X_t)-(lagmaks+1))],fore$pred,col=1:2)
-U=fore$pred+fore$se;L=fore$pred-fore$se
-xx=c(time(U),rev(time(U)));yy=c(L,rev(U))
-polygon(xx,yy,border = 8,col=gray(0.6,alpha = 0.2))
-lines(fore$pred,type="p",col=2)
 
-lower <- sqrt(var(forecasttest$residuals))*1.96
-upper <- sqrt(var(forecasttest$residuals))*1.96
-forecasttest$lower
-forecasttest$upper
-
-
-ggplot(data=data.frame(X1 = fore$pred, X2 = dato19), aes(y=X1, x=X2)) +
+#plot
+ggplot(data=data.frame(X1 = fore$pred[1:109], X2 = dato19[1:109]), aes(y=X1, x=X2)) +
   geom_line(aes(col = "Forecastet values")) +
-  geom_ribbon(aes(ymin =  fore$pred- fore$se, ymax = fore$pred + fore$se), alpha = 0.2) +
-  geom_line(data=data.frame(X1=PRICES_2019SA,X2 = dato19), aes(col = "Observed season adjusted values")) + 
-  scale_colour_manual(values = c("red", "blue"))
+  geom_ribbon(aes(ymin =  fore$pred[1:109]- fore$se[1:109], ymax = fore$pred[1:109] + fore$se[1:109]), alpha = 0.2) +
+  geom_line(data=data.frame(X1=c(X_t[2150:2191],PRICES_2019SA[1:109]),X2 = c(dato[2150:2191],dato19[1:109])), aes(col = "Observed season adjusted values")) + 
+  scale_colour_manual(values = c("Black","yellow"))+xlab("Time 2019")+ylab("Season adjusted Price")+
+  ggtitle("ARMAX Forecast")+ 
+  theme(legend.title = element_blank())+ 
+  coord_cartesian(xlim = c(dato[2180:2191],dato19[1:49]), ylim = c(-100, 230))
 
+rmse(PRICES_2019SA[1:108],fore$pred[1:108])
+### cross validation
+tsCV(PRICES_2019SA[1:109],forecasttest,h=1)
 
-
-
-xrreg = cbind(ts(X_t[2:(length(X_t)-(lagmaks))]),hydro_train[,c(hydro_lag)],consumption_train[,c(con_lag)],temp_train[,c(temp_lag)],rain_train[,c(rain_lag)])
-
-forecast(X_t[2:(length(X_t)-(lagmaks))],model = xmod,xreg=xrreg)
-
-
-summary(xmod)
-AIC(xmod)
-accuracy(xmod)
-
-Pacf(X_t,lag.max = 100)
-AIC(xmod)
 ##################
 ## tjekker order
 

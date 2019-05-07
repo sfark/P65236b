@@ -19,7 +19,11 @@
 #install.packages("FitAR")
 #install.packages("glmnet")
 #install.packages("stringr")
+#install.packages("Metrics")
+#install.packages("fpp")
 #load library
+library(fpp)
+library(Metrics)
 library(gtools)
 library(stringr)
 library(lubridate)
