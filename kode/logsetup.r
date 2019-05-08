@@ -99,10 +99,10 @@ setwd("~/P65236b/DATA")
   ########
   #Hydro setup
   hydrodayli <- c()
-  for (i in 1:(length(HYDRO$NO)-1)) {
-    hydrodayli <- c(hydrodayli,seq(from = HYDRO[i,1], to = HYDRO[(i+1),1], length.out = 7))
+  for (i in 1:(length(HYDRO$NO))) {
+    hydrodayli <- c(hydrodayli,seq(from = HYDRO[i,1], length.out = 7, by=(HYDRO[i+1,1]-HYDRO[(i),1])/7) )
   }
-  hydrodayli <- c(hydrodayli,seq(from = HYDRO[(i+1),1], to=52663,length.out = 7))
+  hydrodayli[1:15]
   ###
   
   
