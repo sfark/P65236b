@@ -7,7 +7,7 @@ model2 <- glm(temp~
                 cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
-                sin((4*pi/365)*I(time(dagligpris[,1]))))
+                sin((4*pi/365)*I(time(dagligpris[,1])))-1)
 
 
 plot.ts(model2$residuals)
@@ -15,6 +15,7 @@ acf(model2$residuals)
 pacf(model2$residuals)
 
 
+{
 di_ACF <- acf(model2$residuals ,plot = FALSE)
 di_acf <- with(di_ACF, data.frame(lag, acf))
 ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
@@ -32,13 +33,26 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
   ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
 
+}
 
-
-auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(3)
-sarima(model2$residuals,d=0,p=3,q=0,no.constant = T)
-
+auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+sarima(model2$residuals,d=0,p=5,q=0,no.constant = T)
+fit5 <-arima(model2$residuals,order = c(5,0,0),include.mean = F)
+acf(fit5$residuals)
+ {
+di_ACF <- acf(fit5$residuals ,plot = FALSE)
+di_acf <- with(di_ACF, data.frame(lag, acf))
+ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
+geom_hline(aes(yintercept = 0)) +
+geom_segment(mapping = aes(xend = lag, yend = 0))+
+ylab("ACF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
+geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
+}
 
 #efter der er fjernet sæson, så fittes der en AR(3) model på, og vi får nogle gode resultater
+
+y <- X_t-residuals(Arima(X_t,model=fit5))
+ccf(model2$residuals,y)
 
 ########################## Consumption##################
 consump <-ts(CONSUMPTION[,1],frequency = 365)
@@ -60,7 +74,7 @@ pacf(model3$residuals)
 auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE)#ARMA(3,0,2)
 sarima(model2$residuals,d=0,p=3,q=2,no.constant = T)
 
-
+{
 di_ACF <- acf(model3$residuals ,plot = FALSE)
 di_acf <- with(di_ACF, data.frame(lag, acf))
 ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
@@ -77,7 +91,7 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
   ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
-
+}
 
 
 ##############  Preception#############
@@ -121,12 +135,11 @@ plot.ts(model5$residuals)
 
 
 acf(model5$residuals,lag.max = 100)
+pacf(model5$residuals,lag.max = 100)
+
 acf(diff(model5$residuals),lag.max=100)
 
-fdGPH(model5$residuals)
+auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#ARIMA(2,1,3)
 
-auto.arima(diff(model5$residuals),stepwise=FALSE, approximation=FALSE)#ARMA(0,0,5)
-auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#ARIMA(0,1,5)
-
-sarima(diff(model5$residuals),d=0,p=0,q=5,no.constant = T)
+sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
