@@ -96,6 +96,15 @@ setwd("~/P65236b/DATA")
   hydrolang <- rep(HYDRO$NO,each=7)
   pris <- cbind(dato,PRICES)
   hydro2 <- cbind(dato2,HYDRO)
+  ########
+  #Hydro setup
+  hydrodayli <- c()
+  for (i in 1:(length(HYDRO$NO)-1)) {
+    hydrodayli <- c(hydrodayli,seq(from = HYDRO[i,1], to = HYDRO[(i+1),1], length.out = 7))
+  }
+  hydrodayli <- c(hydrodayli,seq(from = HYDRO[(i+1),1], length.out = 7, by=26.5))
+  ###
+  
   
 }
 
