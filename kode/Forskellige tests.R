@@ -5,13 +5,9 @@ adf.test(model1$residuals,k = 0)
 adf.test(model1$residuals)
 
 
-##RMSE
-fit34 <- fitted.values(arfima(X_t,c(3,0,4),fixed = list(frac=0.19),dmean = F,itmean = F))
-fit12 <- fitted.values(arfima(X_t,c(1,0,2),lmodel = c("n"),dmean = F,itmean = F))
+qqnorm(X_t)
 
-rmse(exp(X_t+fitted.values(model1)),exp(fit12$Mode1+fitted.values(model1)))
-rmse(exp(X_t+fitted.values(model1)),exp(fit34$Mode1+fitted.values(model1)))
+qqline(X_t)
 
-##MAPE
-mape(X_t,fit12$Mode1)
-mape(X_t,fit34$Mode1)
+
+sarima(X_t,p=3,d=0.19,q=4,details = T,no.constant = T)

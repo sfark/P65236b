@@ -47,6 +47,9 @@ ggplot(data = diffy12_acfdf2, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.05),col="blue",linetype=2)
 
 
+#sarima finder AIC og BIC for (3,0.19,4) og (1,0,2) 
+sarima(X_t,p=3,d=0.19,q=4,details = F,no.constant = T)#AIC -3.620895 BIC -4.602709
+sarima(X_t,p=1,d=0,q=2,details = F,no.constant = T)# AIC -3.619008 BIC -4.611214
 
 #Loop der finder den bedste model til Diffy12 ved både AIC og BIC
 BIC_AIC_fmod <- c()
@@ -296,7 +299,7 @@ pacf(res.arima.BIC)
 pacf(res.arima.BIC.long)
 
 ###################### Estimation a d-parameter med fdGPH ############################
-d_hat_fdGPH <- fdGPH(X_t)$d;d_hat_fdGPH #d=0.2943173
+d_hat_fdGPH <- fdGPH(X_t)$d;d_hat_fdGPH #d=0.3917251
 
 #######################vi fraktionel differ tids serien med vores estimerede d_hat#########################
 DiffY_fdGPH<-ts(frakdiff(X_t,d_hat_fdGPH)) 
@@ -563,8 +566,11 @@ ggplot(data = di_pacf_X_t_DiffY_fdGPH, mapping = aes(x = lag, y = acf)) +
 
 
 
+# risidual plot detrend desæson
 
-
+ggplot(data=X_t,mapping = aes(1:length(X_t),X_t,colour="X_t"))+
+  xlim(c(1,2000))+
+  xlab("Time")+ylab("Sample")
 
 
 
