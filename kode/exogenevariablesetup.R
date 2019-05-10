@@ -7,7 +7,7 @@ model2 <- glm(temp~
                 cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
-                sin((4*pi/365)*I(time(dagligpris[,1])))-1)
+                sin((4*pi/365)*I(time(dagligpris[,1]))))
 
 
 plot.ts(model2$residuals)
@@ -58,7 +58,7 @@ ccf(model2$residuals,y)
 { #CCF Temp
 fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
 
-ggCcf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals,main="")
+ggCcf(fittemp$residuals,X_t-Arima(X_t,model=fittemp)$residuals,main="")
 
 
 }
@@ -166,7 +166,7 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
 { #CCF con
   fitcon <- auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)
   
-  ggCcf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,main="")
+  ggCcf(fitcon$residuals,X_t-Arima(X_t,model=fitcon)$residuals,main="")
   
   
 }
@@ -223,8 +223,9 @@ sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 { #CCF Hydro
   fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
   
-  ggCcf(fithy$residuals,Arima(X_t,model=fithy)$residuals,main="")
+  ggCcf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,main="",lag.max = 100)
   
   
 }
+
 
