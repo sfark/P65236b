@@ -55,19 +55,82 @@ y <- X_t-residuals(Arima(X_t,model=fit5))
 ccf(model2$residuals,y)
 
 ########################## Consumption##################
-consump <-ts(CONSUMPTION[,1],frequency = 365)
+consump <-ts(CONSUMPTION[,1],frequency = 356)
+{
+ggplot(fortify(CONSUMPTION/1000),aes(x=dato,y=NO1))+
+  geom_line(linetype=1)+
+  geom_hline(yintercept = 100,col="blue")+
+  xlab("Daily")+
+  ylab("Consumption in GWh")
 
-plot.ts(consump)
+}
+
+consump_daligi <- as.data.frame(mutate(dplyr::select(CONSUMPTION,NO1),weekday = wday(dato)))
+
+
+##Vi laver 2 matricer en for hverdags priser og en for weekend priser
+hverdag_consump <- filter(consump_daligi,weekday==2|weekday==3|weekday==4|weekday==5|weekday==6)
+weekend_consump <- filter(consump_daligi,weekday==1|weekday==7)
+
+
+
+
+### splitter data om og tager gennemsnit af hverdage og weekender
+k <-split(consump_daligi,1:7)
+consump_split <- cbind(k$`1`[,1],k$`2`[,1],k$`3`[,1],k$`4`[,1],k$`5`[,1],k$`6`[,1],k$`7`[,1])
+gennemsnit <- c()
+for (i in 1:7) {
+  gennemsnit <- rbind(gennemsnit,mean(consump_split[,i]))  
+if (i==7) {
+  gennemsnit <- as.data.frame(gennemsnit)
+  names(gennemsnit) #<- rbind("Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Monday")
+  gennemsnit <- cbind(1:7,gennemsnit)
+  print(gennemsnit)
+  }
+}
+
+gennemsnit <- c(gennemsnit)
+plot(gennemsnit)
+
+##ggplot afden gennemsnitlige daglige pris
+{ggplot(gennemsnit,aes(x=gennemsnit[,1],y=V1))+
+  geom_col(width = 0.8,fill="steelblue")+
+  ylim(0,120000)+ylab("Consumption")+xlab("")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  scale_x_continuous(breaks = c(1,2,3,4,5,6,7),labels = c("Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Monday"))
+  
+  }
+
+
+
+
+plot.ts(CONSUMPTION[,1])
 plot(decompose(consump))
-model3 <- glm(consump~time(dagligpris[,1])+
-                I(time(dagligpris[,1])^2)+
-                cos((2*pi/365)*I(time(dagligpris[,1])))+
+
+plot(CONSUMPTION[,1]/1000)
+abline(glm(CONSUMPTION[,1]/1000~time(dagligpris[,1])))
+
+
+model3 <- glm(consump~cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
 
 summary(model3)
-plot.ts(model3$residuals)
+plot.ts(model3$residuals,ylab=expression(hat(z)))
+z_hat <- as.data.frame(model3$residuals)
+
+autoplot(ts(model3$residuals),ylab = expression(hat(z)))
+
+ggplot(z_hat,aes(x=1:length(z_hat[,1]),y=z_hat[,1]))+
+  geom_line()+
+  ylab(expression(hat(z)(t)))+
+  xlab("Time")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  scale_x_continuous(breaks = c(0,365,730,1095,1460,1825,2190),labels = c("2013","2014","2015","2016","2017","2018","2019"))
+
+
+
 acf(model3$residuals)
 pacf(model3$residuals)
 
