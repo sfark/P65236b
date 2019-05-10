@@ -54,6 +54,14 @@ geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 y <- X_t-residuals(Arima(X_t,model=fit5))
 ccf(model2$residuals,y)
 
+
+{ #CCF Temp
+fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+
+ggCcf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals,main="")
+
+
+}
 ########################## Consumption##################
 consump <-ts(CONSUMPTION[,1],frequency = 365)
 
@@ -92,7 +100,13 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
   ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
 }
-
+{ #CCF con
+  fitcon <- auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)
+  
+  ggCcf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,main="")
+  
+  
+}
 
 ##############  Preception#############
 regn <- ts(WEATHER[,2],frequency = 365)
@@ -121,7 +135,7 @@ acf(diff(regn))
 auto.arima(regn,stepwise=FALSE, approximation=FALSE,allowmean = F)
 sarima(regn,1,0,1,no.constant = F)
 
-############ Hydro
+############ Hydro #####
 plot.ts(hydrodayli)
 plot(decompose(ts(hydrodayli,frequency = 365)))
 
@@ -142,4 +156,12 @@ acf(diff(model5$residuals),lag.max=100)
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#ARIMA(2,1,3)
 
 sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
+
+{ #CCF Hydro
+  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+  
+  ggCcf(fithy$residuals,Arima(X_t,model=fithy)$residuals,main="")
+  
+  
+}
 
