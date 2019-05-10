@@ -98,6 +98,13 @@ setwd("~/P65236b/DATA")
   pris <- cbind(dato,PRICES)
   hydro2 <- cbind(dato2,HYDRO)
   
+  
+  hydrodayli <- c()
+  for (i in 1:(length(HYDRO[,1])-1)) {
+    hydrodayli <- c(hydrodayli,(seq(from=HYDRO[i,1],length.out = 7,by=((HYDRO[i+1,1]-HYDRO[i,1])/7 ))) )
+  }
+  hydrodayli <- c(hydrodayli,seq(from=HYDRO[i,1],length.out = 7,by=((52663-HYDRO[i,1])/7 )))
+  #length(hydrodayli)
 }
 
 
