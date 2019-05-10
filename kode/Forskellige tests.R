@@ -2,7 +2,7 @@
 
 #ADF-Test
 adf.test(model1$residuals,k = 0)
-adf.test(model1$residuals)
+adf.test(model3$residuals)
 
 
 qqnorm(X_t)

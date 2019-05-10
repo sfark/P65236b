@@ -9,7 +9,8 @@ model2 <- glm(temp~
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
-
+length(temp)
+length(model2$residuals)
 plot.ts(model2$residuals)
 acf(model2$residuals)
 pacf(model2$residuals)
@@ -52,6 +53,7 @@ geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 #efter der er fjernet sæson, så fittes der en AR(3) model på, og vi får nogle gode resultater
 
 y <- X_t-residuals(Arima(X_t,model=fit5))
+
 ccf(model2$residuals,y)
 
 
@@ -201,8 +203,11 @@ sarima(regn,1,0,1,no.constant = F)
 ############ Hydro #####
 plot.ts(hydrodayli)
 plot(decompose(ts(hydrodayli,frequency = 365)))
+hydrodayli <- ts(hydrodayli)
 
 model5 <- glm(hydrodayli~
+                time(dagligpris[,1])+
+                I(time(dagligpris[,1])^2)+
                 cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
@@ -210,6 +215,8 @@ model5 <- glm(hydrodayli~
 
 plot.ts(model5$residuals)
 
+length(hydrodayli)
+length(model5$residuals)
 
 acf(model5$residuals,lag.max = 100)
 pacf(model5$residuals,lag.max = 100)
@@ -218,12 +225,13 @@ acf(diff(model5$residuals),lag.max=100)
 
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#ARIMA(2,1,3)
 
+arima(model5$residuals)
 sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
 { #CCF Hydro
-  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+  fithy <- arima(model5$residuals,order = c(2,0,0),include.mean = F)#AR(5)
   
-  ggCcf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,main="",lag.max = 100)
+  ggCcf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,lag.max = 100)
   
   
 }
