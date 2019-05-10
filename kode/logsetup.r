@@ -19,6 +19,7 @@
 # install.packages("FitAR")
 # install.packages("glmnet")
 # install.packages("stringr")
+#install.packages("rms")
 #load library
 library(gtools)
 library(stringr)
@@ -40,7 +41,7 @@ library(dplyr)
 library(FitAR)
 library(glmnet)
 library(TSA)
-
+library(rms)
 # xtable(PRICES[1:10,])
 
 mmed <- function(x,n=5){runmed(x,n)}
@@ -96,16 +97,6 @@ setwd("~/P65236b/DATA")
   hydrolang <- rep(HYDRO$NO,each=7)
   pris <- cbind(dato,PRICES)
   hydro2 <- cbind(dato2,HYDRO)
-  ########
-  #Hydro setup
-  
-  hydrodayli <- c()
-  for (i in 1:(length(HYDRO$NO))) {
-    hydrodayli <- c(hydrodayli,seq(from = HYDRO[i,1], length.out = 7, by=(HYDRO[i+1,1]-HYDRO[(i),1])/7) )
-  }
-  hydrodayli[1:15]
-  ###
-  
   
 }
 
@@ -203,15 +194,15 @@ for (i in 1:length(dummyhelligweekend)) {
   }
 }
 ## dummy spiks
-model1 <- glm(dagligpris[,2]~time(dagligpris[,1])+
+model1 <- glm(dagligpris[,2]~
+                time(dagligpris[,1])+
                 I(time(dagligpris[,1])^2)+
                 cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1])))+
-                cos((52*pi/365)*I(time(dagligpris[,1])))+
-                sin((52*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
-#summary(model1)
+                dummyhelligweekend)
+summary(model1)
 
 #vores nye tidsrække før spikes
 X_t <- ts(model1$residuals)
