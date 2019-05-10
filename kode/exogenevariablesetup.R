@@ -9,6 +9,7 @@ model2 <- glm(temp~
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
+<<<<<<< HEAD
 glm(temp~time(dagligpris[,1])+
       I(time(dagligpris[,1])^2))
 
@@ -16,6 +17,9 @@ xtable(summary(model2)$coef)
 
 length(temp)
 length(model2$residuals)
+=======
+
+>>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
 plot.ts(model2$residuals)
 acf(model2$residuals)
 pacf(model2$residuals)
@@ -58,7 +62,6 @@ geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 #efter der er fjernet sæson, så fittes der en AR(3) model på, og vi får nogle gode resultater
 
 y <- X_t-residuals(Arima(X_t,model=fit5))
-
 ccf(model2$residuals,y)
 
 
@@ -67,6 +70,13 @@ fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allow
 
 ggCcf(fittemp$residuals,X_t-Arima(X_t,model=fittemp)$residuals,main="")
 
+di_CCF <- ccf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals,plot = FALSE)
+di_acf <- with(di_CCF, data.frame(lag, acf))
+ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
+  geom_hline(aes(yintercept = 0)) +
+  geom_segment(mapping = aes(xend = lag, yend = 0))+
+  ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
+  geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 
 }
 ########################## Consumption##################
@@ -126,7 +136,8 @@ plot(CONSUMPTION[,1]/1000)
 abline(glm(CONSUMPTION[,1]/1000~time(dagligpris[,1])))
 
 
-model3 <- glm(consump~cos((2*pi/365)*I(time(dagligpris[,1])))+
+model3 <- glm(consump~
+                cos((2*pi/365)*I(time(dagligpris[,1])))+
                 sin((2*pi/365)*I(time(dagligpris[,1])))+
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
@@ -175,6 +186,15 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
   
   ggCcf(fitcon$residuals,X_t-Arima(X_t,model=fitcon)$residuals,main="")
   
+  di_CCF <- ccf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,plot = FALSE)
+  di_acf <- with(di_CCF, data.frame(lag, acf))
+  ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
+    geom_hline(aes(yintercept = 0)) +
+    geom_segment(mapping = aes(xend = lag, yend = 0))+
+    ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
+    geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
+  
+  
   
 }
 ccf(fitcon$residuals, Arima(X_t,model=fitcon)$residuals, main="",family="serif")
@@ -209,7 +229,6 @@ sarima(regn,1,0,1,no.constant = F)
 ############ Hydro #####
 plot.ts(hydrodayli)
 plot(decompose(ts(hydrodayli,frequency = 365)))
-hydrodayli <- ts(hydrodayli)
 
 model5 <- glm(hydrodayli~
                 time(dagligpris[,1])+
@@ -222,8 +241,6 @@ model5 <- glm(hydrodayli~
 
 plot.ts(model5$residuals)
 
-length(hydrodayli)
-length(model5$residuals)
 
 acf(model5$residuals,lag.max = 100)
 pacf(model5$residuals)
@@ -266,15 +283,36 @@ acf(fit53$residuals)
 
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(2)
 
+<<<<<<< HEAD
 arima(model5$residuals)
 sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
 
 { #CCF Hydro
   fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#AR(5)
+=======
+sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
+
+{ #CCF Hydro
+  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
   
-  ggCcf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,lag.max = 100)
+  ggCcf(fithy$residuals,Arima(X_t,model=fithy)$residuals,main="")
+  
+  di_CCF <- ccf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,plot = FALSE)
+  di_acf <- with(di_CCF, data.frame(lag, acf))
+  ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
+    geom_hline(aes(yintercept = 0)) +
+    geom_segment(mapping = aes(xend = lag, yend = 0))+
+    ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
+    geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
+>>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
+  
   
   
 }
 
+<<<<<<< HEAD
 ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
+=======
+
+
+>>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
