@@ -270,10 +270,6 @@ summary(glm(hydrodayli~
 
 plot.ts(model5$residuals)
 
-ggplot(as.data.frame(model5$residuals),aes(x=1:length(model5$residuals),y=model5$residuals))+
-  geom_line()+
-  xlab("Time")+ylab("Residuals")
-
 acf(model5$residuals,lag.max = 100)
 pacf(model5$residuals)
 
@@ -312,6 +308,11 @@ ggplot(ts(hydrodayli),aes(x=1:length(hydrodayli),y=hydrodayli))+
 fit53 <-arima(model2$residuals,order = c(2,0,0),include.mean = F)
 acf(fit53$residuals)
 {
+  
+  ggplot(as.data.frame(model5$residuals),aes(x=1:length(model5$residuals),y=model5$residuals))+
+    geom_line()+
+    xlab("Time")+ylab("Residuals")
+  
   di_ACF <- acf(fit53$residuals ,plot = FALSE)
   di_acf <- with(di_ACF, data.frame(lag, acf))
   ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
