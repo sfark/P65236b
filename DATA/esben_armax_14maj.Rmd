@@ -1,65 +1,16 @@
-# plot ccf's #####
-plot(tempccf,main="mean Temp ccf")
-plot(conccf,main="con ccf")
-plot(hydroccf,main="hydro ccf")
-
-
-
-# lag temp #####
-ccftemplist <- seq(from=-30, to =30, along.with = tempccf[[1]])
-meantemp <- cbind(ccftemplist,tempccf[[1]])[1:31,1:2]
-lagtemp <- meantemp[which(abs(meantemp[,2])>0.042)]
-
-xregtemp <- c()
-for (i in 1:length(lagtemp)) {
-  xregtemp <- cbind(xregtemp,stats::lag(as.ts(data_NO1[,4]),k=(lagtemp[i])))
-}
-
-colnames(xregtemp) <- c("lag 10","lag 1","lag 0")
-# model =ARIMA(3,0,0) with zero mean
-
-# lag con #####
-ccfconlist <- seq(from=-30, to =30, length.out = 61)
-meancon <- cbind(ccfconlist,conccf[[1]])[1:31,1:2]
-lagcon <- meancon[which(abs(meancon[,2])>0.042)]
-
-xregcon <- c()
-for (i in 1:length(lagcon)) {
-  xregcon <- cbind(xregcon,stats::lag(as.ts(data_NO1[,3]),k=(lagcon[i])))
-}
-
-colnames(xregcon) <- c("lag 30","lag 23","lag 22","lag 17","lag 16","lag 11","lag 10","lag 9","lag 4","lag 2","lag 0")
-#model ARIMA(2,1,1) 
-
-# lag hydro #####
-ccfhydrolist <- seq(from=-30, to =30, length.out = 61)
-meanhydro <- cbind(ccfhydrolist,hydroccf[[1]])[1:31,1:2]
-laghydro <- meanhydro[which(abs(meanhydro[,2])>0.042)]
-
-xreghydro <- c()
-for (i in 1:length(laghydro)) {
-  xreghydro <- cbind(xreghydro,stats::lag(as.ts(data_NO1[,2]),k=(laghydro[i])))
-}
-
-colnames(xreghydro) <- c("lag 20","lag 19","lag 16")
-xreghydro <- xreghydro/1000
-xvaribale <- cbind(xregcon,xreghydro,xregtemp)
-
-# model =ARIMA(2,0,0) with zero mean 
-
-# Pris lag model (1,0,2) ####
-ar1 <- c()
-ar1 <- stats::lag(X_t,k=(-1))
-
-colnames(ar1) <- c("lag 1")
-
-
-# Pris lag model (3,0.19,4) ####
-ar3 <- cbind(stats::lag(X_t,k=(-1)),stats::lag(X_t,k=(-2)),stats::lag(X_t,k=(-3)))
-
-colnames(ar3) <- c("lag 1","lag 2","lag 3")
+---
+title: "ARMAX"
+output:
+  html_notebook: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
 
 # ARMAX model (1,0,2)####
+
+vi bruger først vores arma 1,0,2 model til armax
+```{r}
 
 testxreg <-as.data.frame(cbind(xregcon/1000,xreghydro,xregtemp)[1:2191,] )
 for (i in 1:dim(testxreg)[1]) {
@@ -71,6 +22,16 @@ for (i in 1:dim(testxreg)[1]) {
   }
 }
 armax1_0_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)),xreg = testxreg, include.mean = F)
+rmse(X_t,fitted.values(armax1_0_2))
+plot(as.data.frame(fitted.values(armax1_0_2)),col="red");lines(X_t,col="blue")
+```
+
+vi tjekker det mod en arma(1,0,2) uden xreg
+
+```{r}
+
+
+
 arma1_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)), include.mean = F)
 
 di_ACF <- acf(armax1_0_2$residuals ,plot = FALSE)
@@ -83,11 +44,11 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
 
 rmse(X_t,fitted.values(arma1_2))
 plot(as.data.frame(fitted.values(arma1_2)),col="red");lines(X_t,col="blue")
+```
 
-
-rmse(X_t,fitted.values(armax1_0_2))
-plot(as.data.frame(fitted.values(armax1_0_2)),col="red");lines(X_t,col="blue")
 # ARMAX model (3,0.19,4)####
+
+```{r}
 
 testxreg <-as.data.frame(cbind(xregcon,xreghydro,xregtemp)[31:2221,] )
 testxreg <-as.data.frame(ar3[3:2193,])
@@ -104,7 +65,7 @@ sarmax3_019_4 <- arfima::arfima(X_t,order=c(3,0,4),fixed=list(frac=0.19),xreg = 
 
   
 rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(sarmax3_019_4))[,1])
-plot(as.data.frame(fitted.values(sarmax3_019_4))[,1],col="red",type="l");lines(X_t,col="blue")
+
 
   
 di_ACF <- acf(armax3_019_4$residuals ,plot = FALSE)
@@ -114,8 +75,11 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+ggtitle("ARMAX (3,0.19,4)")+
   ylab("ACF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
+```
 
-# con sumption  #######
+# consumption as only xreg  #######
+```{r}
+
 conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
 for (i in 1:dim(conxreg)[1]) {
   for (j in 1:dim(conxreg)[2]) {
@@ -128,7 +92,10 @@ for (i in 1:dim(conxreg)[1]) {
 con_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- conxreg, include.mean = F)
 
 conrmse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(con_armax3_019_4))[,1])
-# temp xreg ######### 
+```
+
+# temp as only xreg ######### 
+```{r}
 tempxreg <-as.data.frame(cbind(xregtemp)[1:2191,] )
 for (i in 1:dim(tempxreg)[1]) {
   for (j in 1:dim(tempxreg)[2]) {
@@ -142,14 +109,22 @@ temp_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = li
 
 temprmse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(temp_armax3_019_4))[,1])
 
+rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(temp_armax3_019_4))[,1])
+```
 
 
 
-# auto arima med x reg ####
+vi prøver med auto arima og xreg
+```{r}
 aarmax <- auto.arima(X_t,xreg = as.matrix(testxreg))
 rmse(X_t,aarmax$fitted)
 plot(aarmax$fitted,col="red",type="l");lines(X_t,col="blue")
 acf(aarmax$residuals)
 qqnorm(aarmax$residuals)
 qqline(aarmax$residuals)
-aarmax$coef
+
+
+```
+
+ 
+
