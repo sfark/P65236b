@@ -14,6 +14,7 @@ library(arfima)
 library(fracdiff)
 library(tseries)
 library(LSTS)
+library(zoo)
 
 #Data uploading
 setwd("~/P65236b/DATA")
@@ -48,3 +49,10 @@ dato2 <- seq(ISOdate(2013,1,1),by="week", length.out = 310)
 #fjerne data for 2019
 WEATHER <- WEATHER[1:2191,]
 WEATHER$Date <- dato
+
+
+# data_NO1
+
+data_NO1 <- cbind(PRICES$Oslo,CONSUMPTION$NO1,HYDRO$NO,WEATHER$Mean.temperature,WEATHER$Precipitation)
+colnames(data_NO1) <- c("Price","Hydro reserve","Consumption","Mean.temperature", "Precipitation")
+

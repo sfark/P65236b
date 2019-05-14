@@ -9,7 +9,7 @@ model2 <- glm(temp~
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
-<<<<<<< HEAD
+
 glm(temp~time(dagligpris[,1])+
       I(time(dagligpris[,1])^2))
 
@@ -17,9 +17,7 @@ xtable(summary(model2)$coef)
 
 length(temp)
 length(model2$residuals)
-=======
 
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
 plot.ts(model2$residuals)
 acf(model2$residuals)
 pacf(model2$residuals)
@@ -61,9 +59,9 @@ geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 
 #efter der er fjernet sæson, så fittes der en AR(3) model på, og vi får nogle gode resultater
 
-y <- X_t-residuals(Arima(X_t,model=fit5))
+y <- residuals(Arima(X_t,model=fit5))
 ccf(model2$residuals,y)
-
+tempccf <- ccf(fittemp$residuals,Arima(dagligpris[,2],model=fittemp)$residuals)
 
 { #CCF Temp
 fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
@@ -80,7 +78,7 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
 
 }
 ########################## Consumption##################
-consump <-ts(CONSUMPTION[,1],frequency = 356)
+consump <-ts(CONSUMPTION[,1])
 {
 ggplot(fortify(CONSUMPTION/1000),aes(x=dato,y=NO1))+
   geom_line(linetype=1)+
@@ -155,7 +153,7 @@ ggplot(z_hat,aes(x=1:length(z_hat[,1]),y=z_hat[,1]))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   scale_x_continuous(breaks = c(0,365,730,1095,1460,1825,2190),labels = c("2013","2014","2015","2016","2017","2018","2019"))
 
-
+conccf <- ccf(fitcon$residuals,Arima(dagligpris[,2],model=fitcon)$residuals)
 
 acf(model3$residuals)
 pacf(model3$residuals)
@@ -283,13 +281,14 @@ acf(fit53$residuals)
 
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(2)
 
-<<<<<<< HEAD
+hydroccf <- ccf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,family="serif")
+
 arima(model5$residuals)
 sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
 
-{ #CCF Hydro
+ #CCF Hydro
   fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#AR(5)
-=======
+
 sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
 { #CCF Hydro
@@ -304,15 +303,11 @@ sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
     geom_segment(mapping = aes(xend = lag, yend = 0))+
     ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
     geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
+
   
   
   
 }
 
-<<<<<<< HEAD
 ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
-=======
 
-
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
