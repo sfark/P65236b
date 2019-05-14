@@ -1,5 +1,5 @@
 ### #################### Mean.temp ###################
-temp <- WEATHER[,1]
+temp <- ts(WEATHER[,1])
 
 
 plot.ts(temp)
@@ -9,17 +9,14 @@ model2 <- glm(temp~
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
-<<<<<<< HEAD
-glm(temp~time(dagligpris[,1])+
-      I(time(dagligpris[,1])^2))
+
+summary(glm(temp~time(dagligpris[,1])))
 
 xtable(summary(model2)$coef)
 
 length(temp)
 length(model2$residuals)
-=======
 
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
 plot.ts(model2$residuals)
 acf(model2$residuals)
 pacf(model2$residuals)
@@ -43,12 +40,29 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
   ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
 
+
+autoplot(model2$residuals)
+ggplot(temp,aes(x=1:length(temp),y=temp))+
+  geom_line()+
+  geom_abline(intercept = 6.9017352432,slope =0.0005215422,col="blue" )+
+  xlab("Date")+ylab("Mean Temperature")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  scale_x_continuous(breaks = c(0,365,730,1095,1460,1825,2190),labels = c("2013","2014","2015","2016","2017","2018","2019"))
+
+ggplot(as.data.frame(model2$residuals),aes(x=1:length(model2$residuals),y=model2$residuals))+
+  geom_line()+
+  xlab("Time")+ylab("Residuals")
 }
 
 auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(3)
+summary(arfima(model2$residuals,c(3,0,0),lmodel = c("n"),dmean = F,itmean = F))
+
+
 sarima(model2$residuals,d=0,p=3,q=0,no.constant = T)
-fit5 <-arima(model2$residuals,order = c(5,0,0),include.mean = F)
+fit5 <-arima(model2$residuals,order = c(3,0,0),include.mean = F)
+summary(fit5)
 acf(fit5$residuals)
+
  {
 di_ACF <- acf(fit5$residuals ,plot = FALSE)
 di_acf <- with(di_ACF, data.frame(lag, acf))
@@ -79,6 +93,10 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 
 }
+
+
+
+
 ########################## Consumption##################
 consump <-ts(CONSUMPTION[,1],frequency = 356)
 {
@@ -118,7 +136,8 @@ gennemsnit <- c(gennemsnit)
 plot(gennemsnit)
 
 ##ggplot afden gennemsnitlige daglige pris
-{ggplot(gennemsnit,aes(x=gennemsnit[,1],y=V1))+
+{
+  ggplot(gennemsnit,aes(x=gennemsnit[,1],y=V1))+
   geom_col(width = 0.8,fill="steelblue")+
   ylim(0,120000)+ylab("Consumption")+xlab("")+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
@@ -150,7 +169,7 @@ autoplot(ts(model3$residuals),ylab = expression(hat(z)))
 
 ggplot(z_hat,aes(x=1:length(z_hat[,1]),y=z_hat[,1]))+
   geom_line()+
-  ylab(expression(hat(z)(t)))+
+  ylab("Residuals")+
   xlab("Time")+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   scale_x_continuous(breaks = c(0,365,730,1095,1460,1825,2190),labels = c("2013","2014","2015","2016","2017","2018","2019"))
@@ -160,9 +179,12 @@ ggplot(z_hat,aes(x=1:length(z_hat[,1]),y=z_hat[,1]))+
 acf(model3$residuals)
 pacf(model3$residuals)
 
-auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE)#ARMA(3,0,2)
-  sarima(model2$residuals,d=0,p=3,q=2,no.constant = T)
+auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE)#ARIMA(2,1,1)
 
+  sarima(model3$residuals,d=1,p=2,q=1,no.constant = T)
+summary(arfima(diff(model3$residuals),c(2,0,1),lmodel = c("n"),dmean = F,itmean = F))
+  
+  
 {
 di_ACF <- acf(model3$residuals ,plot = FALSE)
 di_acf <- with(di_ACF, data.frame(lag, acf))
@@ -199,6 +221,9 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
 }
 ccf(fitcon$residuals, Arima(X_t,model=fitcon)$residuals, main="",family="serif")
 
+
+
+
 ##############  Preception#############
 regn <- ts(WEATHER[,2],frequency = 365)
 
@@ -228,6 +253,7 @@ sarima(regn,1,0,1,no.constant = F)
 
 ############ Hydro #####
 plot.ts(hydrodayli)
+curve(4.474e+04+ 1.425e+01*x+-5.569e-03*x^2,add=TRUE)
 plot(decompose(ts(hydrodayli,frequency = 365)))
 
 model5 <- glm(hydrodayli~
@@ -238,15 +264,31 @@ model5 <- glm(hydrodayli~
                 cos((4*pi/365)*I(time(dagligpris[,1])))+
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
+summary(glm(hydrodayli~
+              time(dagligpris[,1])+
+              I(time(dagligpris[,1])^2)))
 
 plot.ts(model5$residuals)
 
+ggplot(as.data.frame(model5$residuals),aes(x=1:length(model5$residuals),y=model5$residuals))+
+  geom_line()+
+  xlab("Time")+ylab("Residuals")
 
 acf(model5$residuals,lag.max = 100)
 pacf(model5$residuals)
 
 
 {
+ggplot(ts(hydrodayli),aes(x=1:length(hydrodayli),y=hydrodayli))+
+    geom_line()+
+    geom_smooth(method = "lm",se=F,formula =hydrodayli ~poly(x,2)) +
+    ylab("Hydro")+
+    xlab("Time")+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    scale_x_continuous(breaks = c(0,365,730,1095,1460,1825,2190),labels = c("2013","2014","2015","2016","2017","2018","2019"))
+  
+  
+  
   di_ACF <- acf(model5$residuals ,plot = FALSE,lag.max = 100)
   di_acf <- with(di_ACF, data.frame(lag, acf))
   ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
@@ -283,13 +325,13 @@ acf(fit53$residuals)
 
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(2)
 
-<<<<<<< HEAD
+
 arima(model5$residuals)
 sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
 
 { #CCF Hydro
   fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#AR(5)
-=======
+
 sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
 { #CCF Hydro
@@ -304,15 +346,10 @@ sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
     geom_segment(mapping = aes(xend = lag, yend = 0))+
     ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
     geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
-  
-  
-  
+
 }
 
-<<<<<<< HEAD
+
 ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
-=======
+}
 
-
->>>>>>> 18829168df0be933d9b9686555ad3f05735c58a7
