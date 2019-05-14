@@ -306,6 +306,7 @@ ggplot(ts(hydrodayli),aes(x=1:length(hydrodayli),y=hydrodayli))+
 
 
 fit53 <-arima(model2$residuals,order = c(2,0,0),include.mean = F)
+
 acf(fit53$residuals)
 {
   

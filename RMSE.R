@@ -13,6 +13,7 @@ modelarma <- arfima(X_t,c(1,0,2),dmean = F,itmean = F)
 fitarfima123 <- as.data.frame(fitted.values(modelarma))
 
 
+
 rmse(X_t,fitarfima12[,1])
 rmse(X_t,fitarfima122[,1])
 rmse(X_t,fitarfima123[,1])
