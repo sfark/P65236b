@@ -36,11 +36,13 @@ d_hat_BIC <- fracdiff(X_t,nar=BIC_p,nma=BIC_q)$d;d_hat_BIC
 #Den fraktionelle diffede tidsserie
 DiffY12 <- ts(frakdiff(X_t,d_hat_BIC))
 autoplot(DiffY12,ylab = c("sample"))
+
 ### model specifikation
 fit34 <- arima(DiffY12,order = c(3,0,4),include.mean = F)$residuals
 
 #sammenligning af AIC
 summary(arfima(DiffY12,order = c(3,0,4),lmodel = c("n"),dmean = F,itmean = F))
+
 summary(arfima(X_t,c(4,1,1),lmodel = c("n"),dmean = F,itmean = F))
 summary(arfima(X_t,c(1,0,2),lmodel = c("n"),dmean = F,itmean = F))
 
@@ -528,7 +530,8 @@ modelarma <- arfima(X_t,c(1,0,2),lmodel = c("n"),dmean = F,itmean = F)
 modelarima <- arfima(X_t,c(3,1,1),lmodel = c("n"),dmean = F,itmean = F)
 modelarfima1 <- arfima(X_t,c(1,0,2),fixed = list(frac=0.0000685),dmean = F,itmean = F)
 modelarfima3 <- arfima(X_t,c(5,0,4),fixed = list(frac=0.0000685),dmean = F,itmean = F)
-modelarfima2 <-   arfima(X_t,c(1,0,2),fixed = list(frac=0.29),dmean = F,itmean = F)
+
+modelarfima2 <-   arfima(X_t,c(3,0,4),fixed = list(frac=0.19),dmean = F,itmean = F)
 
 ###AIC og BIC###
 #summary(arfima(X_t,c(1,0,2),lmodel = c("n"),dmean = F,itmean = F))             #AIC = 14128.1; BIC = 14156.6
@@ -540,14 +543,16 @@ modelarfima2 <-   arfima(X_t,c(1,0,2),fixed = list(frac=0.29),dmean = F,itmean =
 fitarma <- as.data.frame(fitted.values(modelarma))
 fitarfima12 <- as.data.frame(fitted.values(modelarfima2))
 
+rmse(X_t,fitarfima12[,1])
+
 plot(fit)
 lines(DiffY_fdGPH,col="red")
 
 #summary(arfima(frakdiff(X_t,0.0000685),c(1,0,2),lmodel = c("n"),dmean = F,itmean = F))#AIC = 14128.1; BIC = 14156.6
 #summary(arfima(frakdiff(X_t,0.0000685),c(5,0,4),lmodel = c("n"),dmean = F,itmean = F))#AIC = 14132.9; BIC = 14195.5
 #summary(arfima(frakdiff(X_t,0.29),c(1,0,2),lmodel = c("n"),dmean = F,itmean = F))#AIC = 14140.6; BIC = 14169
-
-
+0.0075
+rmse(X_t,fitted(modelarfima2))
 
 sarima(DiffY12,5,0,4,details = T,no.constant = T,tol=0.0000000000000000000000000001) #AIC=7.444428 AICc=7.445387 BIC=6.46781
 sarima(DiffY12,1,0,2,details = T,no.constant = T)                                    #AIC=7.445694 AICc=7.446615 BIC=6.453488

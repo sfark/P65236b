@@ -473,12 +473,15 @@ sarima(DiffY_fdGPH,1,0,2,details = T,no.constant = T)                           
 sarima(diff(X_t),3,0,1,details = T,no.constant = T)                                  #AIC=7.455586 AICc=7.456512 BIC=6.465982
 sarima(X_t,1,0,2,details = T,no.constant = T)                                        #AIC=7.445692 AICc=7.446614 BIC=6.453486
 
+
+
+
 ###############ACF af de fraktionelle diffede tidsrækker####################
 #DiffY_fdGPH
 #DiffY12
 
 ### ACF og PACF for DiffY d=0.00000685
-ACf_X_t_DiffY <- acf(DiffY12 ,plot = FALSE,lag.max = 20)
+{ACf_X_t_DiffY <- acf(DiffY12 ,plot = FALSE,lag.max = 20)
 di_acf_X_t_DiffY <- with(ACf_X_t_DiffY, data.frame(lag, acf))
 ggplot(data = di_acf_X_t_DiffY , mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept = 0)) +
@@ -510,3 +513,4 @@ ggplot(data = di_pacf_X_t_DiffY_fdGPH, mapping = aes(x = lag, y = acf)) +
   geom_segment(mapping = aes(xend = lag, yend = 0))+
   ylab("PACF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
+}
