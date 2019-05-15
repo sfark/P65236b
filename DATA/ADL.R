@@ -322,6 +322,8 @@ dummyhelligdage19[match(helligedage19,dato19)] <- 1
 
 
 dummyhelligweekend19 <- dummyhelligdage19+dummy_week19
+
+
 model19 <- glm(PRICES_2019~time(dato19)+
                 I(time(dato19)^2)+
                 cos((2*pi/365)*I(time(dato19)))+
