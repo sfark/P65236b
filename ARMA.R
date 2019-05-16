@@ -2,6 +2,11 @@
 auto.arima(X_t,d=0, stepwise = F, approximation = F)#p=1 og q=2
 fitarma <- arima(X_t,order=c(1,0,2),include.mean = F)
 
+fitarma7 <- arima(X_t,order=c(7,0,2),include.mean = F)
+
+acf(residuals(fitarma7),lag.max = 20)
+
+acf(residuals(fitarma))
 fitted.values(fitarma)
 
 acf(fitarma$residuals)
