@@ -307,28 +307,28 @@ summary(Pennmodel)
 data_2019_files <- list.files("2019data", full.names = 1)
 
 PRICES_2019 <- read.csv2(data_2019_files[2], header = TRUE)[1:110,10]
+PRICES_2019 <- log(PRICES_2019)
 
 # fjern sæson i pris 
 
 dato19 <- seq(ISOdate(2019,1,1),by="day", length.out = 110)
 
-helligdage19 <- c("2019-01-01 12:00:00 GMT","2019-04-18 12:00:00 GMT","2019-04-19 12:00:00 GMT","2019-04-22 12:00:00 GMT")
-dummy_week19 <-  rep(c(0,0,0,0,0,1,1),15)
+helligedage19 <- c("2019-01-01 12:00:00 GMT","2019-04-18 12:00:00 GMT","2019-04-19 12:00:00 GMT","2019-04-22 12:00:00 GMT")
+dummy_week19 <-  rep(c(0,0,0,0,0,1,1),16)[1:110]
 helligedage19 <-  as.POSIXct(strptime(helligedage19, format = "%Y-%m-%d %H:%M:%S", "GMT"))
 
 dato2019 <- strptime(dato19, format = "%Y-%m-%d %H:%M:%S", "GMT")
 dummyhelligdage19 <- numeric(length = length(dato19))
 dummyhelligdage19[match(helligedage19,dato19)] <- 1
-
-
 dummyhelligweekend19 <- dummyhelligdage19+dummy_week19
+
 model19 <- glm(PRICES_2019~time(dato19)+
                 I(time(dato19)^2)+
                 cos((2*pi/365)*I(time(dato19)))+
                 sin((2*pi/365)*I(time(dato19)))+
                 cos((4*pi/365)*I(time(dato19)))+
                 sin((4*pi/365)*I(time(dato19)))+dummyhelligweekend19)
-summary(model1)
+summary(model19)
 PRICES_2019SA <- ts(model19$residuals)
 
 

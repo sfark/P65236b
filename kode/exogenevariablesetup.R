@@ -10,12 +10,12 @@ model2 <- glm(temp~
                 sin((4*pi/365)*I(time(dagligpris[,1]))))
 
 
-<<<<<<< HEAD
+
 glm(temp~time(dagligpris[,1])+
       I(time(dagligpris[,1])^2))
-=======
+
 summary(glm(temp~time(dagligpris[,1])))
->>>>>>> 58484ccf809c05b27dce6c21b237973fa6b99347
+
 
 xtable(summary(model2)$coef)
 
@@ -167,6 +167,7 @@ model3 <- glm(consump~
                 sin((4*pi/365)*I(time(dagligpris[,1])))+dummyhelligweekend)
 
 summary(model3)
+
 plot.ts(model3$residuals,ylab=expression(hat(z)))
 z_hat <- as.data.frame(model3$residuals)
 
@@ -332,10 +333,8 @@ acf(fit53$residuals)
 
 auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(2)
 
-<<<<<<< HEAD
 hydroccf <- ccf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,family="serif")
-=======
->>>>>>> 58484ccf809c05b27dce6c21b237973fa6b99347
+
 
 arima(model5$residuals)
 sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
@@ -346,7 +345,7 @@ sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
 sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
 { #CCF Hydro
-  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F) #AR(5)
   
   ggCcf(fithy$residuals,Arima(X_t,model=fithy)$residuals,main="")
   
@@ -358,18 +357,15 @@ sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
     ylab("CCF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
     geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 
-<<<<<<< HEAD
-  
-  
-  
+
 }
 
 ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
-=======
+
 }
 
 
 ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
 }
->>>>>>> 58484ccf809c05b27dce6c21b237973fa6b99347
+
 
