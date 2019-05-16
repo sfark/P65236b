@@ -39,6 +39,12 @@ for (i in timeswewant) {
 templlag0 <- mean(as.numeric(tempfore))
 
 
-
-
-
+#norge temp "9.4"  "12.1" "17.4" "15.9"
+# 2019/05/16 12-18 
+# probability   probability   probability   probability   probability  
+# type       "exact"       "exact"       "exact"       "exact"       "exact"      
+# parameter  "temperature" "temperature" "temperature" "temperature" "temperature"
+# percentile "10"          "25"          "50"          "75"          "90"         
+# unit       "celsius"     "celsius"     "celsius"     "celsius"     "celsius"    
+# value      "16.2"        "16.5"        "17.0"        "17.5"        "17.8" 
+# 

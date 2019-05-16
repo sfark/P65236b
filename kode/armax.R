@@ -43,7 +43,8 @@ for (i in 1:length(laghydro)) {
 
 colnames(xreghydro) <- c("lag 20","lag 19","lag 16")
 xreghydro <- xreghydro/1000
-xvaribale <- cbind(xregcon,xreghydro,xregtemp)
+# samlede xreg ####
+xvaribale <- cbind(xregcon,xreghydro,xregtemp,as.ts(WEATHER$Precipitation))[1:2191,]
 
 # model =ARIMA(2,0,0) with zero mean 
 
@@ -61,15 +62,8 @@ colnames(ar3) <- c("lag 1","lag 2","lag 3")
 
 # ARMAX model (1,0,2)####
 
-testxreg <-as.data.frame(cbind(xregcon/1000,xreghydro,xregtemp)[1:2191,] )
-for (i in 1:dim(testxreg)[1]) {
-  for (j in 1:dim(testxreg)[2]) {
-    if(is.na(testxreg[i,j])==TRUE){
-      testxreg[i,j] <- 0
-    }
-   
-  }
-}
+testxreg <- xvaribale
+
 armax1_0_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)),xreg = testxreg, include.mean = F)
 
 di_ACF <- acf(armax1_0_2$residuals ,plot = FALSE)
@@ -83,7 +77,7 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
 
 rmse(X_t,fitted.values(armax1_0_2))
 plot(as.data.frame(fitted.values(armax1_0_2)),col="red");lines(X_t,col="blue")
-AIC(armax1_0_2)#-4033.443
+AIC(armax1_0_2)#-3985.678
 
 arma1_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)), include.mean = F)
 
@@ -95,14 +89,7 @@ AIC(arma1_2)#-3898.065
 # ARMAX model (3,0.19,4)####
 
 testxreg <-as.data.frame(cbind(xregcon,xreghydro,xregtemp)[1:2191,] )
-for (i in 1:dim(testxreg)[1]) {
-  for (j in 1:dim(testxreg)[2]) {
-    if(is.na(testxreg[i,j])==TRUE){
-      testxreg[i,j] <- 0
-    }
-    
-  }
-}
+
 armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- testxreg, include.mean = F)
 
 rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(armax3_019_4))[,1])
@@ -117,37 +104,34 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
   ylab("ACF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
   geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
 
-AIC(armax3_019_4)#-14192.4
-# con sumption  #######
+AIC(armax3_019_4)#-3986.379
+# arfimax(3,019,4) con sumption xreg  #######
 conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
-for (i in 1:dim(conxreg)[1]) {
-  for (j in 1:dim(conxreg)[2]) {
-    if(is.na(conxreg[i,j])==TRUE){
-      conxreg[i,j] <- 0
-    }
-    
-  }
-}
+
 con_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- conxreg, include.mean = F)
 conrmse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(con_armax3_019_4))[,1])
-AIC(con_armax3_019_4)#-3888.573
-# temp xreg ######### 
+AIC(con_armax3_019_4)#-3841.341
+# arfimax(3,019,4)  temp xreg ######### 
 tempxreg <-as.data.frame(cbind(xregtemp)[1:2191,] )
-for (i in 1:dim(tempxreg)[1]) {
-  for (j in 1:dim(tempxreg)[2]) {
-    if(is.na(tempxreg[i,j])==TRUE){
-      tempxreg[i,j] <- 0
-    }
-    
-  }
-}
 temp_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- tempxreg, include.mean = F)
 
 temprmse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(temp_armax3_019_4))[,1])
 
-AIC(temp_armax3_019_4)#-4045.022
+AIC(temp_armax3_019_4)#-4025.898
+# arfima(3,019,4) hydro xreg #####
+hydroxreg <-as.data.frame(cbind(xreghydro)[1:2191,] )
+hydro_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- hydroxreg, seasonal = list(order = c(0, 0, 0), include.mean = F))
 
+hydrormse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(temp_armax3_019_4))[,1])
 
+AIC(hydro_armax3_019_4)#-3897.392
+# arfima(3,019,4) rain xreg #####
+rainxreg <-as.ts(WEATHER$Precipitation)
+rain_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- rainxreg, seasonal = list(order = c(0, 0, 0), include.mean = F))
+
+rainormse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(rain_armax3_019_4))[,1])
+
+AIC(rain_armax3_019_4)#-3897.392
 # auto arima med x reg ####
 aarmax <- auto.arima(X_t,xreg = as.matrix(testxreg))
 rmse(X_t,aarmax$fitted)
@@ -169,7 +153,7 @@ rolingxreg <-as.data.frame(cbind(xregcon[,11:1],xreghydro[,3:1],xregtemp[,3:1],a
     }
     
   }
-}
+
 
 AIClagmatrix <- matrix(data=0,nrow = 18,ncol = 20)
 #rownavne <- c("c30","c23","con lag 22","con lag 17","con lag 16","con lag 11" ,"con lag 10","con lag 9","con lag 4","con lag 2","con lag 0","hydro lag 20" ,"hydro lag 19","hydro lag 16","temp lag 10","temp lag 1","temp lag 0","Rain lag 1")
@@ -231,7 +215,7 @@ modelsforarmax1_0_2 <-c("15",-4015.749)
 
 names(startAIClag) <- colnames(rolingxreg)
 for (i in 1:18) {
-  startAIClag[i] <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=rolingxreg[,i]))
+  startAIClag[i] <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=rolingxreg[,i], include.mean = F))
 }
 
 for (j in 1:20) {
@@ -252,7 +236,7 @@ for (i in rand[rand != modellag]) {
 AIC(arma1_2)
 
 
-#
+# en af gangen optimering ######
 modellag <- as.numeric(which.min(startAIClag))# temp lag 0 
 best_aic_1_0_2 <- min(startAIClag)
 
@@ -260,8 +244,7 @@ parameterantal <- c(1:18)
 k <- 1
 repeat{
 for (i in parameterantal[-modellag]) {
-  k <- k+1
-  nyaic <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=rolingxreg[,c(modellag,i)]))
+  nyaic <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=rolingxreg[,c(modellag,i)], include.mean = F))
   print(i)
   if(nyaic<best_aic_1_0_2){
     best_aic_1_0_2 <- nyaic
@@ -270,12 +253,61 @@ for (i in parameterantal[-modellag]) {
     next
   }
 }
+  k <- k+1
 if(k==5){
   break
 }
 }
 
-# Den bedste model for en ARMAX (1_0_2) "xregtemp[, 3:1].lag 0"        "xregtemp[, 3:1].lag 1"        "as.ts(WEATHER$Precipitation)"
+# Den bedste model for en ARMAX (1_0_2) "xregtemp[, 3:1].lag 0""xregtemp[, 3:1].lag 1""as.ts(WEATHER$Precipitation)" AIC)-4039.285
+
+
+
+
+
+# armax(3_019_4) beste aic  ####
+startAIClag <- c()
+#rolingxreg <- cbind(xreghydro,xregtemp,xregcon,as.ts(WEATHER$Precipitation))
+rolingxreg <-as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
+for (i in 1:18) {
+  startAIClag[i] <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=rolingxreg[,i], include.mean = F))
+}
+names(startAIClag) <- colnames(rolingxreg)
+
+modellag <- as.numeric(which.min(startAIClag))# temp lag 0 
+best_aic_1_0_2 <- min(startAIClag)
+
+parameterantal <- c(1:18)
+k <- 1
+repeat{
+  for (i in parameterantal[-modellag]) {
+    nyaic <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=rolingxreg[,c(modellag,i)], include.mean = F))
+    print(i)
+    if(nyaic<best_aic_1_0_2){
+      best_aic_1_0_2 <- nyaic
+      modellag <- c(modellag,i)
+      
+    }else{
+      next
+    }
+  }
+  k <- k+1
+  if(k==5){
+    break
+  }
+}
+
+colnames(rolingxreg)[modellag]
+
+best_aic_1_0_2
+
+
+
+
+
+
+
+
 
 
 

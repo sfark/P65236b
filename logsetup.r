@@ -231,3 +231,7 @@ X_t <- ts(model1$residuals)
 # 
 # #vores nye tidsserie
 # X_t <- ts(model1$residuals)
+
+
+
+

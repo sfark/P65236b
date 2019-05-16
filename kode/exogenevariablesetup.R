@@ -85,9 +85,9 @@ ccf(model2$residuals,y)
 tempccf <- ccf(fittemp$residuals,Arima(dagligpris[,2],model=fittemp)$residuals)
 
 { #CCF Temp
-fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(5)
+fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(3)
 
-ggCcf(fittemp$residuals,X_t-Arima(X_t,model=fittemp)$residuals,main="")
+ggCcf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals)
 
 di_CCF <- ccf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals,plot = FALSE)
 di_acf <- with(di_CCF, data.frame(lag, acf))
@@ -212,9 +212,9 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
 { #CCF con
   fitcon <- auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)
   
-  ggCcf(fitcon$residuals,X_t-Arima(X_t,model=fitcon)$residuals,main="")
+  ggCcf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,main="")
   
-  di_CCF <- ccf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,plot = FALSE)
+  di_CCF <- ccf(fitcon$residuals,Arima(dagligpris[,2],model=fitcon)$residuals)
   di_acf <- with(di_CCF, data.frame(lag, acf))
   ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
     geom_hline(aes(yintercept = 0)) +
@@ -310,7 +310,7 @@ ggplot(ts(hydrodayli),aes(x=1:length(hydrodayli),y=hydrodayli))+
   
 }###ACF ggplot
 
-
+{
 fit53 <-arima(model2$residuals,order = c(2,0,0),include.mean = F)
 
 acf(fit53$residuals)
@@ -328,28 +328,20 @@ acf(fit53$residuals)
     ylab("ACF")+geom_hline(aes(yintercept=0.042),col="blue",linetype=2)+
     geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)+
     geom_segment(aes(x = 0, y = 0, xend = 0, yend = 1))
-}### ACF ggplot 
+}
+}
+### ACF ggplot 
 
 
-auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)#AR(2)
 
-hydroccf <- ccf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,family="serif")
-
-
-arima(model5$residuals)
-sarima(model5$residuals,d=0,p=2,q=0,no.constant = T)
-
- #CCF Hydro
-  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE)#AR(5)
-
-sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
-
+ 
 { #CCF Hydro
-  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F) #AR(5)
+  fithy <- auto.arima(model5$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F) #AR(2)
+  hydroccf <- ccf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,family="serif")
   
-  ggCcf(fithy$residuals,Arima(X_t,model=fithy)$residuals,main="")
+  ggCcf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,main="")
   
-  di_CCF <- ccf(fithy$residuals,X_t-Arima(X_t,model=fithy)$residuals,plot = FALSE)
+  di_CCF <- ccf(fithy$residuals,Arima(dagligpris[,2],model=fithy)$residuals,plot = FALSE)
   di_acf <- with(di_CCF, data.frame(lag, acf))
   ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
     geom_hline(aes(yintercept = 0)) +
@@ -360,12 +352,5 @@ sarima(model5$residuals,d=1,p=2,q=3,no.constant = T)
 
 }
 
-ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
-
-}
-
-
-ccf(fithy$residuals,Arima(X_t,model=fithy)$residuals,family="serif")
-}
 
 
