@@ -28,6 +28,7 @@ for (i in 1:length(lagcon)) {
   xregcon <- cbind(xregcon,stats::lag(as.ts(data_NO1[,3]),k=(lagcon[i])))
 }
 
+
 colnames(xregcon) <- c("lag 30","lag 23","lag 22","lag 17","lag 16","lag 11","lag 10","lag 9","lag 4","lag 2","lag 0")
 #model ARIMA(2,1,1) 
 
@@ -42,7 +43,7 @@ for (i in 1:length(laghydro)) {
 }
 
 colnames(xreghydro) <- c("lag 20","lag 19","lag 16")
-xreghydro <- xreghydro/1000
+xreghydro 
 # samlede xreg ####
 xvaribale <- cbind(xregcon,xreghydro,xregtemp,as.ts(WEATHER$Precipitation))[1:2191,]
 
@@ -110,7 +111,7 @@ conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
 
 con_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- conxreg, include.mean = F)
 conrmse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(con_armax3_019_4))[,1])
-AIC(con_armax3_019_4)#-3841.341
+AIC(con_armax3_019_4)#-3941.925
 # arfimax(3,019,4)  temp xreg ######### 
 tempxreg <-as.data.frame(cbind(xregtemp)[1:2191,] )
 temp_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- tempxreg, include.mean = F)

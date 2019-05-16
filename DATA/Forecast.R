@@ -29,7 +29,7 @@ time <- time2-time1
 
 plot.ts(PRICES_2019SA)
 lines(test[,1],col="red")
-
+rmse(test[,1],PRICES_2019SA)
 
 
 
