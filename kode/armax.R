@@ -62,14 +62,7 @@ colnames(ar3) <- c("lag 1","lag 2","lag 3")
 # ARMAX model (1,0,2)####
 
 testxreg <-as.data.frame(cbind(xregcon/1000,xreghydro,xregtemp)[1:2191,] )
-for (i in 1:dim(testxreg)[1]) {
-  for (j in 1:dim(testxreg)[2]) {
-    if(is.na(testxreg[i,j])==TRUE){
-      testxreg[i,j] <- 0
-    }
-   
-  }
-}
+
 armax1_0_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)),xreg = testxreg, include.mean = F)
 
 di_ACF <- acf(armax1_0_2$residuals ,plot = FALSE)
