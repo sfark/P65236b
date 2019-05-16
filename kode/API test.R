@@ -1,36 +1,44 @@
 library(httr)
 library(jsonlite)
-
+library(XML)
+library(methods)
+install.packages("xml2")
+library("methods")
+library(xml2)
 options(stringsAsFactors = FALSE)
 
 url  <- "https://api.met.no"
 path <- "weatherapi/probabilityforecast/1.1/?lat=60.10&lon=9.58"
 
-raw.result <- GET(url = url, path = path)
-
-library("XML")
-
-# Also load the other required package.
-library("methods")
-
-# Give the input file name to the function.
 result <- xmlParse(GET(url = url, path = path))
-xml_data <- xmlToList(result)
-# Print the result.
-print(result)
-
-class(raw.result)
-
-result
 
 
-names(raw.result)
-raw.result$status_code
-head(raw.result$content)
-this.raw.content <- rawToChar(raw.result$content)
-nchar(this.raw.content)
-substr(this.raw.content, 1, 100)
-this.content <- fromJSON(this.raw.content)
-class(raw.content)
-length(this.content)
-this.raw.content[[1]]
+xmlfile <- result
+xmltop = xmlRoot(xmlfile) #gives content of root
+
+
+times <- xmlSApply(xmltop[[2]], xmlAttrs)
+
+listoftimes <- substr(times[2,1:10], 1, 10)
+
+#forecastday <- paste(substr(dato19[110], 1, 8),toString(as.numeric(substr(dato19[length(dato2019)], 9, 10))+1),sep = "")
+forecastday <- "2019-05-17"
+timeswewant <- c()
+for (i in 1:10) {
+  if(listoftimes[[i]] ==forecastday){
+    timeswewant <- c(timeswewant,i)
+  }
+}
+
+tempfore <- c()
+
+for (i in timeswewant) {
+  tempfore <- c(tempfore,xmlSApply(xmltop[[2]][[i]][[1]], xmlAttrs) [5,5])
+}
+
+templlag0 <- mean(as.numeric(tempfore))
+
+
+
+
+
