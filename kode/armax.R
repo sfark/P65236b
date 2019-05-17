@@ -293,10 +293,9 @@ if(k==5){
 
 
 
-# armax(3_019_4) beste aic  ####
+# arfimax(3_019_4) beste aic  ####
 startAIClag <- c()
 #rolingxreg <- cbind(xreghydro,xregtemp,xregcon,as.ts(WEATHER$Precipitation))
-rolingxreg <-as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
 for (i in 1:18) {
   startAIClag[i] <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=rolingxreg[,i], include.mean = F))
 }
@@ -350,7 +349,7 @@ repeat{
     print(i)
     if(nyaic<best_aic_1_0_2){
       best_aic_1_0_2 <- nyaic
-      modellagarma <- c(modellagarmag,i)
+      modellagarma <- c(modellagarma,i)
       
     }else{
       next
