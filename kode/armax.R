@@ -302,18 +302,19 @@ for (i in 1:18) {
 }
 names(startAIClag) <- colnames(rolingxreg)
 
-modellag <- as.numeric(which.min(startAIClag))# temp lag 0 
-best_aic_1_0_2 <- min(startAIClag)
+modellagarmax <- as.numeric(which.min(startAIClag))# temp lag 0 
+best_aic_3_019_4 <- min(startAIClag)
 
 parameterantal <- c(1:18)
+diff_X_t <- frakdiff(X_t,0.19)
 k <- 1
 repeat{
-  for (i in parameterantal[-modellag]) {
-    nyaic <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=rolingxreg[,c(modellag,i)], include.mean = F))
+  for (i in parameterantal[-modellagarmax ]) {
+    nyaic <- AIC(TSA::arima(diff_X_t , order = c(3, 0, 4),xreg=rolingxreg[,c(modellagarmax ,i)], include.mean = F))
     print(i)
-    if(nyaic<best_aic_1_0_2){
-      best_aic_1_0_2 <- nyaic
-      modellag <- c(modellag,i)
+    if(nyaic<best_aic_3_019_4 ){
+      best_aic_3_019_4  <- nyaic
+      modellagarmax  <- c(modellagarmax ,i)
       
     }else{
       next
@@ -325,9 +326,9 @@ repeat{
   }
 }
 
-colnames(rolingxreg)[modellag]
+colnames(rolingxreg)[modellagarmax ]
 
-best_aic_1_0_2
+best_aic_3_019_4 
 
 
 # armax(1,2) beste aic  ####
@@ -336,20 +337,20 @@ startAIClag <- c()
 for (i in 1:18) {
   startAIClag[i] <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,i], include.mean = F))
 }
-names(startAIClag) <- colnames(xvariable)
+names(startAIClag) <- colnames(xvaribale)
 
-modellag <- as.numeric(which.min(startAIClag))# temp lag 0 
+modellagarma <- as.numeric(which.min(startAIClag))# temp lag 0 
 best_aic_1_0_2 <- min(startAIClag)
 
 parameterantal <- c(1:18)
 k <- 1
 repeat{
-  for (i in parameterantal[-modellag]) {
-    nyaic <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,c(modellag,i)], include.mean = F))
+  for (i in parameterantal[-modellagarma]) {
+    nyaic <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,c(modellagarma,i)], include.mean = F))
     print(i)
     if(nyaic<best_aic_1_0_2){
       best_aic_1_0_2 <- nyaic
-      modellag <- c(modellag,i)
+      modellagarma <- c(modellagarmag,i)
       
     }else{
       next
@@ -361,7 +362,7 @@ repeat{
   }
 }
 
-colnames(xvaribale)[modellag]
+colnames(xvaribale)[modellagarma]
 
 best_aic_1_0_2
 
