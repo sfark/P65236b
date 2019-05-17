@@ -96,7 +96,7 @@ setwd("~/P65236b/DATA")
   }
   hydrolang <- rep(HYDRO$NO,each=7)
   pris <- cbind(dato,PRICES)
-  hydro2 <- cbind(dato2,HYDRO)
+  #hydro2 <- cbind(dato2,HYDRO)
   
   
   hydrodayli <- c()
@@ -244,13 +244,13 @@ X_t <- ts(model1$residuals)
 
 # opstiller data for 2019
 data_2019_files <- list.files("2019data", full.names = 1)
-PRICES_2019SA <- read.csv2(data_2019_files[2], header = TRUE)[1:110,10]
-HYDRO_2019 <- read.csv2(data_2019_files[3], header = TRUE)[1:15,2]
-Hydrprep <- (rep(HYDRO_2019,each = 7,length.out=110))/1000
-CONSUMPTION_2019 <- read.csv2(data_2019_files[1], header = TRUE,skip = 2)[1:110,2]
-WEATHER_2019 <- read.csv2(data_2019_files[4], header = TRUE)[1:110,c(3:4)]
-WEATHER_2019 <- as.numeric(WEATHER_2019[,1])
+PRICES_2019SA <- read.csv2(data_2019_files[3], header = TRUE)[1:110,10]
+HYDRO_2019 <- read.csv2(data_2019_files[4], header = TRUE)[1:15,2]
+Hydrprep <- (rep(HYDRO_2019,each = 7,length.out=110))
+CONSUMPTION_2019 <- read.csv2(data_2019_files[2], header = TRUE,skip = 2)[1:110,2]
+WEATHER_2019 <- read.csv2(data_2019_files[5], header = TRUE)[1:110,(3:4)]
 
-Data2019 <- cbind(PRICES_2019SA[1:110],Hydrprep,CONSUMPTION_2019/1000,WEATHER_2019[,1],WEATHER_2019[3:112,1],WEATHER_2019[,2])
+
+Data2019 <- cbind(PRICES_2019SA[1:110],Hydrprep,CONSUMPTION_2019,WEATHER_2019[,1],WEATHER_2019[,2])
 #Data2019 <- cbind(Hydrprep,CONSUMPTION_2019/1000,WEATHER_2019[,1],WEATHER_2019[3:112,1],WEATHER_2019[,2])
 
