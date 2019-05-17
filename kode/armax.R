@@ -45,7 +45,7 @@ for (i in 1:length(laghydro)) {
 colnames(xreghydro) <- c("lag 20","lag 19","lag 16")
  
 # samlede xreg ####
-xvaribale <- cbind(xregcon/100000,xreghydro/100000,xregtemp,as.ts(WEATHER$Precipitation))[1:2191,]
+xvaribale <- cbind(xregcon,xreghydro,xregtemp,as.ts(WEATHER$Precipitation))[1:2191,]
 
 # model =ARIMA(2,0,0) with zero mean 
 
@@ -173,7 +173,8 @@ AIC(aarmax)
 
 # aic values forloop ARMAX model (1,0,2) #####
 
-rolingxreg <-as.data.frame(cbind(xregcon[,11:1],xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation))[1:2191,] )
+rolingxreg <-xvaribale
+
 #for (i in 1:dim(rolingxreg)[1]) {
   for (j in 1:dim(rolingxreg)[2]) {
     if(is.na(rolingxreg[i,j])==TRUE){
@@ -295,7 +296,6 @@ if(k==5){
 
 # arfimax(3_019_4) beste aic  ####
 startAIClag <- c()
-#rolingxreg <- cbind(xreghydro,xregtemp,xregcon,as.ts(WEATHER$Precipitation))
 for (i in 1:18) {
   startAIClag[i] <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=rolingxreg[,i], include.mean = F))
 }
@@ -332,7 +332,6 @@ best_aic_3_019_4
 
 # armax(1,2) beste aic  ####
 startAIClag <- c()
-#rolingxreg <- cbind(xreghydro,xregtemp,xregcon,as.ts(WEATHER$Precipitation))
 for (i in 1:18) {
   startAIClag[i] <- AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,i], include.mean = F))
 }
