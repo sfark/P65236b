@@ -1,5 +1,5 @@
 ###DATA opsætning
-data_2019_files <- list.files("2019data", full.names = 1)
+{data_2019_files <- list.files("2019data", full.names = 1)
 
 PRICES_2019 <- read.csv2(data_2019_files[2], header = TRUE)[1:110,10]
 PRICES_2019 <- log(PRICES_2019)
@@ -12,10 +12,10 @@ dato2019 <- strptime(dato19, format = "%Y-%m-%d %H:%M:%S", "GMT")
 dummyhelligdage19 <- numeric(length = length(dato19))
 dummyhelligdage19[match(helligedage19,dato19)] <- 1
 dummyhelligweekend19 <- dummyhelligdage19+dummy_week19
-
+}
 
 ######Forecast
-PRICES_2019 
+{PRICES_2019 
 plot.ts(PRICES_2019)
 
 
@@ -34,7 +34,7 @@ plot.ts(trend2019)
 
 
 PRICES_2019SA <- PRICES_2019-trend2019#Sæson justeret log pris
-
+}
 ##Forecasting function for ARMA(1,2)
 {
 forecast_function <- function(x){
@@ -64,12 +64,12 @@ if (i==x) {
   }
 return(forecast_step)
 }
-
 fore_cast100 <- forecast_function(110)
 
-rmse(fore_cast100[,1]+trend2019,PRICES_2019)
-mape(forecast_spotpris,PRICES_2019)
 
+
+rmse(exp(fore_cast100[,1]+trend2019),exp(PRICES_2019))
+mape(forecast_spotpris,PRICES_2019)
 plot.ts(PRICES_2019SA)
 lines(fore_cast100[,1],col="red")
 lines(fore_cast100[,1]+fore_cast100[,2],col="blue")
@@ -79,12 +79,8 @@ rmse(fore_cast100[,1],PRICES_2019SA)
 mape(fore_cast100[,1],PRICES_2019SA)
 
 }
-
-
-
-
-###forecastfunction med ARFIMA(3,0.19,4)
-forecast_ARFIMA <- function(x){
+###ARFIMA(3,0.19,4)
+{forecast_ARFIMA <- function(x){
   start <- length(X_t)#2191
   Spot_pris <- c(X_t,PRICES_2019SA)
   forecast_step <- c()
@@ -105,53 +101,54 @@ forecast_ARFIMA <- function(x){
   
   return(forecast_step)
 }
+#log plots
+plot.ts(PRICES_2019SA)
+lines(test[,1],col="red")
+lines(test[,1]+test[,2],col="blue",lty=2)
+lines(test[,1]-test[,2],col="blue",lty=2)
+
+#forecast pris
+plot.ts(exp(PRICES_2019SA+trend2019))
+lines(exp(test[,1]+trend2019),col="red")
+lines(exp(test[,1]+test[,2]+trend2019),col="blue",lty=2)
+lines(exp(test[,1]-test[,2]+trend2019),col="blue",lty=2)
+
+rmse(exp(test[,1]+trend2019),exp(PRICES_2019SA+trend2019))
 
 
-forecast_ARFIMA <- function(x){
-  start <- length(X_t)#2191
-  Spot_pris <- c(X_t,PRICES_2019SA)
-  forecast_step <- c()
-  
-  for (i in 1:x) {
-    fitarfima <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19))
-    
-    fore <- predict(fitarfima,n.ahead=1)
-    
-    forecast_step <- as.ts(rbind(forecast_step,c(fore[[1]]$Forecast,fore[[1]]$exactSD)))
-  }
-  
-  colnames(forecast_step) <- c("Predict","Std. Error")
-  
-  # if (i==x) {
-  # forecast_step[,1] <- rbind(frakdiff(forecast_step[,1],-0.19))
-  #}
-  
-  return(forecast_step)
-}
+rmse(test[,1],PRICES_2019SA)
 
 time1 <- Sys.time()
 test <- forecast_ARFIMA(110)
 time2 <- Sys.time()
-time <- time2-time1
+time <- time2-time1}
 
-auto.arima(frakdiff(X_t,0.19),stepwise = F,approximation = F,max.order = 10,allowmean = F)
-for_test_arfima <- forecast_ARFIMA(110)
-inv_frak <- frakdiff(for_test_arfima[,1],-0.19)
-
-plot.ts(inv_frak)
-rmse(for_test_arfima[,1],PRICES_2019SA)
-
-plot.ts(PRICES_2019SA)
-lines(for_test_arfima[,1],col="red")
-
-
-plot.ts(PRICES_2019SA)
-lines(inv_frak,col="red")
-lines(fore_cast100[,1]+fore_cast100[,2],col="blue")
-lines(fore_cast100[,1]-fore_cast100[,2],col="blue")
-
-
-frak_test <- frakdiff(X_t,0.19)
-inv_test <- frakdiff(frak_test,-0.19)
-plot.ts(X_t)
-lines(inv_test,col="red")
+###ARMAX
+{forecast_ARMAX <- function(x){
+  start <- length(X_t)#2191
+  Spot_pris <- c(X_t,PRICES_2019SA)
+  Spot_pris <- ts(Spot_pris)
+  forecast_step <- c()
+  x_reg <- 
+for (i in 1:x) {
+  
+  armax1_0_2 <- TSA::arima(Spot_pris[1:start+i-1],order=c(1,0,2), seasonal = list(order = c(0, 0, 0)),xreg = testxreg, include.mean = F)
+  fore <- predict(fitarfima,n.ahead=1)
+  forecast_step <- as.ts(rbind(forecast_step,c(fore[[1]]$Forecast,fore[[1]]$exactSD)))
+} 
+  if (i==x) {
+    colnames(forecast_step) <- c("Predict","Std. Error")
+    forecast_spotpris <- exp(forecast_step[,1]+trend2019)
+    plot(exp(PRICES_2019),type = "l",col="red")
+    lines(forecast_spotpris)
+    lines(exp(forecast_step[,1]-forecast_step[,2]+trend2019),col="blue",lty=2)
+    lines(exp(forecast_step[,1]+forecast_step[,2]+trend2019),col="blue",lty=2)
+  }
+  
+  return(forecast_step)
+}
+  
+  
+  
+  
+}

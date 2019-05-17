@@ -330,7 +330,7 @@ colnames(rolingxreg)[modellag]
 best_aic_1_0_2
 
 
-# armax(3_019_4) beste aic  ####
+# armax(1,2) beste aic  ####
 startAIClag <- c()
 #rolingxreg <- cbind(xreghydro,xregtemp,xregcon,as.ts(WEATHER$Precipitation))
 for (i in 1:18) {
