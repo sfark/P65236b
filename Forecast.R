@@ -315,8 +315,12 @@ mape(exp(forecast_arfimaxrul[,1]+trend2019),exp(PRICES_2019SA+trend2019))
 Fastrmape <- c(mape(exp(forecast_arma12fast[,1]+trend2019),exp(PRICES_2019)),  mape(exp(Forecast_ARFIMA34fast[,1]+trend2019),exp(PRICES_2019)),  mape(exp(forecast_armax12fast[,1]+trend2019),exp(PRICES_2019SA+trend2019)), mape(exp(forecast_arfimaxfast[,1]+trend2019),exp(PRICES_2019SA+trend2019)))
 rulmape <- c(mape(exp(forecast_arma12rul[,1]+trend2019),exp(PRICES_2019)),mape(exp(Forecast_ARFIMA34rul[,1]+trend2019),exp(PRICES_2019)),mape(exp(forecast_armax12rul[,1]+trend2019),exp(PRICES_2019SA+trend2019)),mape(exp(forecast_arfimaxrul[,1]+trend2019),exp(PRICES_2019SA+trend2019)))
 
-rmse(mean(exp(PRICES_2019SA+trend2019)),exp(PRICES_2019SA+trend2019))
+rmse(mean(data_NO1[,1]),(data_NO1[,1]))
+mape(mean(data_NO1[,1]),(data_NO1[,1]))
 mape(mean(exp(PRICES_2019SA+trend2019)),exp(PRICES_2019SA+trend2019))
+
+plot.ts(PRICES_2019SA)
+mean(data_NO1[,1])
 
 ###PLOTS####
 
