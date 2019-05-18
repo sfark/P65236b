@@ -2,8 +2,7 @@ library(httr)
 library(jsonlite)
 library(XML)
 library(methods)
-install.packages("xml2")
-library("methods")
+#install.packages("xml2")
 library(xml2)
 options(stringsAsFactors = FALSE)
 
@@ -22,7 +21,7 @@ times <- xmlSApply(xmltop[[2]], xmlAttrs)
 listoftimes <- substr(times[2,1:10], 1, 10)
 
 #forecastday <- paste(substr(dato19[110], 1, 8),toString(as.numeric(substr(dato19[length(dato2019)], 9, 10))+1),sep = "")
-forecastday <- "2019-05-17"
+forecastday <- "2019-05-18"
 timeswewant <- c()
 for (i in 1:10) {
   if(listoftimes[[i]] ==forecastday){
@@ -38,7 +37,6 @@ for (i in timeswewant) {
 
 templlag0 <- mean(as.numeric(tempfore))
 
-
 #norge temp "9.4"  "12.1" "17.4" "15.9"
 # 2019/05/16 12-18 
 # probability   probability   probability   probability   probability  
@@ -48,3 +46,7 @@ templlag0 <- mean(as.numeric(tempfore))
 # unit       "celsius"     "celsius"     "celsius"     "celsius"     "celsius"    
 # value      "16.2"        "16.5"        "17.0"        "17.5"        "17.8" 
 # 
+
+
+
+
