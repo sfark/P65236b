@@ -18,20 +18,20 @@ xmltop = xmlRoot(xmlfile) #gives content of root
 
 times <- xmlSApply(xmltop[[2]], xmlAttrs)
 
-listoftimes <- substr(times[2,1:10], 1, 10)
+listoftimestemp <- substr(times[2,1:10], 1, 10)
 
 #forecastday <- paste(substr(dato19[110], 1, 8),toString(as.numeric(substr(dato19[length(dato2019)], 9, 10))+1),sep = "")
 forecastday <- "2019-05-18"
-timeswewant <- c()
+timeswewanttemp <- c()
 for (i in 1:10) {
-  if(listoftimes[[i]] ==forecastday){
-    timeswewant <- c(timeswewant,i)
+  if(listoftimestemp[[i]] ==forecastday){
+    timeswewanttemp <- c(timeswewanttemp,i)
   }
 }
 
 tempfore <- c()
 
-for (i in timeswewant) {
+for (i in timeswewanttemp) {
   tempfore <- c(tempfore,xmlSApply(xmltop[[2]][[i]][[1]], xmlAttrs) [5,5])
 }
 
@@ -47,20 +47,24 @@ templlag0 <- mean(as.numeric(tempfore))
 # value      "16.2"        "16.5"        "17.0"        "17.5"        "17.8" 
 # 
 
+times <- xmlSApply(xmltop[[2]], xmlAttrs)
+
+listoftimesrain <- substr(times[2,1:dim(times)[2]], 1, 10)
+
 forecastday <- "2019-05-18"
-timeswewant <- c()
-for (i in 1:10) {
-  if(listoftimes[[i]] ==forecastday){
-    timeswewant <- c(timeswewant,i)
+timeswewantrain <- c()
+for (i in 10:55) {
+  if(listoftimesrain[[i]] ==forecastday){
+    timeswewantrain <- c(timeswewantrain,i)
   }
 }
 
-tempfore <- c()
+rainfore <- c()
 
-for (i in timeswewant) {
-  tempfore <- c(tempfore,xmlSApply(xmltop[[2]][[i]][[1]], xmlAttrs) [5,5])
+for (i in timeswewantrain) {
+  rainfore <- c(rainfore,xmlSApply(xmltop[[2]][[i]][[1]], xmlAttrs) [5,5])
 }
 
-templlag0 <- mean(as.numeric(tempfore))
+rainlag0 <- sum(as.numeric(rainfore))
 
 
