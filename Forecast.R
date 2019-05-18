@@ -12,8 +12,9 @@ dato2019 <- strptime(dato19, format = "%Y-%m-%d %H:%M:%S", "GMT")
 dummyhelligdage19 <- numeric(length = length(dato19))
 dummyhelligdage19[match(helligedage19,dato19)] <- 1
 dummyhelligweekend19 <- dummyhelligdage19+dummy_week19
+#as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
 
-rolingxreg <-as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
+rolingxreg <-xvaribale
 }
 ##data opsætning 2019 XREG!!!!!!!!!!!!!!!!!!!!!####
 ####Xreg hydro2019
@@ -127,7 +128,7 @@ forecast_arma12 <- forecast_function(110)
   Spot_pris <- c(X_t,PRICES_2019SA)
   Spot_pris <- ts(Spot_pris)
   forecast_step <- c()
-  xreghelelortet <- rbind(rolingxreg[,c(modellagarma)],xreg_2019[,c(modellagarma)])
+  xreghelelortet <- rbind(rolingxreg[,c(modellagarmax)],xreg_2019[,c(modellagarmax)])
 for (i in 1:x) {
   
   armax1_0_2 <- TSA::arima(Spot_pris[1:(start+i-1)], order = c(1, 0, 2),xreg= xreghelelortet[1:(start+i-1),],include.mean = F)
