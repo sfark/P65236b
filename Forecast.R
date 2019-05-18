@@ -187,10 +187,10 @@ rmse(forecast_arfimax[,1],PRICES_2019SA)                              #logARFIMA
 rmse(exp(forecast_arfimax[,1]+trend2019),exp(PRICES_2019SA+trend2019))#ARFIMAX(3,0.19,4)
 
 ###MAPE####
-mape(fore_castarma12[,1],PRICES_2019SA)                               #logARMA(1,2)
-mape(exp(fore_castarma12[,1]+trend2019),exp(PRICES_2019))             #ARMA(1,2)
-mape(fore_ast_ARFIMA34[,1],PRICES_2019SA)                             #logARFIMA(3,0.19,4)
-mape(exp(fore_ast_ARFIMA34[,1]+trend2019),exp(PRICES_2019))           #ARFIMA(3,0.19,4)
+mape(forecast_arma12[,1],PRICES_2019SA)                               #logARMA(1,2)
+mape(exp(forecast_arma12[,1]+trend2019),exp(PRICES_2019))             #ARMA(1,2)
+mape( Forecast_ARFIMA34[,1],PRICES_2019SA)                             #logARFIMA(3,0.19,4)
+mape(exp(Forecast_ARFIMA34[,1]+trend2019),exp(PRICES_2019))           #ARFIMA(3,0.19,4)
 mape(forecast_armax12[,1],PRICES_2019SA)                              #logARMAX(1,2)
 mape(exp(forecast_armax12[,1]+trend2019),exp(PRICES_2019SA+trend2019))#ARMAX(1,2)
 mape(forecast_arfimax[,1],PRICES_2019SA)                              #logARFIMAX(3,0.19,4)
@@ -221,7 +221,8 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+  xlab("Time")+ylab("Price")
   
 #ARFIMA34
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
@@ -235,8 +236,8 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
-
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+xlab("Time")+ylab("Price")
 #ARMAX
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(forecast_armax12[,1]+trend2019)),
@@ -249,7 +250,7 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 
 #ARFIMAX
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
@@ -263,7 +264,7 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 
 
 
