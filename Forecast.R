@@ -232,11 +232,11 @@ forecast_armax12rul <- forecast_ARMAXrul(110)
   start <- length(X_t)#2191
   Spot_pris <- ts(c(X_t,PRICES_2019SA))
   forecast_step <- c()
-  xreghelelortet <- rbind(rolingxreg[,c(modellagarmax)],xreg_2019[,c(modellagarmax)])
-  xreghelelortet[1,2] <- 2.9
+  xreghelelortet <- rbind(rolingxreg[,c(modellagarfimax)],xreg_2019[,c(modellagarfimax)])
+  xreghelelortet[1,4] <- 2.9
   for (i in 1:x) {
     
-    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,phi=c(0.506415,-0.550276,0.909485),theta=c(-0.0737454,-0.554481,0.442508, 0.21124),reg=c(-0.00962025,-0.00395765,-0.00107165)),xreg= xreghelelortet[1:(start+i-1),],dmean = F,itmean = F)
+    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,phi=c(0.506415,-0.550276,0.909485),theta=c(-0.0737454,-0.554481,0.442508, 0.21124),reg=c(-0.00887165,-0.00110063, 3.05357e-07, -0.00405742)),xreg= xreghelelortet[1:(start+i-1),],dmean = F,itmean = F)
     
     nuxreg <- t(xreghelelortet[start+i,])
     
@@ -261,11 +261,11 @@ forecast_armax12rul <- forecast_ARMAXrul(110)
   start <- length(X_t)#2191
   Spot_pris <- ts(c(X_t,PRICES_2019SA))
   forecast_step <- c()
-  xreghelelortet <- rbind(rolingxreg[,c(modellagarmax)],xreg_2019[,c(modellagarmax)])
-  xreghelelortet[1,2] <- 2.9
+  xreghelelortet <- rbind(rolingxreg[,c(modellagarfimax)],xreg_2019[,c(modellagarfimax)])
+  xreghelelortet[1,4] <- 2.9
   for (i in 1:x) {
     
-    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,reg=c(-0.00962025,-0.00395765,-0.00107165)),
+    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,reg=c(-0.00887165,-0.00110063, 3.05357e-07, -0.00405742)),
                          xreg= xreghelelortet[1:(start+i-1),],dmean = F,itmean = F)
     
     nuxreg <- t(xreghelelortet[start+i,])
