@@ -12,8 +12,9 @@ dato2019 <- strptime(dato19, format = "%Y-%m-%d %H:%M:%S", "GMT")
 dummyhelligdage19 <- numeric(length = length(dato19))
 dummyhelligdage19[match(helligedage19,dato19)] <- 1
 dummyhelligweekend19 <- dummyhelligdage19+dummy_week19
+#as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
 
-rolingxreg <-as.data.frame(cbind(xreghydro[,3:1],xregtemp[,3:1],as.ts(WEATHER$Precipitation),xregcon[,11:1])[1:2191,] )
+rolingxreg <-xvaribale
 }
 ##data opsætning 2019 XREG!!!!!!!!!!!!!!!!!!!!!####
 ####Xreg hydro2019
@@ -127,7 +128,7 @@ forecast_arma12 <- forecast_function(110)
   Spot_pris <- c(X_t,PRICES_2019SA)
   Spot_pris <- ts(Spot_pris)
   forecast_step <- c()
-  xreghelelortet <- rbind(rolingxreg[,c(modellagarma)],xreg_2019[,c(modellagarma)])
+  xreghelelortet <- rbind(rolingxreg[,c(modellagarmax)],xreg_2019[,c(modellagarmax)])
 for (i in 1:x) {
   
   armax1_0_2 <- TSA::arima(Spot_pris[1:(start+i-1)], order = c(1, 0, 2),xreg= xreghelelortet[1:(start+i-1),],include.mean = F)
@@ -187,10 +188,10 @@ rmse(forecast_arfimax[,1],PRICES_2019SA)                              #logARFIMA
 rmse(exp(forecast_arfimax[,1]+trend2019),exp(PRICES_2019SA+trend2019))#ARFIMAX(3,0.19,4)
 
 ###MAPE####
-mape(fore_castarma12[,1],PRICES_2019SA)                               #logARMA(1,2)
-mape(exp(fore_castarma12[,1]+trend2019),exp(PRICES_2019))             #ARMA(1,2)
-mape(fore_ast_ARFIMA34[,1],PRICES_2019SA)                             #logARFIMA(3,0.19,4)
-mape(exp(fore_ast_ARFIMA34[,1]+trend2019),exp(PRICES_2019))           #ARFIMA(3,0.19,4)
+mape(forecast_arma12[,1],PRICES_2019SA)                               #logARMA(1,2)
+mape(exp(forecast_arma12[,1]+trend2019),exp(PRICES_2019))             #ARMA(1,2)
+mape( Forecast_ARFIMA34[,1],PRICES_2019SA)                             #logARFIMA(3,0.19,4)
+mape(exp(Forecast_ARFIMA34[,1]+trend2019),exp(PRICES_2019))           #ARFIMA(3,0.19,4)
 mape(forecast_armax12[,1],PRICES_2019SA)                              #logARMAX(1,2)
 mape(exp(forecast_armax12[,1]+trend2019),exp(PRICES_2019SA+trend2019))#ARMAX(1,2)
 mape(forecast_arfimax[,1],PRICES_2019SA)                              #logARFIMAX(3,0.19,4)
@@ -221,7 +222,8 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+  xlab("Time")+ylab("Price")
   
 #ARFIMA34
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
@@ -235,8 +237,8 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
-
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+xlab("Time")+ylab("Price")
 #ARMAX
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(forecast_armax12[,1]+trend2019)),
@@ -249,7 +251,7 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 
 #ARFIMAX
 datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
@@ -263,7 +265,7 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
   theme(legend.position = "right") +
   scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)
+  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 
 
 
