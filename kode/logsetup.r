@@ -42,6 +42,7 @@ library(FitAR)
 library(glmnet)
 library(TSA)
 library(rms)
+library(Metrics)
 # xtable(PRICES[1:10,])
 
 mmed <- function(x,n=5){runmed(x,n)}

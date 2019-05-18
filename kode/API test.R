@@ -47,6 +47,20 @@ templlag0 <- mean(as.numeric(tempfore))
 # value      "16.2"        "16.5"        "17.0"        "17.5"        "17.8" 
 # 
 
+forecastday <- "2019-05-18"
+timeswewant <- c()
+for (i in 1:10) {
+  if(listoftimes[[i]] ==forecastday){
+    timeswewant <- c(timeswewant,i)
+  }
+}
 
+tempfore <- c()
+
+for (i in timeswewant) {
+  tempfore <- c(tempfore,xmlSApply(xmltop[[2]][[i]][[1]], xmlAttrs) [5,5])
+}
+
+templlag0 <- mean(as.numeric(tempfore))
 
 

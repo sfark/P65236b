@@ -212,7 +212,7 @@ ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
 { #CCF con
   fitcon <- auto.arima(model3$residuals,stepwise=FALSE, approximation=FALSE,allowmean = F)
   
-  ggCcf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals,main="")
+  ggCcf(fitcon$residuals,Arima(X_t,model=fitcon)$residuals)
   
   di_CCF <- ccf(fitcon$residuals,Arima(dagligpris[,2],model=fitcon)$residuals)
   di_acf <- with(di_CCF, data.frame(lag, acf))
