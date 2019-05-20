@@ -299,7 +299,7 @@ forecast_armax12rul <- forecast_ARMAXrul(110)
 
 
 ###RMSE####
- 
+
 rmse(exp(forecast_arma12fast[,1]+trend2019),exp(PRICES_2019)) 
 rmse(exp(forecast_arma12rul[,1]+trend2019),exp(PRICES_2019)) 
 rmse(exp(Forecast_ARFIMA34fast[,1]+trend2019),exp(PRICES_2019))  
