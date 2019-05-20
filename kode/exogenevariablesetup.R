@@ -89,7 +89,7 @@ fittemp <- auto.arima(model2$residuals,stepwise=FALSE, approximation=FALSE,allow
 
 ggCcf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals)
 
-di_CCF <- ccf(fittemp$residuals,Arima(X_t,model=fittemp)$residuals,plot = FALSE)
+di_CCF <- ccf(fittemp$residuals,Arima(dagligpris[,2],model=fittemp)$residuals,plot = FALSE)
 di_acf <- with(di_CCF, data.frame(lag, acf))
 ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
   geom_hline(aes(yintercept = 0)) +

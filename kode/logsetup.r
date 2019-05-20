@@ -22,6 +22,7 @@
 #install.packages("rms")
 #load library
 library(gtools)
+library(xtable)
 library(stringr)
 library(lubridate)
 library(readr)
