@@ -5,15 +5,18 @@ plot(hydroccf,main="hydro ccf")
 myrmse <- function(x){
   rmse(exp(X_t[31:2191]+fitted.values(model1)[31:2191]),exp(fitted.values(x)[31:2191]+fitted.values(model1)[31:2191]))
 }
-
+nymyrmse <- function(x){
+  rmse(exp(fitted.values(x)[31:2191]+fitted.values(model1)[31:2191]) ,data_NO1[31:2191,1])
+}
 
 meanrmse <-   rmse(exp(X_t+fitted.values(model1)),exp(mean(X_t)+fitted.values(model1)))
 
 
 
 myrmsefi <- function(x){
-  rmse(exp(frakdiff(X_t,0.19)[31:2191]+fitted.values(model1)[31:2191]),exp(fitted.values(x)[31:2191]+fitted.values(model1)[31:2191]))
+  rmse(data_NO1[31:2191,1],exp(frakdiff(fitted.values(x)[31:2191],-0.19)+fitted.values(model1)[31:2191]))
 }
+myrmsefi(ARFIMAXBESTMOD)#26.87611
 
 # lag temp #####
 #ccftemplist <- seq(from=-30, to =30, along.with = tempccf[[1]])
@@ -25,7 +28,7 @@ for (i in 1:length(lagtemp)) {
   xregtemp <- cbind(xregtemp,stats::lag(as.ts(data_NO1[,4]),k=(lagtemp[i])))
 }
 
-colnames(xregtemp) <- c("lag 10","lag 1","lag 0")
+colnames(xregtemp) <- c("T10","T1","T0")
 # model =ARIMA(3,0,0) with zero mean
 
 # lag con #####
@@ -39,7 +42,7 @@ for (i in 1:length(lagcon)) {
 }
 
 
-colnames(xregcon) <- c("lag 30","lag 23","lag 22","lag 17","lag 16","lag 11","lag 10","lag 9","lag 4","lag 2","lag 0")
+colnames(xregcon) <- c("C30","C23","C22","C17","C16","C11","C10","C9","C4","C2","C0")
  
 
 # lag hydro #####
@@ -51,11 +54,12 @@ colnames(xregcon) <- c("lag 30","lag 23","lag 22","lag 17","lag 16","lag 11","la
 # for (i in 1:length(laghydro)) {
 #   xreghydro <- cbind(xreghydro,stats::lag(as.ts(data_NO1[,2]),k=(laghydro[i])))
 # }
-xreghydro <- cbind(stats::lag(as.ts(data_NO1[,2]),k=(-20)),stats::lag(as.ts(data_NO1[,2]),k=(-19)),stats::lag(as.ts(data_NO1[,2]),k=(-16)))
-colnames(xreghydro) <- c("lag 20","lag 19","lag 16")
+xreghydro <- cbind(stats::lag(as.ts(data_NO1[,2]),k=(-20)),stats::lag(as.ts(data_NO1[,2]),k=(-19)),stats::lag(as.ts(data_NO1[,2]),k=(-16)),as.ts(data_NO1[,2]))[,1:3]
+colnames(xreghydro) <- c("H20","H19","H16")
  
 # lag rain #####
-xregrain <- as.data.frame(stats::lag(as.ts(WEATHER$Precipitation),k=-1))
+xregrain <- as.data.frame(cbind(stats::lag(as.ts(WEATHER$Precipitation),k=-1),as.ts(WEATHER$Precipitation)))
+colnames(xregrain) <- c("R0","R1")
 # samlede xreg ####
 xvaribale <- cbind((xregcon)[1:2191,],xreghydro[1:2191,],xregtemp[1:2191,],xregrain[1:2191,])
 
@@ -82,7 +86,7 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   ylab("P-Value")
 # ARFIMAX model (3,0.19,4)####
 
-arfimax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg = xvaribale, include.mean = F)
+arfimax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg = xvaribale, include.mean = F)
 
 rmsekcarmax <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(arfimax3_019_4))[31:2191,1])
 plot(as.data.frame(fitted.values(arfimax3_019_4))[,1],col="red",type="l");lines(X_t,col="blue")
@@ -99,6 +103,7 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
 stats::AIC(arfimax3_019_4)#-4007.554
 stats::BIC(arfimax3_019_4)#-3859.918
 rmsekcarmax#0.09469012
+myrmsefi(arfimax3_019_4 )
 ljbox <- LjungBoxTest(arfimax3_019_4$residuals[31:2191])
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
@@ -110,51 +115,64 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
 # arfimax(3,019,4) con sumption xreg  #######
 conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
 
-con_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- conxreg, include.mean = F)
+con_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- conxreg, include.mean = F)
 
 conrmse <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(con_armax3_019_4))[31:2191,1])
 conrmse #0.09881569
 stats::AIC(con_armax3_019_4)#-3941.925
 stats::BIC(con_armax3_019_4)#-3834.009
-myrmsefi(con_armax3_019_4 )
+myrmsefi(con_armax3_019_4 )#28.98416
 # arfimax(3,019,4)  temp xreg ######### 
 tempxreg <-as.data.frame(cbind(xregtemp)[1:2191,] )
-temp_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)),xreg <- tempxreg, include.mean = F)
+temp_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- tempxreg, include.mean = F)
 
 temprmse <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(temp_armax3_019_4)[31:2191])[,1])
 
 stats::AIC(temp_armax3_019_4)#-4025.898
 stats::BIC(temp_armax3_019_4)
-myrmsefi(temp_armax3_019_4)
+myrmsefi(temp_armax3_019_4)#28.26639
 temprmse
 # arfimax(3,019,4) hydro xreg #####
 hydroxreg <-as.data.frame(cbind(xreghydro)[1:2191,] )
-hydro_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- (xreghydro)[1:2191,], seasonal = list(order = c(0, 0, 0), include.mean = F))
+hydro_arfimax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg = (xreghydro)[1:2191,], include.mean = F)
 
-hydrormse <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(hydro_armax3_019_4)[31:2191])[,1])
+hydrormse <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(hydro_arfimax3_019_4)[31:2191])[,1])
 
-stats::AIC(hydro_armax3_019_4)#-4011.651
-stats::BIC(hydro_armax3_019_4)#-3943.367
+stats::AIC(hydro_arfimax3_019_4)#-4011.651
+stats::BIC(hydro_arfimax3_019_4)#-3943.367
 hydrormse#0.09641103
-myrmsefi(hydro_armax3_019_4)
+myrmsefi(hydro_arfimax3_019_4)#28.10398
 # arfimax(3,019,4) rain xreg #####
 rainxreg <-stats::lag(as.ts(WEATHER$Precipitation),k=-1)
-rain_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg <- rainxreg, seasonal = list(order = c(0, 0, 0), include.mean = F))
+rain_armax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg = rainxreg, include.mean = F)
 
 rainormse <- rmse(frakdiff(X_t,0.19),as.data.frame(fitted.values(rain_armax3_019_4))[,1])
 
-stats::AIC(rain_armax3_019_4)#-3910.419
-stats::BIC(rain_armax3_019_4)#-3853.088
+stats::AIC(rain_armax3_019_4)#-3912.016
+stats::BIC(rain_armax3_019_4)# -3860.787
 rainormse# 0.09866371
-myrmsefi(rain_armax3_019_4)
+myrmsefi(rain_armax3_019_4)#28.86602
 # arfimax(3_019_4) beste aic  ####
 
-startAIClag <- c()
-for (i in 1:18) {
-  startAIClag[i] <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,i], include.mean = F))
-}
-names(startAIClag) <- colnames(xvaribale)
+ARFIMAEcoef <- TSA::arima(diff_X_t , order = c(3, 0, 4), include.mean = F)
+arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,NA)
 
+arfimastartvalues <- c()
+startAIClag <- c()
+biclagarfimax <- c()
+rmsearfimax <- c()
+for (i in 1:18) {
+  midmodarfimax <- TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),fixed = arfimaxfixedcoes,xreg=xvaribale[,i], include.mean = F)
+  startAIClag[i] <- stats::AIC(midmodarfimax)
+  biclagarfimax[i] <- stats::BIC(midmodarfimax)
+  rmsearfimax[i]   <- myrmsefi(midmodarfimax)
+  
+}
+arfimaxstartlagtable <- cbind(colnames(xvaribale),startAIClag)
+arfimaxstartlagtable
+arfimastartvalues <- cbind(startAIClag,biclagarfimax,rmsearfimax)
+row.names(arfimastartvalues) <- colnames(xvaribale)
+arfimastartvalues
 modellagarfimax <- as.numeric(which.min(startAIClag))# temp lag 0
 best_aic_3_019_4 <- min(startAIClag)
 
@@ -165,32 +183,83 @@ minaic <- 1
 for(j in 1:10){
   minaiclist <- c()
   for  (i in parameterantal[-modellagarfimax]) {
-    minaiclist <- c(minaiclist,AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,c(modellagarfimax,i)], include.mean = F)))
+    arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,rep(NA,length(c(modellagarfimax,i))))
+    minaiclist <- c(minaiclist,stats::AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),fixed = arfimaxfixedcoes,xreg=xvaribale[,c(modellagarfimax,i)], include.mean = F)))
   }
+  print("#######")
+  print(best_aic_3_019_4)
+  print(colnames(xvaribale)[as.numeric(which.min(minaiclist))])
+  print(min(minaiclist))
   if(min(minaiclist)<best_aic_3_019_4){
     modellagarfimax <- c(modellagarfimax,parameterantal[-modellagarfimax][as.numeric(which.min(minaiclist))])
-    minaic <- AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,modellagarfimax], include.mean = F))
+    arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,rep(NA,length(c(modellagarfimax))))
+    minaic <- stats::AIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),fixed = arfimaxfixedcoes,xreg=xvaribale[,modellagarfimax], include.mean = F))
     best_aic_3_019_4 <- minaic
   }
 }
 
 
-modellagarfimax <- c(17,18,11,16)
+#modellagarfimax <- c(17,18,11,16)
 colnames(xvaribale)[modellagarfimax ]
-ARFIMAXBESTMOD <- TSA::arima(diff_X_t , order = c(3, 0, 4),xreg=xvaribale[,modellagarfimax], include.mean = F)
-ARFIMAXrmse <- rmse(diff_X_t[31:2191],as.data.frame(fitted.values(ARFIMAXBESTMOD ))[31:2191,1])
-stats::AIC(ARFIMAXBESTMOD)#-4040.281
-stats::BIC(ARFIMAXBESTMOD)#-3971.981
-ARFIMAXrmse# 0.09578728
+arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,rep(NA,length(c(modellagarfimax))))
 
-myrmsefi(ARFIMAXBESTMOD)
+ARFIMAXBESTMOD <- TSA::arima(diff_X_t , order = c(3, 0, 4),fixed = arfimaxfixedcoes,xreg=xvaribale[,modellagarfimax], include.mean = F)
+stats::AIC(ARFIMAXBESTMOD)#-4043.295
+stats::BIC(ARFIMAXBESTMOD)#-3974.996
+myrmsefi(ARFIMAXBESTMOD)#28.25779
+
+scale_con <- cbind(xvaribale[,modellagarfimax][1],xvaribale[,modellagarfimax][2],xvaribale[,modellagarfimax][3]/10000,xvaribale[,modellagarfimax][4])
+sarfimax <- sarima(diff_X_t, 3, 0, 4, xreg=xvaribale[,modellagarfimax])
+sarfimax_sc <- sarima(diff_X_t, 3, 0, 4, xreg=scale_con)
+scalecontablelatex <- xtable(sarfimax_sc$ttable)
+contablelatex <- xtable(sarfimax$ttable)
+scalecontablelatex
+contablelatex 
+# ARFIMAX BEST model BIC ##########
+
+best_Bic_3_019_4 <- min(arfimastartvalues[,2])
+modellagarfimax <- as.numeric(which.min(arfimastartvalues[,2]))
+parameterantal <- c(1:18)
+diff_X_t <- frakdiff(X_t,0.19)
+minbiclist <- c()
+minbic <- 1
+for(j in 1:10){
+  minbiclist <- c()
+  for  (i in parameterantal[-modellagarfimax]) {
+    minbiclist <- c(minbiclist,stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,c(modellagarfimax,i)], include.mean = F)))
+  }
+  if(min(minbiclist)<best_Bic_3_019_4){
+    modellagarfimax <- c(modellagarfimax,parameterantal[-modellagarfimax][as.numeric(which.min(minbiclist))])
+    minbic <- stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,modellagarfimax], include.mean = F))
+    best_Bic_3_019_4 <- minbic
+  }
+}
+
+# for ARMAX
+best_Bic_3_019_4 <- min(arfimastartvalues[,2])
+
+parameterantal <- c(1:18)
+diff_X_t <- frakdiff(X_t,0.19)
+minbiclist <- c()
+minbic <- 1
+for(j in 1:10){
+  minbiclist <- c()
+  for  (i in parameterantal[-modellagarmax]) {
+    minbiclist <- c(minbiclist,stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
+  }
+  if(min(minbiclist)<best_Bic_3_019_4){
+    modellagarfimax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minbiclist))])
+    minbic <- stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,modellagarmax], include.mean = F))
+    best_Bic_3_019_4 <- minbic
+  }
+}
 
 # ARFIMAX kitchensink#########
 
 ARFIMAXKS <- TSA::arima(diff_X_t , order = c(3, 0, 4),xreg=xvaribale, include.mean = F)
 stats::AIC(ARFIMAXKS)#-4040.281
 stats::BIC(ARFIMAXKS)#-3971.981
-myrmsefi(ARFIMAXKS)
+myrmsefi(ARFIMAXKS)#27.74125
 
 # ARFIMAX best mod ljungbox plot #####
 ljbox <-LjungBoxTest(ARFIMAXBESTMOD$residuals[31:2191])
@@ -268,6 +337,7 @@ stats::AIC(con_armax1_2 )#-3905.93
 stats::BIC(con_armax1_2 )#-3820.755
 conrmse#0.09728524
 myrmse(con_armax1_2)
+nymyrmse(con_armax1_2)
 # armax(1,0,2)   temp xreg ######### 
 tempxreg <-as.data.frame(cbind(xregtemp)[1:2191,] )
 temp_armax1_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)),xreg <- tempxreg, include.mean = F)
@@ -444,45 +514,53 @@ if(k==5){
 }# test best model algoritmer
 # armax(1,2) beste aic  ####
 
-# armastartvalues <- c()
-# startAIClag <- c()
-# biclagarmax <- c()
-# rmsearmax <- c()
-# for (i in 1:18) {
-#   midmodarmax <- TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,i], include.mean = F)
-#   startAIClag[i] <- stats::AIC(midmodarmax)
-#   biclagarmax[i] <- stats::BIC(midmodarmax)
-#   rmsearmax[i]   <- rmse(X_t[31:2191],as.data.frame(fitted.values(midmodarmax )[31:2191])[,1])
-#   
-# }
-# armastartvalues <- cbind(startAIClag,biclagarmax,rmsearmax)
-# row.names(armastartvalues) <- colnames(xvaribale)
-# 
-# modellagarmax <- as.numeric(which.min(startAIClag))# temp lag 0 
-# best_aic_1_0_2 <- min(startAIClag)
-# 
-# 
-# 
-# parameterantal <- c(1:18)
-# minaiclistar <- c()
-# minaicar <- 1
-# for(j in 1:6){
-#   minaiclistar <- c()
-#   for  (i in parameterantal[-modellagarmax]) {
-#     minaiclistar <- c(minaiclistar,stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
-#   }
-#   if(min(minaiclistar)<best_aic_1_0_2){
-#     modellagarmax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minaiclistar))])
-#     minaicar <- stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,modellagarmax], include.mean = F))
-#     best_aic_1_0_2 <- minaicar
-#   }
-# }
-modellagarmax <- c(17,16,18)
+armax_coef <- TSA::arima(X_t, order = c(1, 0, 2), include.mean = F)
+fixedarma <- c(0.9692 , -0.2018 , -0.2260,NA)
+armastartvalues <- c()
+startAIClag <- c()
+biclagarmax <- c()
+rmsearmax <- c()
+for (i in 1:18) {
+  midmodarmax <- TSA::arima(X_t, order = c(1, 0, 2),fixed= fixedarma,xreg=xvaribale[,i], include.mean = F)
+  startAIClag[i] <- stats::AIC(midmodarmax)
+  biclagarmax[i] <- stats::BIC(midmodarmax)
+  rmsearmax[i]   <- myrmse(midmodarmax)
+
+}
+armaxstartlagtable <- cbind(colnames(xvaribale),startAIClag)
+xtable(armaxstartlagtable)
+armastartvalues <- cbind(startAIClag,biclagarmax,rmsearmax)
+row.names(armastartvalues) <- colnames(xvaribale)
+
+modellagarmax <- as.numeric(which.min(startAIClag))# temp lag 0
+best_aic_1_0_2 <- min(startAIClag)
+
+
+
+parameterantal <- c(1:18)
+minaiclistar <- c()
+minaicar <- 1
+for(j in 1:6){
+  minaiclistar <- c()
+  for  (i in parameterantal[-modellagarmax]) {
+    
+    fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax,i))))
+    minaiclistar <- c(minaiclistar,stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
+  }
+  if(min(minaiclistar)<best_aic_1_0_2){
+    modellagarmax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minaiclistar))])
+    fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax))))
+    minaicar <- stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,modellagarmax], include.mean = F))
+    best_aic_1_0_2 <- minaicar
+  }
+}
+#modellagarmax <- c(17,16,18)
 colnames(xvaribale)[modellagarmax]
 
 best_aic_1_0_2
 
-bestarmax <- TSA::arima(X_t, order = c(1, 0, 2),xreg=xvaribale[,c(modellagarmax)], include.mean = F)
+fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax))))
+bestarmax <- TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,c(modellagarmax)], include.mean = F)
 bestarmaxrmse <- rmse(X_t[31:2191],as.data.frame(fitted.values(bestarmax )[31:2191])[,1])
 myrmse(bestarmax)
 stats::AIC(bestarmax)# -4024.326
@@ -506,3 +584,45 @@ armaxmodels <- c(arma1_2,armax1_0_2,con_armax1_2,hydro_armax1_2,temp_armax1_2,ra
 
 
 
+
+# ARMAX lag tabel stor ;) ###########
+
+ARMAXBT <- c()
+for (i in xvaribale){
+  armax1_0_2 <- TSA::arima(X_t,order=c(1,0,2),xreg = xvaribale, include.mean = F)
+  
+  for (j in xvaribale[-i]) {
+    armax1_0_2 <- TSA::arima(X_t,order=c(1,0,2),xreg = xvaribale, include.mean = F)
+  }
+}
+
+
+for (i in c(1:5)){
+  print(i)
+  for (j in c(1:5)[-i]) {
+    print(c(i,j))
+    for (k in c(1:5)[-c(i,j)]) {
+      print(c(i,j,k))
+    }
+      }
+}
+numberofcombinations <- c()
+for (i in 1:3) {
+  numberofcombinations <- c(numberofcombinations,combn(x=colnames(xvaribale[1:18]),m=i))
+}
+
+
+
+arfima_ARFIMAX <-  arfima(X_t[2:2191], order=c(3,0,4), fixed = list(phi=c( 0.5472 ,-0.5299,0.9359),theta=c(-0.0070,0.4990,-0.5108,-0.2236),reg =c(-0.0102,-0.0014,0.2e-7,-0.0026),frac=0.19),dmean = F, xreg = xvaribale[2:2191,modellagarfimax])
+
+
+test <- arfima(X_t[2:2191], order=c(3,0,4), fixed = list(phi=c( 0.498841 ,-0.554024,0.898237),theta=c(-0.015279,-0.529284, 0.491697 ,0.208435 ),frac=0.19))
+
+
+rmse( exp(fitted.values(test)[[1]]+fitted.values(model1)[2:2191]) ,exp( X_t[2:2191]+fitted.values(model1)[2:2191])  )
+plot.ts(data_NO1[2:2191,1])
+lines(exp( X_t[2:2191]+fitted.values(model1)[2:2191]),col="yellow" )
+
+
+plot.ts(frakdiff(frakdiff(fitted.values(test)[[1]],0.19),-0.19)-fitted.values(test)[[1]])
+ 
