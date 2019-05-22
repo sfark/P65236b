@@ -100,7 +100,11 @@ if (i==x) {
   }
 return(forecast_step)
 }
+tid3 <- Sys.time()  
 forecast_arma12fast <- forecast_ARMAfast(110)
+tid4 <- Sys.time()
+tidarma <- tid4-tid3
+
 }
 #ARMA(1,2) Rul
 {forecast_ARMArul<- function(x){
@@ -130,7 +134,10 @@ forecast_arma12fast <- forecast_ARMAfast(110)
   }
   return(forecast_step)
 }
+tid5 <- Sys.time()  
 forecast_arma12rul <- forecast_ARMArul(110)
+tid6 <- Sys.time()
+tidarmarul <- tid6-tid5
 }
 ###ARFIMA(3,0.19,4) fast
 {forecast_ARFIMAfast <- function(x){
@@ -179,8 +186,8 @@ Forecast_ARFIMA34rul <- forecast_ARFIMArul(110)
   xreghelelortet <- rbind(rolingxreg[,c(modellagarmax)],xreg_2019[,c(modellagarmax)])
   
 for (i in 1:x) {
-  
-  armax1_0_2 <- TSA::arima(Spot_pris[1:(start+i-1)], order = c(1, 0, 2),xreg= xreghelelortet[1:(start+i-1),],include.mean = F,fixed = c(NA,NA,NA,-0.0099,-0.0047,-0.0012))
+  coeff <- coef(arima(Spot_pris[1:(start+i-1)],order = c(1,0,2),include.mean = F))
+  armax1_0_2 <- TSA::arima(Spot_pris[1:(start+i-1)], order = c(1, 0, 2),xreg= xreghelelortet[1:(start+i-1),],include.mean = F,fixed = c(coeff[1],coeff[2],coeff[3],-0.0099,-0.0047,-0.0012))
   
   fore <- predict(armax1_0_2,n.ahead=1,newxreg =t(xreghelelortet[start+i,]))
   
@@ -264,8 +271,9 @@ forecast_armax12rul <- forecast_ARMAXrul(110)
   xreghelelortet <- rbind(rolingxreg[,c(modellagarfimax)],xreg_2019[,c(modellagarfimax)])
   xreghelelortet[1,4] <- 2.9
   for (i in 1:x) {
+    coeff <- coef(arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19),dmean = F,itmean = F))
     
-    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,phi=c(0.506415,-0.550276,0.909485),theta=c(-0.0737454,-0.554481,0.442508, 0.21124)),
+    fitarfimax <- arfima(Spot_pris[1:(start+i-1)],order = c(3,0,4),fixed = list(frac=0.19,phi=c(coeff[,1],coeff[,2],coeff[,3]),theta=c(coeff[,4],coeff[,5],coeff[,6], coeff[,7])),
                          xreg= xreghelelortet[1:(start+i-1),],dmean = F,itmean = F)
     
     nuxreg <- t(xreghelelortet[start+i,])
@@ -283,12 +291,15 @@ forecast_armax12rul <- forecast_ARMAXrul(110)
   }
   return(forecast_step)
 }
-  forecast_arfimaxrul <- forecast_ARfiMAXrul(110)  
+  time1 <- Sys.time()
+  forecast_arfimaxrul <- forecast_ARfiMAXrul(110) 
+  time2 <- Sys.time()
+  tid <- time2-time1 
 }
 
 
 ###RMSE####
- 
+
 rmse(exp(forecast_arma12fast[,1]+trend2019),exp(PRICES_2019)) 
 rmse(exp(forecast_arma12rul[,1]+trend2019),exp(PRICES_2019)) 
 rmse(exp(Forecast_ARFIMA34fast[,1]+trend2019),exp(PRICES_2019))  
@@ -298,7 +309,7 @@ rmse(exp(forecast_armax12rul[,1]+trend2019),exp(PRICES_2019SA+trend2019))
 rmse(exp(forecast_arfimaxfast[,1]+trend2019),exp(PRICES_2019SA+trend2019))
 rmse(exp(forecast_arfimaxrul[,1]+trend2019),exp(PRICES_2019SA+trend2019))
 
-Fastrmse <- c(rmse(exp(forecast_arma12fast[,1]+trend2019),exp(PRICES_2019)),  rmse(exp(Forecast_ARFIMA34fast[,1]+trend2019),exp(PRICES_2019)),  rmse(exp(forecast_armax12fast[,1]+trend2019),exp(PRICES_2019SA+trend2019)), rmse(exp(forecast_arfimaxfast[,1]+trend2019),exp(PRICES_2019SA+trend2019)))
+Fastrmse <- c(rmse(exp(forecast_arma12fast[,1]+trend2019),exp(PRICES_2019)),rmse(exp(Forecast_ARFIMA34fast[,1]+trend2019),exp(PRICES_2019)),  rmse(exp(forecast_armax12fast[,1]+trend2019),exp(PRICES_2019SA+trend2019)), rmse(exp(forecast_arfimaxfast[,1]+trend2019),exp(PRICES_2019SA+trend2019)))
 rulrmse <- c(rmse(exp(forecast_arma12rul[,1]+trend2019),exp(PRICES_2019)),rmse(exp(Forecast_ARFIMA34rul[,1]+trend2019),exp(PRICES_2019)),rmse(exp(forecast_armax12rul[,1]+trend2019),exp(PRICES_2019SA+trend2019)),rmse(exp(forecast_arfimaxrul[,1]+trend2019),exp(PRICES_2019SA+trend2019)))
 
 
@@ -325,18 +336,20 @@ mean(data_NO1[,1])
 ###PLOTS####
 
 ##GGplots 
-####ARMA12 fast
+####ARMA12 fast og rul i samme plot
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(forecast_arma12fast[,1]+trend2019)),
+                                c(exp(forecast_arma12rul[,1]+trend2019)),
                                 c(exp(forecast_arma12fast[,1]+forecast_arma12fast[,2]+trend2019)),
                                 c(exp(forecast_arma12fast[,1]-forecast_arma12fast[,2]+trend2019))      ))
-colnames(datalort) <- c("Observed","Predict","SE","se2")
+colnames(datalort) <- c("Observed","PredictFixed","PredictRolling","SE","se2")
 
 ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
-  geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
+  geom_line(aes(x=1:110,y=PredictFixed,color="red"),size=1.5,show.legend = T)+
+  geom_line(aes(x=1:110,y=PredictRolling,color="blue"),size=1,show.legend = T)+
   theme(legend.position = "right") +
-  scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
+  scale_color_manual(name="",labels=c("Observed","Predicted-Fixed","Predicted-Rolling"),values = c("black", "red","blue"))+
   geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
   xlab("Time")+ylab("Price")}
 ####ARMA12 rul
@@ -354,18 +367,20 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
   xlab("Time")+ylab("Price")
 }
-#ARFIMA34 fast
+#ARFIMA34 fast og rul i samme plot
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(Forecast_ARFIMA34fast[,1]+trend2019)),
+                                c(exp(Forecast_ARFIMA34rul[,1]+trend2019)),
                                 c(exp(Forecast_ARFIMA34fast[,1]+Forecast_ARFIMA34fast[,2]+trend2019)),
-                                c(exp(Forecast_ARFIMA34fast[,1]-Forecast_ARFIMA34fast[,2]+trend2019))      ))
-colnames(datalort) <- c("Observed","Predict","SE","se2")
+                                c(exp(Forecast_ARFIMA34fast[,1]-Forecast_ARFIMA34fast[,2]+trend2019))  ))
+colnames(datalort) <- c("Observed","PredictFixed","PredictRolling","SE","se2")
 
 ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
-  geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
+  geom_line(aes(x=1:110,y=PredictFixed,color="red"),size=1.5,show.legend = T)+
+  geom_line(aes(x=1:110,y=PredictRolling,color="blue"),size=1,show.legend = T)+
   theme(legend.position = "right") +
-  scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
+  scale_color_manual(name="",labels=c("Observed","Predicted-Fixed","Predicted-Rolling"),values = c("black", "red","blue"))+
   geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
 xlab("Time")+ylab("Price")
 }
@@ -385,20 +400,24 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   xlab("Time")+ylab("Price")
 
 }
-#ARMAX rul
+#ARMAX rul og fast i samme plot
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
+                                 c(exp(forecast_armax12fast[,1]+trend2019)),
                                 c(exp(forecast_armax12rul[,1]+trend2019)),
                                 c(exp(forecast_armax12rul[,1]+forecast_armax12rul[,2]+trend2019)),
                                 c(exp(forecast_armax12rul[,1]-forecast_armax12rul[,2]+trend2019))      ))
-colnames(datalort) <- c("Observed","Predict","SE","se2")
-
-ggplot(datalort,aes(x=1:110,y=Observed))+
-  geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
-  geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
-  theme(legend.position = "right") +
-  scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
+  colnames(datalort) <- c("Observed","PredictFixed","PredictRolling","SE","se2")
+  
+  ggplot(datalort,aes(x=1:110,y=Observed))+
+    geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
+    geom_line(aes(x=1:110,y=PredictFixed,color="red"),size=1.5,show.legend = T)+
+    geom_line(aes(x=1:110,y=PredictRolling,color="blue"),size=1,show.legend = T)+
+    theme(legend.position = "right") +
+    scale_color_manual(name="",labels=c("Observed","Predicted-Fixed","Predicted-Rolling"),values = c("black", "red","blue"))+
+    geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+    xlab("Time")+ylab("Price")
 }
+
 #ARMAX fast
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(forecast_armax12fast[,1]+trend2019)),
@@ -414,20 +433,22 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 }
 
-#ARFIMAX fast
+#ARFIMAX fast og rul i samme plot
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
                                 c(exp(forecast_arfimaxfast[,1]+trend2019)),
+                                c(exp(forecast_arfimaxrul[,1]+trend2019)),
                                 c(exp(forecast_arfimaxfast[,1]+forecast_arfimaxfast[,2]+trend2019)),
                                 c(exp(forecast_arfimaxfast[,1]-forecast_arfimaxfast[,2]+trend2019))      ))
-colnames(datalort) <- c("Observed","Predict","SE","se2")
-
-ggplot(datalort,aes(x=1:110,y=Observed))+
-  geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
-  geom_line(aes(x=1:110,y=Predict,color="red"),size=1,show.legend = T)+
-  theme(legend.position = "right") +
-  scale_color_manual(name="",labels=c("Observed","Predicted"),values = c("black", "red"))+
-  geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
-
+  colnames(datalort) <- c("Observed","PredictFixed","PredictRolling","SE","se2")
+  
+  ggplot(datalort,aes(x=1:110,y=Observed))+
+    geom_line(aes(x=1:110,y=Observed,color="black"),size=1,show.legend = T)+
+    geom_line(aes(x=1:110,y=PredictFixed,color="red"),size=1,show.legend = T)+
+    geom_line(aes(x=1:110,y=PredictRolling,color="blue"),size=1,show.legend = T)+
+    theme(legend.position = "right") +
+    scale_color_manual(name="",labels=c("Observed","Predicted-Rolling","Predicted-Fixed"),values = c("black", "red","blue"))+
+    geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+
+    xlab("Time")+ylab("Price")
 }
 #ARFIMAX rul
 {datalort <- as.data.frame(cbind(exp(PRICES_2019SA+trend2019),
@@ -444,3 +465,33 @@ ggplot(datalort,aes(x=1:110,y=Observed))+
   geom_ribbon(aes(ymin=se2,ymax=SE),alpha=0.1,show.legend = T)+xlab("Time")+ylab("Price")
 
 }
+
+
+###MEAN forecast
+forecast_MEAN <- function(x){
+  
+  start <- length(X_t)#2191
+  Spot_pris <- c(X_t,PRICES_2019SA)
+  Spot_pris <- ts(Spot_pris)
+  forecast_step <- c()
+  
+  for (i in 1:x) {
+    
+    fitmean <- mean(Spot_pris[1:(start+i-1)] )
+    
+    
+    forecast_step <- as.ts(rbind(forecast_step,fitmean))
+  }
+  
+  colnames(forecast_step) <- c("Predict")
+  
+  return(forecast_step)
+}
+
+forecast_spotpris <- exp(forecast_MEAN(110)[,1]+trend2019)
+plot(exp(PRICES_2019),type = "l",col="red")
+lines(forecast_spotpris)
+
+rmse(forecast_spotpris,exp(PRICES_2019))
+mape(forecast_spotpris,exp(PRICES_2019))
+
