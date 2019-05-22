@@ -53,6 +53,6 @@ WEATHER$Date <- dato
 
 # data_NO1
 
-data_NO1 <- cbind(PRICES$Oslo,CONSUMPTION$NO1,HYDRO$NO,WEATHER$Mean.temperature,WEATHER$Precipitation)
-colnames(data_NO1) <- c("Price","Hydro reserve","Consumption","Mean.temperature", "Precipitation")
+data_NO1 <- cbind(PRICES$Oslo,CONSUMPTION$NO1,hydrodayli,WEATHER$Mean.temperature,WEATHER$Precipitation)
+colnames(data_NO1) <- c("Price","Consumption","Hydro reserve","Mean.temperature", "Precipitation")
 

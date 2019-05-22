@@ -27,8 +27,8 @@ xregtemp <- c()
 for (i in 1:length(lagtemp)) {
   xregtemp <- cbind(xregtemp,stats::lag(as.ts(data_NO1[,4]),k=(lagtemp[i])))
 }
-
-colnames(xregtemp) <- c("T10","T1","T0")
+xregtemp <- xregtemp[1:2191,]
+colnames(xregtemp) <- c("Mean Temp lag 10","Mean Temp lag 1","Mean Temp lag 0")
 # model =ARIMA(3,0,0) with zero mean
 
 # lag con #####
@@ -42,8 +42,8 @@ for (i in 1:length(lagcon)) {
 }
 
 
-colnames(xregcon) <- c("C30","C23","C22","C17","C16","C11","C10","C9","C4","C2","C0")
- 
+colnames(xregcon) <- c("Consumption lag 30","Consumption lag23","Consumption lag 22" ,"Consumption lag 17" ,"Consumption lag 16" ,"Consumption lag 11","Consumption lag 10","Consumption lag 9","Consumption lag 4","Consumption lag 2","Consumption lag 0")
+
 
 # lag hydro #####
 # ccfhydrolist <- seq(from=-30, to =30, length.out = 61)
@@ -54,18 +54,22 @@ colnames(xregcon) <- c("C30","C23","C22","C17","C16","C11","C10","C9","C4","C2",
 # for (i in 1:length(laghydro)) {
 #   xreghydro <- cbind(xreghydro,stats::lag(as.ts(data_NO1[,2]),k=(laghydro[i])))
 # }
-xreghydro <- cbind(stats::lag(as.ts(data_NO1[,2]),k=(-20)),stats::lag(as.ts(data_NO1[,2]),k=(-19)),stats::lag(as.ts(data_NO1[,2]),k=(-16)),as.ts(data_NO1[,2]))[,1:3]
-colnames(xreghydro) <- c("H20","H19","H16")
+xreghydro <- cbind(stats::lag(as.ts(data_NO1[,2]),k=(-20)),stats::lag(as.ts(data_NO1[,2]),k=(-19)),stats::lag(as.ts(data_NO1[,2]),k=(-16)),as.ts(data_NO1[,2]))[1:2191,1:3]
+colnames(xreghydro) <-  c("Hydro lag 20 ","Hydro lag 19","Hydro lag 16")
  
 # lag rain #####
 xregrain <- as.data.frame(cbind(stats::lag(as.ts(WEATHER$Precipitation),k=-1),as.ts(WEATHER$Precipitation)))
-colnames(xregrain) <- c("R0","R1")
+names(xregrain) <- c("R1","R0")
+xregrain <- xregrain[,1]
 # samlede xreg ####
-xvaribale <- cbind((xregcon)[1:2191,],xreghydro[1:2191,],xregtemp[1:2191,],xregrain[1:2191,])
+xvaribale <- cbind((xregcon)[1:2191,],xreghydro[1:2191,],xregtemp[1:2191,],xregrain[1:2191])
+colnames(xvaribale) <- c("Consumption lag 30","Consumption lag23","Consumption lag 22" ,"Consumption lag 17" ,"Consumption lag 16" ,"Consumption lag 11","Consumption lag 10","Consumption lag 9","Consumption lag 4","Consumption lag 2","Consumption lag 0","Hydro lag 20 ","Hydro lag 19","Hydro lag 16","Mean Temp lag 10","Mean Temp lag 1","Mean Temp lag 0","Precipitation lag 1")
 
 # model =ARIMA(2,0,0) with zero mean 
 
 
+# ARFIMAX
+{
 # ARFIMA #####
 arfima3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)), include.mean = F)
 
@@ -199,7 +203,7 @@ for(j in 1:10){
 }
 
 
-#modellagarfimax <- c(17,18,11,16)
+modellagarfimax <- c(17,18,11,16)
 colnames(xvaribale)[modellagarfimax ]
 arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,rep(NA,length(c(modellagarfimax))))
 
@@ -235,24 +239,7 @@ for(j in 1:10){
   }
 }
 
-# for ARMAX
-best_Bic_3_019_4 <- min(arfimastartvalues[,2])
 
-parameterantal <- c(1:18)
-diff_X_t <- frakdiff(X_t,0.19)
-minbiclist <- c()
-minbic <- 1
-for(j in 1:10){
-  minbiclist <- c()
-  for  (i in parameterantal[-modellagarmax]) {
-    minbiclist <- c(minbiclist,stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
-  }
-  if(min(minbiclist)<best_Bic_3_019_4){
-    modellagarfimax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minbiclist))])
-    minbic <- stats::BIC(TSA::arima(frakdiff(X_t,0.19), order = c(3, 0, 4),xreg=xvaribale[,modellagarmax], include.mean = F))
-    best_Bic_3_019_4 <- minbic
-  }
-}
 
 # ARFIMAX kitchensink#########
 
@@ -271,6 +258,9 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   ylab("P-Value")
 
 
+}
+# ARMAX
+{
 # ARMA #####
 arma1_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)), include.mean = F)
 
@@ -514,49 +504,48 @@ if(k==5){
 }# test best model algoritmer
 # armax(1,2) beste aic  ####
 
-armax_coef <- TSA::arima(X_t, order = c(1, 0, 2), include.mean = F)
-fixedarma <- c(0.9692 , -0.2018 , -0.2260,NA)
-armastartvalues <- c()
-startAIClag <- c()
-biclagarmax <- c()
-rmsearmax <- c()
-for (i in 1:18) {
-  midmodarmax <- TSA::arima(X_t, order = c(1, 0, 2),fixed= fixedarma,xreg=xvaribale[,i], include.mean = F)
-  startAIClag[i] <- stats::AIC(midmodarmax)
-  biclagarmax[i] <- stats::BIC(midmodarmax)
-  rmsearmax[i]   <- myrmse(midmodarmax)
-
-}
-armaxstartlagtable <- cbind(colnames(xvaribale),startAIClag)
-xtable(armaxstartlagtable)
-armastartvalues <- cbind(startAIClag,biclagarmax,rmsearmax)
-row.names(armastartvalues) <- colnames(xvaribale)
-
-modellagarmax <- as.numeric(which.min(startAIClag))# temp lag 0
-best_aic_1_0_2 <- min(startAIClag)
-
-
-
-parameterantal <- c(1:18)
-minaiclistar <- c()
-minaicar <- 1
-for(j in 1:6){
-  minaiclistar <- c()
-  for  (i in parameterantal[-modellagarmax]) {
-    
-    fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax,i))))
-    minaiclistar <- c(minaiclistar,stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
-  }
-  if(min(minaiclistar)<best_aic_1_0_2){
-    modellagarmax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minaiclistar))])
-    fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax))))
-    minaicar <- stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,modellagarmax], include.mean = F))
-    best_aic_1_0_2 <- minaicar
-  }
-}
-#modellagarmax <- c(17,16,18)
+# armax_coef <- TSA::arima(X_t, order = c(1, 0, 2), include.mean = F)
+# fixedarma <- c(0.9692 , -0.2018 , -0.2260,NA)
+# armastartvalues <- c()
+# startAIClag <- c()
+# biclagarmax <- c()
+# rmsearmax <- c()
+# for (i in 1:18) {
+#   midmodarmax <- TSA::arima(X_t, order = c(1, 0, 2),fixed= fixedarma,xreg=xvaribale[,i], include.mean = F)
+#   startAIClag[i] <- stats::AIC(midmodarmax)
+#   biclagarmax[i] <- stats::BIC(midmodarmax)
+#   rmsearmax[i]   <- myrmse(midmodarmax)
+# 
+# }
+# armaxstartlagtable <- cbind(colnames(xvaribale),startAIClag)
+# xtable(armaxstartlagtable)
+# armastartvalues <- cbind(startAIClag,biclagarmax,rmsearmax)
+# row.names(armastartvalues) <- colnames(xvaribale)
+# 
+# modellagarmax <- as.numeric(which.min(startAIClag))# temp lag 0
+# best_aic_1_0_2 <- min(startAIClag)
+# 
+# 
+# 
+# parameterantal <- c(1:18)
+# minaiclistar <- c()
+# minaicar <- 1
+# for(j in 1:6){
+#   minaiclistar <- c()
+#   for  (i in parameterantal[-modellagarmax]) {
+#     
+#     fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax,i))))
+#     minaiclistar <- c(minaiclistar,stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,c(modellagarmax,i)], include.mean = F)))
+#   }
+#   if(min(minaiclistar)<best_aic_1_0_2){
+#     modellagarmax <- c(modellagarmax,parameterantal[-modellagarmax][as.numeric(which.min(minaiclistar))])
+#     fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax))))
+#     minaicar <- stats::AIC(TSA::arima(X_t, order = c(1, 0, 2),fixed = fixedarma,xreg=xvaribale[,modellagarmax], include.mean = F))
+#     best_aic_1_0_2 <- minaicar
+#   }
+# }
+modellagarmax <- c(17,16,18)
 colnames(xvaribale)[modellagarmax]
-
 best_aic_1_0_2
 
 fixedarma <- c(0.9692 , -0.2018 , -0.2260,rep(NA,length(c(modellagarmax))))
@@ -575,9 +564,9 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   xlab("Lag")+
   ylab("P-Value")
 
+sdds <- sarima(X_t,1,0,2,xreg=xvaribale[,c(modellagarmax)])
 
-
-
+sdds$ttable
 
 # armax models #####
 armaxmodels <- c(arma1_2,armax1_0_2,con_armax1_2,hydro_armax1_2,temp_armax1_2,rain_armax1_2,kcar_armax1_2,bestarmax)
@@ -626,3 +615,11 @@ lines(exp( X_t[2:2191]+fitted.values(model1)[2:2191]),col="yellow" )
 
 plot.ts(frakdiff(frakdiff(fitted.values(test)[[1]],0.19),-0.19)-fitted.values(test)[[1]])
  
+}
+
+
+
+
+c("Consumption lag 30","Consumption lag23","Consumption lag 22" ,"Consumption lag 17" ,"Consumption lag 16" ,"Consumption lag 11","Consumption lag 10","Consumption lag 9","Consumption lag 4","Consumption lag 2","Consumption lag 0")
+  c("Hydro lag 20 ","Hydro lag 19","Hydro lag 16")
+  c("Mean Temp lag 10","Mean Temp lag 1","Mean Temp lag 0")
