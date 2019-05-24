@@ -232,6 +232,16 @@ contablelatex <- xtable(sarfimax$ttable)
 scalecontablelatex
 contablelatex 
 
+ljbox <-LjungBoxTest(ARFIMAXBESTMOD$residuals[10:2191],k=7)
+
+ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
+     geom_point()+
+     geom_hline(yintercept = 0.05,col="blue")+
+     xlab("Lag")+
+     xlim(c(7,30))+
+     ylab("P-Value")
+ 
+
 
 df <- data.frame(ARFIMAXBESTMOD$residuals)
 p <- ggplot(df, aes(sample = ARFIMAXBESTMOD$residuals))
@@ -266,8 +276,19 @@ stats::AIC(ARFIMAXKS)#-4040.281
 stats::BIC(ARFIMAXKS)#-3971.981
 myrmsefi(ARFIMAXKS)#27.74125
 
+ljbox <-LjungBoxTest(ARFIMAXKS$residuals[31:2191],k=7)
+
+ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
+  geom_point()+
+  geom_hline(yintercept = 0.05,col="blue")+
+  xlab("Lag")+
+  xlim(c(7,30))+
+  ylab("P-Value")
+
+
+
 # ARFIMAX best mod ljungbox plot #####
-ljbox <-LjungBoxTest(ARFIMAXBESTMOD$residuals[31:2191])
+ljbox <-LjungBoxTest(ARFIMAXBESTMOD$residuals[31:2191],k=7)
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
@@ -392,7 +413,16 @@ stats::BIC(rain_armax1_2)#-3857.504
 rainormse #0.09931375
 myrmse(rain_armax1_2)
 # armax(1,0,2)  kitchen snik #####
-kcar_armax1_2 <- TSA::arima(X_t,order=c(1,0,2),xreg <- xvaribale, seasonal = list(order = c(0, 0, 0), include.mean = F))
+kcar_armax1_2 <- TSA::arima(X_t,order=c(1,0,2),xreg = xvaribale, include.mean = F)
+
+ljbox <-LjungBoxTest(kcar_armax1_2$residuals[31:2191],k=3)
+ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
+     geom_point()+
+     geom_hline(yintercept = 0.05,col="blue")+
+     xlab("Lag")+
+     xlim(c(4,30))+
+     ylab("P-Value")
+
 
 kcarrmse <- rmse(X_t[31:2191],as.data.frame(fitted.values(kcar_armax1_2 )[31:2191])[,1])
 

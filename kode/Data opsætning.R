@@ -56,3 +56,25 @@ WEATHER$Date <- dato
 data_NO1 <- cbind(PRICES$Oslo,CONSUMPTION$NO1,hydrodayli,WEATHER$Mean.temperature,WEATHER$Precipitation)
 colnames(data_NO1) <- c("Price","Consumption","Hydro reserve","Mean.temperature", "Precipitation")
 
+
+corefiventerchange <- c()
+for (i in seq(from=100,to=2191,by =3)) {
+  testtest <-arima(x = X_t[1:(i)], order = c(1, 0, 2))
+  corefiventerchange <- rbind(corefiventerchange,testtest$coef)
+}
+
+plot.ts(corefiventerchange[,1],ylim=c(c(-0.5,0.2),c(0.7,1)))
+lines(corefiventerchange[,2],col="red")
+lines(corefiventerchange[,3],col="blue")
+
+
+min(corefiventerchange[,3])
+min(corefiventerchange[,2])
+
+max(corefiventerchange[,3])
+max(corefiventerchange[,2])
+
+min(corefiventerchange[,1])
+max(corefiventerchange[,1])
+
+
