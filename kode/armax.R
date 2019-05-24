@@ -38,7 +38,7 @@ colnames(xregtemp) <- c("Mean Temp lag 10","Mean Temp lag 1","Mean Temp lag 0")
 lagcon <- c(-30 ,-23, -22 ,-17 ,-16 ,-11 ,-10 , -9 , -4 , -2 ,  0)
 xregcon <- c()
 for (i in 1:length(lagcon)) {
-  xregcon <- cbind(xregcon,stats::lag(as.ts(data_NO1[,3]),k=(lagcon[i])))
+  xregcon <- cbind(xregcon,stats::lag(as.ts(data_NO1[,2]),k=(lagcon[i])))
 }
 
 
@@ -54,7 +54,7 @@ colnames(xregcon) <- c("Consumption lag 30","Consumption lag23","Consumption lag
 # for (i in 1:length(laghydro)) {
 #   xreghydro <- cbind(xreghydro,stats::lag(as.ts(data_NO1[,2]),k=(laghydro[i])))
 # }
-xreghydro <- cbind(stats::lag(as.ts(data_NO1[,2]),k=(-20)),stats::lag(as.ts(data_NO1[,2]),k=(-19)),stats::lag(as.ts(data_NO1[,2]),k=(-16)),as.ts(data_NO1[,2]))[1:2191,1:3]
+xreghydro <- cbind(stats::lag(as.ts(data_NO1[,3]),k=(-20)),stats::lag(as.ts(data_NO1[,3]),k=(-19)),stats::lag(as.ts(data_NO1[,3]),k=(-16)),as.ts(data_NO1[,3]))[1:2191,1:3]
 colnames(xreghydro) <-  c("Hydro lag 20 ","Hydro lag 19","Hydro lag 16")
  
 # lag rain #####
@@ -68,10 +68,10 @@ colnames(xvaribale) <- c("Consumption lag 30","Consumption lag23","Consumption l
 # model =ARIMA(2,0,0) with zero mean 
 
 
-# ARFIMAX
+# ARFIMAX#####
 {
 # ARFIMA #####
-arfima3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), seasonal = list(order = c(0, 0, 0)), include.mean = F)
+arfima3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4), include.mean = F)
 
 rmsekcarma <- rmse(frakdiff(X_t[31:2191],0.19),as.data.frame(fitted.values(arfima3_019_4))[31:2191,1])
 plot(as.data.frame(fitted.values(arfima3_019_4))[,1],col="red",type="l");lines(X_t,col="blue")
@@ -81,13 +81,19 @@ stats::AIC(arfima3_019_4)#-3902.928
 stats::BIC(arfima3_019_4)#-3857.391
 myrmsefi(arfima3_019_4)
 rmsekcarma#0.0990173
-ljbox <-LjungBoxTest(arfima3_019_4$residuals[31:2191])
+ljbox <-LjungBoxTest(arfima3_019_4$residuals[31:2191],k=7)
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
+  xlim(c(7,30))+
   ylab("P-Value")
+
+
+df <- data.frame(arfima3_019_4 $residuals)
+p <- ggplot(df, aes(sample = arfima3_019_4$residuals))
+p + stat_qq() + stat_qq_line()
 # ARFIMAX model (3,0.19,4)####
 
 arfimax3_019_4 <- TSA::arima(frakdiff(X_t,0.19),order=c(3,0,4),xreg = xvaribale, include.mean = F)
@@ -114,7 +120,13 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
+  xlim(c(7,30))+
   ylab("P-Value")
+
+df <- data.frame(arfimax3_019_4 $residuals)
+p <- ggplot(df, aes(sample = arfimax3_019_4$residuals))
+p + stat_qq() + stat_qq_line()
+
 
 # arfimax(3,019,4) con sumption xreg  #######
 conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
@@ -202,7 +214,7 @@ for(j in 1:10){
   }
 }
 
-
+diff_X_t <- frakdiff(X_t,0.19)
 modellagarfimax <- c(17,18,11,16)
 colnames(xvaribale)[modellagarfimax ]
 arfimaxfixedcoes =c(0.50798175,-0.54969185,0.90879000,0.07365125,0.55444252,-0.44067697,-0.20974401,rep(NA,length(c(modellagarfimax))))
@@ -219,6 +231,12 @@ scalecontablelatex <- xtable(sarfimax_sc$ttable)
 contablelatex <- xtable(sarfimax$ttable)
 scalecontablelatex
 contablelatex 
+
+
+df <- data.frame(ARFIMAXBESTMOD$residuals)
+p <- ggplot(df, aes(sample = ARFIMAXBESTMOD$residuals))
+p + stat_qq() + stat_qq_line()
+
 # ARFIMAX BEST model BIC ##########
 
 best_Bic_3_019_4 <- min(arfimastartvalues[,2])
@@ -255,11 +273,11 @@ ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
-  ylab("P-Value")
-
+  ylab("P-Value")+
+  xlim(c(7,30))
 
 }
-# ARMAX
+# ARMAX#####
 {
 # ARMA #####
 arma1_2 <- TSA::arima(X_t,order=c(1,0,2), seasonal = list(order = c(0, 0, 0)), include.mean = F)
@@ -274,13 +292,25 @@ stats::AIC(arma1_2)#-3898.065
 stats::BIC(arma1_2)#-3875.297
 rmsearma#0.09931654
 
-ljbox <-LjungBoxTest(arma1_2$residuals[31:2191])
+ljbox <-LjungBoxTest(arma1_2$residuals,k=3,StartLag = 1)
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
-  ylab("P-Value")
+  ylab("P-Value")+xlim(c(4,30))
+
+# GGPLOT ARMA#########
+
+arma1_2$residuals
+
+df <- data.frame(arma1_2$residuals)
+p <- ggplot(df, aes(sample = y))
+p + stat_qq() + stat_qq_line()
+
+
+
+
 # ARMAX model (1,0,2)####
 
 testxreg <- xvaribale
@@ -309,14 +339,18 @@ stats::AIC(arma1_2)#-3898.065
 stats::BIC(arma1_2)#-3875.297
 rmse(X_t,fitted.values(arma1_2))# 0.09918506
 
-ljbox <-LjungBoxTest(armax1_0_2 $residuals[31:2191])
+ljbox <-LjungBoxTest(armax1_0_2 $residuals[1:2191],k=3)
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
+  xlim(c(4,30))+
   ylab("P-Value")
 
+df <- data.frame(armax1_0_2 $residuals)
+p <- ggplot(df, aes(sample = armax1_0_2 $residuals))
+p + stat_qq() + stat_qq_line()
 
 # armax(1,0,2) consumption xreg  #######
 conxreg <-as.data.frame(cbind(xregcon)[1:2191,] )
@@ -556,17 +590,23 @@ stats::AIC(bestarmax)# -4024.326
 stats::BIC(bestarmax)#-3978.826
 bestarmaxrmse #0.09584562
 
-ljbox <-LjungBoxTest(bestarmax$residuals[31:2191])
+ljbox <-LjungBoxTest(bestarmax$residuals[31:2191],k=3)
 
 ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
   geom_point()+
   geom_hline(yintercept = 0.05,col="blue")+
   xlab("Lag")+
+  xlim(c(4,30))+
   ylab("P-Value")
 
 sdds <- sarima(X_t,1,0,2,xreg=xvaribale[,c(modellagarmax)])
 
 sdds$ttable
+
+df <- data.frame(bestarmax$residuals)
+p <- ggplot(df,aes(sample=bestarmax$residuals))
+p + stat_qq() + stat_qq_line()
+
 
 # armax models #####
 armaxmodels <- c(arma1_2,armax1_0_2,con_armax1_2,hydro_armax1_2,temp_armax1_2,rain_armax1_2,kcar_armax1_2,bestarmax)

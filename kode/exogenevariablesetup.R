@@ -99,6 +99,20 @@ ggplot(data = di_acf, mapping = aes(x = lag, y = acf)) +
 
 }
 
+ljbox <-LjungBoxTest(fit5$residuals[1:2191],k=3)
+
+ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
+  geom_point()+
+  geom_hline(yintercept = 0.05,col="blue")+
+  xlab("Lag")+
+  xlim(c(3,30))+
+  ylab("P-Value")
+
+
+df <- data.frame(fit5$residuals)
+p <- ggplot(df, aes(sample = fit5$residuals))
+p + stat_qq() + stat_qq_line()
+
 
 
 
@@ -300,7 +314,16 @@ ggplot(ts(hydrodayli),aes(x=1:length(hydrodayli),y=hydrodayli))+
     geom_hline(aes(yintercept=-0.042),col="blue",linetype=2)
   
   
-  diffY_PACF <- pacf(model5$residuals ,plot = FALSE,lag.max = 10)
+  diffY_PACF <- pacf(model5$residuals ,plot = FALSE)
+  pacfdf <- with(diffY_PACF, data.frame(lag, acf))
+  ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
+    geom_hline(aes(yintercept = 0)) +
+    geom_segment(mapping = aes(xend = lag, yend = 0))+
+    ylab("PACF")+geom_hline(aes(yintercept=0.041),col="blue",linetype=2)+
+    geom_hline(aes(yintercept=-0.041),col="blue",linetype=2)
+  
+  
+  diffY_PACF <- pacf(model3$residuals ,plot = FALSE)
   pacfdf <- with(diffY_PACF, data.frame(lag, acf))
   ggplot(data = pacfdf, mapping = aes(x = lag, y = acf)) +
     geom_hline(aes(yintercept = 0)) +
@@ -353,4 +376,17 @@ acf(fit53$residuals)
 }
 
 
+ljbox <-LjungBoxTest(fit53$residuals[1:2191],k=2)
+
+ggplot(fortify(as.data.frame(ljbox)),aes(x=m,y=pvalue))+
+  geom_point()+
+  geom_hline(yintercept = 0.05,col="blue")+
+  xlab("Lag")+
+  xlim(c(1,30))+
+  ylab("P-Value")
+
+
+df <- data.frame(fit53$residuals)
+p <- ggplot(df, aes(sample = fit53$residuals))
+p + stat_qq() + stat_qq_line()
 
